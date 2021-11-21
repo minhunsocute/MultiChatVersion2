@@ -1,5 +1,5 @@
 ﻿
-namespace ServerChat
+namespace ClientChat
 {
     partial class Form1
     {
