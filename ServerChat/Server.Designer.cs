@@ -38,6 +38,7 @@ namespace ServerChat
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnOUT = new Guna.UI2.WinForms.Guna2Button();
             this.BtnConnect = new Guna.UI2.WinForms.Guna2Button();
@@ -50,9 +51,8 @@ namespace ServerChat
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.textPort = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.textIP = new Guna.UI2.WinForms.Guna2TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.textIP = new Guna.UI2.WinForms.Guna2TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2DataGridView1)).BeginInit();
@@ -111,6 +111,16 @@ namespace ServerChat
             this.label1.TabIndex = 1;
             this.label1.Text = "Multi Chat Manage";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // panel3
+            // 
+            this.panel3.BackgroundImage = global::ServerChat.Properties.Resources.Logo_UIT_Web_Transparent;
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.panel3.Location = new System.Drawing.Point(14, 21);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(48, 48);
+            this.panel3.TabIndex = 0;
             // 
             // panel2
             // 
@@ -341,6 +351,15 @@ namespace ServerChat
             this.guna2HtmlLabel1.TabIndex = 2;
             this.guna2HtmlLabel1.Text = "Port:";
             // 
+            // panel4
+            // 
+            this.panel4.BackgroundImage = global::ServerChat.Properties.Resources.laptop;
+            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel4.Location = new System.Drawing.Point(11, 16);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(30, 33);
+            this.panel4.TabIndex = 1;
+            // 
             // textIP
             // 
             this.textIP.BackColor = System.Drawing.SystemColors.Control;
@@ -370,26 +389,7 @@ namespace ServerChat
             this.textIP.Size = new System.Drawing.Size(131, 30);
             this.textIP.TabIndex = 0;
             // 
-            // panel4
-            // 
-            this.panel4.BackgroundImage = global::ServerChat.Properties.Resources.laptop;
-            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel4.Location = new System.Drawing.Point(11, 16);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(30, 33);
-            this.panel4.TabIndex = 1;
-            // 
-            // panel3
-            // 
-            this.panel3.BackgroundImage = global::ServerChat.Properties.Resources.Logo_UIT_Web_Transparent;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.panel3.Location = new System.Drawing.Point(14, 21);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(48, 48);
-            this.panel3.TabIndex = 0;
-            // 
-            // Form1
+            // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -399,7 +399,7 @@ namespace ServerChat
             this.Controls.Add(this.guna2ControlBox2);
             this.Controls.Add(this.guna2ControlBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "Server";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ClientChat
 {
-    public partial class Form1 : Form
+    public partial class Client : Form
     {
-        public Form1()
+        public Client()
         {
             InitializeComponent();
         }
