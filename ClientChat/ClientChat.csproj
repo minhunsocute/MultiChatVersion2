@@ -78,6 +78,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -95,6 +96,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
+    <None Include="Resources\customer.png" />
+    <None Include="Resources\192652194_1659856561070116_8406195883736750965_n.jpg" />
+    <None Include="Resources\129797309_1008918169574285_3837839971887269051_n1.jpg" />
+    <None Include="Resources\129797309_1008918169574285_3837839971887269051_n.jpg" />
+    <None Include="Resources\messenger %281%29.png" />
+    <None Include="Resources\facebook-chat_screenshot-2.jpg" />
+    <None Include="Resources\Logo_UIT_Web_Transparent.png" />
+    <None Include="Resources\Untitled.png" />
+    <None Include="Resources\dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm1.png" />
+    <None Include="Resources\dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

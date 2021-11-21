@@ -26,7 +26,7 @@ namespace ServerChat
             myAdapter = new SqlDataAdapter(sqlString, conn);
             ds = new DataSet();
             myAdapter.Fill(ds, "id");
-            dt = ds.Tables["id"];
+            dt = ds.Tables["id"];   
             table.DataSource = dt;
             conn.Close();
         }
@@ -85,18 +85,17 @@ namespace ServerChat
         }
         public void Loaddata(DataGridView table, string ipPort, string userName, int type)
         {
-            if (type == 0)
-            {
+            if (type == 0){
                 Client c = new Client(userName, ipPort);
-                //server_TCP.listCList.Add(c);
+                Server.listCList.Add(c);
             }
-            /*foreach (Client item in server_TCP.listCList)
+            foreach (Client item in Server.listCList)
             {
                 DataGridViewRow row = (DataGridViewRow)table.Rows[0].Clone();
                 row.Cells[0].Value = item.Name;
                 row.Cells[1].Value = item.IpPort;
                 table.Rows.Add(row);
-            }*/
+            }
         }
         public string getListClientActi(string userName)
         {
