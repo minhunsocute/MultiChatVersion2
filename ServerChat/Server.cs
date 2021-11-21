@@ -26,14 +26,9 @@ namespace ServerChat
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
-            textIP.Text = getIPv4();
+            textIP.Text = "127.0.0.1";
         }
         //Lay dia chia IP Hien co
-        public string getIPv4(){
-            string hostName = Dns.GetHostName();
-            string myIP = Dns.GetHostByName(hostName).AddressList[3].ToString();
-            return myIP;
-        }
         IPEndPoint IP;
         Socket Server1;
         List<Socket> ClientList;
@@ -94,8 +89,10 @@ namespace ServerChat
             }
             catch { }
         }
-        private void checkString1(string s,Socket clien) { 
-        
+        private void checkString1(string s,Socket clien) {
+            if (s[0] == '1') { 
+            
+            }
         }
         byte[] Serialize(object obj)
         {
