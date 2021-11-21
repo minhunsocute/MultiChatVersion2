@@ -90,8 +90,19 @@ namespace ServerChat
             catch { }
         }
         private void checkString1(string s,Socket clien) {
-            if (s[0] == '1') { 
-            
+            sql_manage f = new sql_manage();
+            if (s[0] == '1') {
+                int i = 1;
+                string userName = "";string password = "";
+                while (true) {
+                    if(s[i]!='@')userName += s[i];
+                    if (s[i] == '@') {i++;break;}
+                    i++;
+                }
+                while (i < s.Length) { 
+                    password += s[i];i++;
+                }
+
             }
         }
         byte[] Serialize(object obj)
