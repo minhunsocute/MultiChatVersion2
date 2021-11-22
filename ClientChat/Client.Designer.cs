@@ -36,12 +36,12 @@ namespace ClientChat
             this.guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
-            this.TextIP = new Guna.UI2.WinForms.Guna2TextBox();
-            this.TextPort = new Guna.UI2.WinForms.Guna2TextBox();
+            this.tbIP = new Guna.UI2.WinForms.Guna2TextBox();
+            this.tbPort = new Guna.UI2.WinForms.Guna2TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.MessageFromServer = new Guna.UI2.WinForms.Guna2TextBox();
-            this.CreateClient = new Guna.UI2.WinForms.Guna2GradientTileButton();
-            this.btnConnect = new Guna.UI2.WinForms.Guna2GradientTileButton();
+            this.btnConnectServer = new Guna.UI2.WinForms.Guna2GradientTileButton();
+            this.btnDisConnect = new Guna.UI2.WinForms.Guna2GradientTileButton();
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.login = new MetroFramework.Controls.MetroTabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -57,13 +57,13 @@ namespace ClientChat
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            this.repassTextBox3 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.RePassRegister = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2CustomGradientPanel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.guna2ToggleSwitch2 = new Guna.UI2.WinForms.Guna2ToggleSwitch();
-            this.guna2GradientTileButton1 = new Guna.UI2.WinForms.Guna2GradientTileButton();
-            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.btnRegister = new Guna.UI2.WinForms.Guna2GradientTileButton();
+            this.PasswordRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UsernameRegister = new Guna.UI2.WinForms.Guna2TextBox();
             this.mess = new MetroFramework.Controls.MetroTabPage();
             this.panel11 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -165,68 +165,68 @@ namespace ClientChat
             this.guna2DragControl1.TargetControl = this.panel3;
             this.guna2DragControl1.UseTransparentDrag = true;
             // 
-            // TextIP
+            // tbIP
             // 
-            this.TextIP.BackColor = System.Drawing.Color.Transparent;
-            this.TextIP.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
-            this.TextIP.BorderRadius = 8;
-            this.TextIP.BorderThickness = 0;
-            this.TextIP.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.TextIP.DefaultText = "192.168.1.13";
-            this.TextIP.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.TextIP.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.TextIP.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.TextIP.DisabledState.Parent = this.TextIP;
-            this.TextIP.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.TextIP.FillColor = System.Drawing.SystemColors.Control;
-            this.TextIP.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.TextIP.FocusedState.Parent = this.TextIP;
-            this.TextIP.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.TextIP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.TextIP.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.TextIP.HoverState.Parent = this.TextIP;
-            this.TextIP.Location = new System.Drawing.Point(987, 105);
-            this.TextIP.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.TextIP.Name = "TextIP";
-            this.TextIP.PasswordChar = '\0';
-            this.TextIP.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.TextIP.PlaceholderText = "IP......";
-            this.TextIP.SelectedText = "";
-            this.TextIP.SelectionStart = 12;
-            this.TextIP.ShadowDecoration.Parent = this.TextIP;
-            this.TextIP.Size = new System.Drawing.Size(208, 47);
-            this.TextIP.TabIndex = 20;
+            this.tbIP.BackColor = System.Drawing.Color.Transparent;
+            this.tbIP.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
+            this.tbIP.BorderRadius = 8;
+            this.tbIP.BorderThickness = 0;
+            this.tbIP.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbIP.DefaultText = "192.168.1.13";
+            this.tbIP.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.tbIP.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.tbIP.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbIP.DisabledState.Parent = this.tbIP;
+            this.tbIP.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbIP.FillColor = System.Drawing.SystemColors.Control;
+            this.tbIP.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbIP.FocusedState.Parent = this.tbIP;
+            this.tbIP.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.tbIP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.tbIP.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbIP.HoverState.Parent = this.tbIP;
+            this.tbIP.Location = new System.Drawing.Point(987, 105);
+            this.tbIP.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tbIP.Name = "tbIP";
+            this.tbIP.PasswordChar = '\0';
+            this.tbIP.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.tbIP.PlaceholderText = "IP......";
+            this.tbIP.SelectedText = "";
+            this.tbIP.SelectionStart = 12;
+            this.tbIP.ShadowDecoration.Parent = this.tbIP;
+            this.tbIP.Size = new System.Drawing.Size(208, 47);
+            this.tbIP.TabIndex = 20;
             // 
-            // TextPort
+            // tbPort
             // 
-            this.TextPort.BackColor = System.Drawing.Color.Transparent;
-            this.TextPort.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
-            this.TextPort.BorderRadius = 8;
-            this.TextPort.BorderThickness = 0;
-            this.TextPort.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.TextPort.DefaultText = "";
-            this.TextPort.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.TextPort.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.TextPort.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.TextPort.DisabledState.Parent = this.TextPort;
-            this.TextPort.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.TextPort.FillColor = System.Drawing.SystemColors.Control;
-            this.TextPort.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.TextPort.FocusedState.Parent = this.TextPort;
-            this.TextPort.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.TextPort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.TextPort.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.TextPort.HoverState.Parent = this.TextPort;
-            this.TextPort.Location = new System.Drawing.Point(990, 177);
-            this.TextPort.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.TextPort.Name = "TextPort";
-            this.TextPort.PasswordChar = '\0';
-            this.TextPort.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.TextPort.PlaceholderText = "Port......";
-            this.TextPort.SelectedText = "";
-            this.TextPort.ShadowDecoration.Parent = this.TextPort;
-            this.TextPort.Size = new System.Drawing.Size(208, 47);
-            this.TextPort.TabIndex = 9;
+            this.tbPort.BackColor = System.Drawing.Color.Transparent;
+            this.tbPort.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
+            this.tbPort.BorderRadius = 8;
+            this.tbPort.BorderThickness = 0;
+            this.tbPort.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbPort.DefaultText = "";
+            this.tbPort.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.tbPort.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.tbPort.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbPort.DisabledState.Parent = this.tbPort;
+            this.tbPort.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbPort.FillColor = System.Drawing.SystemColors.Control;
+            this.tbPort.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbPort.FocusedState.Parent = this.tbPort;
+            this.tbPort.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.tbPort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.tbPort.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbPort.HoverState.Parent = this.tbPort;
+            this.tbPort.Location = new System.Drawing.Point(990, 177);
+            this.tbPort.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.PasswordChar = '\0';
+            this.tbPort.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.tbPort.PlaceholderText = "Port......";
+            this.tbPort.SelectedText = "";
+            this.tbPort.ShadowDecoration.Parent = this.tbPort;
+            this.tbPort.Size = new System.Drawing.Size(208, 47);
+            this.tbPort.TabIndex = 9;
             // 
             // label6
             // 
@@ -271,52 +271,53 @@ namespace ClientChat
             this.MessageFromServer.Size = new System.Drawing.Size(211, 225);
             this.MessageFromServer.TabIndex = 9;
             // 
-            // CreateClient
+            // btnConnectServer
             // 
-            this.CreateClient.BorderRadius = 11;
-            this.CreateClient.CheckedState.Parent = this.CreateClient;
-            this.CreateClient.CustomImages.Parent = this.CreateClient;
-            this.CreateClient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.CreateClient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.CreateClient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.CreateClient.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.CreateClient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.CreateClient.DisabledState.Parent = this.CreateClient;
-            this.CreateClient.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.CreateClient.FillColor2 = System.Drawing.Color.Cyan;
-            this.CreateClient.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.CreateClient.ForeColor = System.Drawing.Color.White;
-            this.CreateClient.HoverState.Parent = this.CreateClient;
-            this.CreateClient.Location = new System.Drawing.Point(990, 262);
-            this.CreateClient.Name = "CreateClient";
-            this.CreateClient.ShadowDecoration.Parent = this.CreateClient;
-            this.CreateClient.Size = new System.Drawing.Size(105, 43);
-            this.CreateClient.TabIndex = 9;
-            this.CreateClient.Text = "Create New";
+            this.btnConnectServer.BorderRadius = 11;
+            this.btnConnectServer.CheckedState.Parent = this.btnConnectServer;
+            this.btnConnectServer.CustomImages.Parent = this.btnConnectServer;
+            this.btnConnectServer.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnConnectServer.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnConnectServer.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnConnectServer.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnConnectServer.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnConnectServer.DisabledState.Parent = this.btnConnectServer;
+            this.btnConnectServer.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.btnConnectServer.FillColor2 = System.Drawing.Color.Cyan;
+            this.btnConnectServer.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnConnectServer.ForeColor = System.Drawing.Color.White;
+            this.btnConnectServer.HoverState.Parent = this.btnConnectServer;
+            this.btnConnectServer.Location = new System.Drawing.Point(990, 262);
+            this.btnConnectServer.Name = "btnConnectServer";
+            this.btnConnectServer.ShadowDecoration.Parent = this.btnConnectServer;
+            this.btnConnectServer.Size = new System.Drawing.Size(91, 43);
+            this.btnConnectServer.TabIndex = 9;
+            this.btnConnectServer.Text = "Connect";
+            this.btnConnectServer.Click += new System.EventHandler(this.btnConnectServer_Click);
             // 
-            // btnConnect
+            // btnDisConnect
             // 
-            this.btnConnect.BorderRadius = 11;
-            this.btnConnect.CheckedState.Parent = this.btnConnect;
-            this.btnConnect.CustomImages.Parent = this.btnConnect;
-            this.btnConnect.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnConnect.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnConnect.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnConnect.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnConnect.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnConnect.DisabledState.Parent = this.btnConnect;
-            this.btnConnect.Enabled = false;
-            this.btnConnect.FillColor = System.Drawing.Color.LightSeaGreen;
-            this.btnConnect.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.btnConnect.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnConnect.ForeColor = System.Drawing.Color.White;
-            this.btnConnect.HoverState.Parent = this.btnConnect;
-            this.btnConnect.Location = new System.Drawing.Point(1113, 262);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.ShadowDecoration.Parent = this.btnConnect;
-            this.btnConnect.Size = new System.Drawing.Size(82, 43);
-            this.btnConnect.TabIndex = 9;
-            this.btnConnect.Text = "Connect";
+            this.btnDisConnect.BorderRadius = 11;
+            this.btnDisConnect.CheckedState.Parent = this.btnDisConnect;
+            this.btnDisConnect.CustomImages.Parent = this.btnDisConnect;
+            this.btnDisConnect.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnDisConnect.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnDisConnect.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnDisConnect.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnDisConnect.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnDisConnect.DisabledState.Parent = this.btnDisConnect;
+            this.btnDisConnect.Enabled = false;
+            this.btnDisConnect.FillColor = System.Drawing.Color.LightSeaGreen;
+            this.btnDisConnect.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.btnDisConnect.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnDisConnect.ForeColor = System.Drawing.Color.White;
+            this.btnDisConnect.HoverState.Parent = this.btnDisConnect;
+            this.btnDisConnect.Location = new System.Drawing.Point(1098, 262);
+            this.btnDisConnect.Name = "btnDisConnect";
+            this.btnDisConnect.ShadowDecoration.Parent = this.btnDisConnect;
+            this.btnDisConnect.Size = new System.Drawing.Size(97, 43);
+            this.btnDisConnect.TabIndex = 9;
+            this.btnDisConnect.Text = "Disconnect";
             // 
             // metroTabControl1
             // 
@@ -325,7 +326,7 @@ namespace ClientChat
             this.metroTabControl1.Controls.Add(this.mess);
             this.metroTabControl1.Location = new System.Drawing.Point(0, 37);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(957, 607);
             this.metroTabControl1.TabIndex = 22;
             // 
@@ -447,6 +448,7 @@ namespace ClientChat
             this.btnSignIn.Size = new System.Drawing.Size(112, 43);
             this.btnSignIn.TabIndex = 7;
             this.btnSignIn.Text = "Sign In";
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
             // 
             // Password
             // 
@@ -547,12 +549,12 @@ namespace ClientChat
             // guna2CustomGradientPanel3
             // 
             this.guna2CustomGradientPanel3.BorderRadius = 13;
-            this.guna2CustomGradientPanel3.Controls.Add(this.repassTextBox3);
+            this.guna2CustomGradientPanel3.Controls.Add(this.RePassRegister);
             this.guna2CustomGradientPanel3.Controls.Add(this.guna2CustomGradientPanel4);
             this.guna2CustomGradientPanel3.Controls.Add(this.guna2ToggleSwitch2);
-            this.guna2CustomGradientPanel3.Controls.Add(this.guna2GradientTileButton1);
-            this.guna2CustomGradientPanel3.Controls.Add(this.guna2TextBox1);
-            this.guna2CustomGradientPanel3.Controls.Add(this.guna2TextBox2);
+            this.guna2CustomGradientPanel3.Controls.Add(this.btnRegister);
+            this.guna2CustomGradientPanel3.Controls.Add(this.PasswordRegister);
+            this.guna2CustomGradientPanel3.Controls.Add(this.UsernameRegister);
             this.guna2CustomGradientPanel3.FillColor = System.Drawing.Color.DimGray;
             this.guna2CustomGradientPanel3.FillColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.guna2CustomGradientPanel3.Location = new System.Drawing.Point(610, 31);
@@ -561,37 +563,37 @@ namespace ClientChat
             this.guna2CustomGradientPanel3.Size = new System.Drawing.Size(307, 502);
             this.guna2CustomGradientPanel3.TabIndex = 10;
             // 
-            // repassTextBox3
+            // RePassRegister
             // 
-            this.repassTextBox3.BackColor = System.Drawing.Color.Transparent;
-            this.repassTextBox3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.repassTextBox3.BorderRadius = 8;
-            this.repassTextBox3.BorderThickness = 0;
-            this.repassTextBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.repassTextBox3.DefaultText = "";
-            this.repassTextBox3.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.repassTextBox3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.repassTextBox3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.repassTextBox3.DisabledState.Parent = this.repassTextBox3;
-            this.repassTextBox3.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.repassTextBox3.FillColor = System.Drawing.SystemColors.Control;
-            this.repassTextBox3.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.repassTextBox3.FocusedState.Parent = this.repassTextBox3;
-            this.repassTextBox3.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.repassTextBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.repassTextBox3.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.repassTextBox3.HoverState.Parent = this.repassTextBox3;
-            this.repassTextBox3.Location = new System.Drawing.Point(50, 309);
-            this.repassTextBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.repassTextBox3.Name = "repassTextBox3";
-            this.repassTextBox3.PasswordChar = '\0';
-            this.repassTextBox3.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.repassTextBox3.PlaceholderText = "Repassword";
-            this.repassTextBox3.SelectedText = "";
-            this.repassTextBox3.ShadowDecoration.Parent = this.repassTextBox3;
-            this.repassTextBox3.Size = new System.Drawing.Size(204, 47);
-            this.repassTextBox3.TabIndex = 9;
-            this.repassTextBox3.UseSystemPasswordChar = true;
+            this.RePassRegister.BackColor = System.Drawing.Color.Transparent;
+            this.RePassRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.RePassRegister.BorderRadius = 8;
+            this.RePassRegister.BorderThickness = 0;
+            this.RePassRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.RePassRegister.DefaultText = "";
+            this.RePassRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.RePassRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.RePassRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.RePassRegister.DisabledState.Parent = this.RePassRegister;
+            this.RePassRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.RePassRegister.FillColor = System.Drawing.SystemColors.Control;
+            this.RePassRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.RePassRegister.FocusedState.Parent = this.RePassRegister;
+            this.RePassRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.RePassRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.RePassRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.RePassRegister.HoverState.Parent = this.RePassRegister;
+            this.RePassRegister.Location = new System.Drawing.Point(50, 309);
+            this.RePassRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.RePassRegister.Name = "RePassRegister";
+            this.RePassRegister.PasswordChar = '\0';
+            this.RePassRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.RePassRegister.PlaceholderText = "Repassword";
+            this.RePassRegister.SelectedText = "";
+            this.RePassRegister.ShadowDecoration.Parent = this.RePassRegister;
+            this.RePassRegister.Size = new System.Drawing.Size(204, 47);
+            this.RePassRegister.TabIndex = 9;
+            this.RePassRegister.UseSystemPasswordChar = true;
             // 
             // guna2CustomGradientPanel4
             // 
@@ -639,93 +641,94 @@ namespace ClientChat
             this.guna2ToggleSwitch2.UncheckedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.guna2ToggleSwitch2.UncheckedState.Parent = this.guna2ToggleSwitch2;
             // 
-            // guna2GradientTileButton1
+            // btnRegister
             // 
-            this.guna2GradientTileButton1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2GradientTileButton1.BorderRadius = 11;
-            this.guna2GradientTileButton1.CheckedState.Parent = this.guna2GradientTileButton1;
-            this.guna2GradientTileButton1.CustomImages.Parent = this.guna2GradientTileButton1;
-            this.guna2GradientTileButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2GradientTileButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2GradientTileButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2GradientTileButton1.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2GradientTileButton1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2GradientTileButton1.DisabledState.Parent = this.guna2GradientTileButton1;
-            this.guna2GradientTileButton1.Enabled = false;
-            this.guna2GradientTileButton1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2GradientTileButton1.FillColor2 = System.Drawing.Color.Cyan;
-            this.guna2GradientTileButton1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2GradientTileButton1.ForeColor = System.Drawing.Color.White;
-            this.guna2GradientTileButton1.HoverState.Parent = this.guna2GradientTileButton1;
-            this.guna2GradientTileButton1.Location = new System.Drawing.Point(142, 401);
-            this.guna2GradientTileButton1.Name = "guna2GradientTileButton1";
-            this.guna2GradientTileButton1.ShadowDecoration.Parent = this.guna2GradientTileButton1;
-            this.guna2GradientTileButton1.Size = new System.Drawing.Size(112, 43);
-            this.guna2GradientTileButton1.TabIndex = 7;
-            this.guna2GradientTileButton1.Text = "Sign In";
+            this.btnRegister.BackColor = System.Drawing.Color.Transparent;
+            this.btnRegister.BorderRadius = 11;
+            this.btnRegister.CheckedState.Parent = this.btnRegister;
+            this.btnRegister.CustomImages.Parent = this.btnRegister;
+            this.btnRegister.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnRegister.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnRegister.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnRegister.DisabledState.Parent = this.btnRegister;
+            this.btnRegister.Enabled = false;
+            this.btnRegister.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.btnRegister.FillColor2 = System.Drawing.Color.Cyan;
+            this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnRegister.ForeColor = System.Drawing.Color.White;
+            this.btnRegister.HoverState.Parent = this.btnRegister;
+            this.btnRegister.Location = new System.Drawing.Point(142, 401);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.ShadowDecoration.Parent = this.btnRegister;
+            this.btnRegister.Size = new System.Drawing.Size(112, 43);
+            this.btnRegister.TabIndex = 7;
+            this.btnRegister.Text = "Register";
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
-            // guna2TextBox1
+            // PasswordRegister
             // 
-            this.guna2TextBox1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2TextBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.BorderRadius = 8;
-            this.guna2TextBox1.BorderThickness = 0;
-            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox1.DefaultText = "";
-            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.DisabledState.Parent = this.guna2TextBox1;
-            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.FillColor = System.Drawing.SystemColors.Control;
-            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.FocusedState.Parent = this.guna2TextBox1;
-            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.guna2TextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.HoverState.Parent = this.guna2TextBox1;
-            this.guna2TextBox1.Location = new System.Drawing.Point(50, 237);
-            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.guna2TextBox1.Name = "guna2TextBox1";
-            this.guna2TextBox1.PasswordChar = '\0';
-            this.guna2TextBox1.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.PlaceholderText = "Password";
-            this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.ShadowDecoration.Parent = this.guna2TextBox1;
-            this.guna2TextBox1.Size = new System.Drawing.Size(204, 47);
-            this.guna2TextBox1.TabIndex = 1;
-            this.guna2TextBox1.UseSystemPasswordChar = true;
+            this.PasswordRegister.BackColor = System.Drawing.Color.Transparent;
+            this.PasswordRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.BorderRadius = 8;
+            this.PasswordRegister.BorderThickness = 0;
+            this.PasswordRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PasswordRegister.DefaultText = "";
+            this.PasswordRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.PasswordRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.PasswordRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.PasswordRegister.DisabledState.Parent = this.PasswordRegister;
+            this.PasswordRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.PasswordRegister.FillColor = System.Drawing.SystemColors.Control;
+            this.PasswordRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.FocusedState.Parent = this.PasswordRegister;
+            this.PasswordRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.PasswordRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.HoverState.Parent = this.PasswordRegister;
+            this.PasswordRegister.Location = new System.Drawing.Point(50, 237);
+            this.PasswordRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.PasswordRegister.Name = "PasswordRegister";
+            this.PasswordRegister.PasswordChar = '\0';
+            this.PasswordRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.PlaceholderText = "Password";
+            this.PasswordRegister.SelectedText = "";
+            this.PasswordRegister.ShadowDecoration.Parent = this.PasswordRegister;
+            this.PasswordRegister.Size = new System.Drawing.Size(204, 47);
+            this.PasswordRegister.TabIndex = 1;
+            this.PasswordRegister.UseSystemPasswordChar = true;
             // 
-            // guna2TextBox2
+            // UsernameRegister
             // 
-            this.guna2TextBox2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2TextBox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.BorderRadius = 8;
-            this.guna2TextBox2.BorderThickness = 0;
-            this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox2.DefaultText = "";
-            this.guna2TextBox2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.DisabledState.Parent = this.guna2TextBox2;
-            this.guna2TextBox2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.FillColor = System.Drawing.SystemColors.Control;
-            this.guna2TextBox2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.FocusedState.Parent = this.guna2TextBox2;
-            this.guna2TextBox2.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.guna2TextBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.HoverState.Parent = this.guna2TextBox2;
-            this.guna2TextBox2.Location = new System.Drawing.Point(50, 158);
-            this.guna2TextBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.guna2TextBox2.Name = "guna2TextBox2";
-            this.guna2TextBox2.PasswordChar = '\0';
-            this.guna2TextBox2.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.PlaceholderText = "Username";
-            this.guna2TextBox2.SelectedText = "";
-            this.guna2TextBox2.ShadowDecoration.Parent = this.guna2TextBox2;
-            this.guna2TextBox2.Size = new System.Drawing.Size(204, 47);
-            this.guna2TextBox2.TabIndex = 0;
+            this.UsernameRegister.BackColor = System.Drawing.Color.Transparent;
+            this.UsernameRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.BorderRadius = 8;
+            this.UsernameRegister.BorderThickness = 0;
+            this.UsernameRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UsernameRegister.DefaultText = "";
+            this.UsernameRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UsernameRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UsernameRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UsernameRegister.DisabledState.Parent = this.UsernameRegister;
+            this.UsernameRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UsernameRegister.FillColor = System.Drawing.SystemColors.Control;
+            this.UsernameRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.FocusedState.Parent = this.UsernameRegister;
+            this.UsernameRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UsernameRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.HoverState.Parent = this.UsernameRegister;
+            this.UsernameRegister.Location = new System.Drawing.Point(50, 158);
+            this.UsernameRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.UsernameRegister.Name = "UsernameRegister";
+            this.UsernameRegister.PasswordChar = '\0';
+            this.UsernameRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.PlaceholderText = "Username";
+            this.UsernameRegister.SelectedText = "";
+            this.UsernameRegister.ShadowDecoration.Parent = this.UsernameRegister;
+            this.UsernameRegister.Size = new System.Drawing.Size(204, 47);
+            this.UsernameRegister.TabIndex = 0;
             // 
             // mess
             // 
@@ -958,12 +961,12 @@ namespace ClientChat
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(220)))), ((int)(((byte)(190)))));
             this.ClientSize = new System.Drawing.Size(1222, 649);
             this.Controls.Add(this.metroTabControl1);
-            this.Controls.Add(this.btnConnect);
-            this.Controls.Add(this.CreateClient);
+            this.Controls.Add(this.btnDisConnect);
+            this.Controls.Add(this.btnConnectServer);
             this.Controls.Add(this.MessageFromServer);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.TextPort);
-            this.Controls.Add(this.TextIP);
+            this.Controls.Add(this.tbPort);
+            this.Controls.Add(this.tbIP);
             this.Controls.Add(this.panel3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -999,12 +1002,12 @@ namespace ClientChat
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label5;
-        private Guna.UI2.WinForms.Guna2TextBox TextIP;
-        private Guna.UI2.WinForms.Guna2TextBox TextPort;
+        private Guna.UI2.WinForms.Guna2TextBox tbIP;
+        private Guna.UI2.WinForms.Guna2TextBox tbPort;
         private System.Windows.Forms.Label label6;
         private Guna.UI2.WinForms.Guna2TextBox MessageFromServer;
-        private Guna.UI2.WinForms.Guna2GradientTileButton CreateClient;
-        private Guna.UI2.WinForms.Guna2GradientTileButton btnConnect;
+        private Guna.UI2.WinForms.Guna2GradientTileButton btnConnectServer;
+        private Guna.UI2.WinForms.Guna2GradientTileButton btnDisConnect;
         private MetroFramework.Controls.MetroTabControl metroTabControl1;
         private MetroFramework.Controls.MetroTabPage login;
         private MetroFramework.Controls.MetroTabPage creat;
@@ -1020,13 +1023,13 @@ namespace ClientChat
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel7;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel3;
-        private Guna.UI2.WinForms.Guna2TextBox repassTextBox3;
+        private Guna.UI2.WinForms.Guna2TextBox RePassRegister;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel4;
         private System.Windows.Forms.Panel panel8;
         private Guna.UI2.WinForms.Guna2ToggleSwitch guna2ToggleSwitch2;
-        private Guna.UI2.WinForms.Guna2GradientTileButton guna2GradientTileButton1;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
+        private Guna.UI2.WinForms.Guna2GradientTileButton btnRegister;
+        private Guna.UI2.WinForms.Guna2TextBox PasswordRegister;
+        private Guna.UI2.WinForms.Guna2TextBox UsernameRegister;
         private MetroFramework.Controls.MetroTabPage mess;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel5;
         private System.Windows.Forms.Panel panel9;
