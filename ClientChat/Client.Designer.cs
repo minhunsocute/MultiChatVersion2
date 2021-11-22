@@ -487,7 +487,7 @@ namespace ClientChat
             this.Username.BorderRadius = 8;
             this.Username.BorderThickness = 0;
             this.Username.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.Username.DefaultText = "";
+            this.Username.DefaultText = "hung mai";
             this.Username.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.Username.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.Username.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
@@ -507,6 +507,7 @@ namespace ClientChat
             this.Username.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.Username.PlaceholderText = "Username";
             this.Username.SelectedText = "";
+            this.Username.SelectionStart = 8;
             this.Username.ShadowDecoration.Parent = this.Username;
             this.Username.Size = new System.Drawing.Size(204, 47);
             this.Username.TabIndex = 0;
