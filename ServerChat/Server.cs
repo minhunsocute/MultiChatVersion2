@@ -33,9 +33,17 @@ namespace ServerChat
         Socket Server1;
         List<Socket> ClientList;
         //Hàm gởi data
+
+        int checkPortInListClient(string ipPort) {
+            foreach(Client item in listCList) {
+                if (ipPort.Substring(ipPort.IndexOf(':') + 1) == item.IpPort)
+                    return -1;
+            }
+            return 0;
+        }
         private void sendString(string s,Socket clien) { 
             foreach(Socket item in ClientList) {
-                if (item.RemoteEndPoint.ToString() == clien.RemoteEndPoint.ToString()) {
+                if (item.RemoteEndPoint.ToString() == clien.RemoteEndPoint.ToString()&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1) {
                     clien.Send(Serialize(s));
                     break;
                 }
@@ -47,6 +55,8 @@ namespace ServerChat
             IP = new IPEndPoint(IPAddress.Any, Int32.Parse(textPort.Text));
             Server1 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             Server1.Bind(IP);
+            ClientList.Clear();
+            listCList.Clear();
             Thread Listen = new Thread(() =>
             {
                 try {
@@ -175,7 +185,6 @@ namespace ServerChat
                     if (SocketConnected(item))
                         clien.Send(Serialize(listClien));
                 }
-
             }
         }
         byte[] Serialize(object obj)
@@ -193,6 +202,24 @@ namespace ServerChat
             BinaryFormatter formatter = new BinaryFormatter();
 
             return formatter.Deserialize(stream);
+        }
+
+        private void BtnConnect_Click(object sender, EventArgs e){
+            if (!string.IsNullOrEmpty(textIP.Text) && !string.IsNullOrEmpty(textPort.Text) && !string.IsNullOrEmpty(textName.Text)) {
+                Connect();
+                BtnConnect.Enabled = false;
+                btnOUT.Enabled = true;
+            }
+            else
+                MessageBox.Show("IP or Port is Empty","Message",MessageBoxButtons.OK,MessageBoxIcon.Error);
+        }
+
+        private void btnOUT_Click(object sender, EventArgs e){
+            //Server1.Shutdown(SocketShutdown.Both);
+            Server1.Close();
+            listClient.Rows.Clear();
+            BtnConnect.Enabled = true;
+            btnOUT.Enabled = false;
         }
     }
 }
