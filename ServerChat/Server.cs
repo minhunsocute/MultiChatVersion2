@@ -43,7 +43,7 @@ namespace ServerChat
         }
         private void sendString(string s,Socket clien) { 
             foreach(Socket item in ClientList) {
-                if (item.RemoteEndPoint.ToString() == clien.RemoteEndPoint.ToString()&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1) {
+                if (item.RemoteEndPoint.ToString() == clien.RemoteEndPoint.ToString()) {
                     clien.Send(Serialize(s));
                     break;
                 }
@@ -64,6 +64,7 @@ namespace ServerChat
                         Server1.Listen(100);
                         Socket clien = Server1.Accept();
                         ClientList.Add(clien);
+                        textName.Text = clien.RemoteEndPoint.ToString();
                         Thread rec = new Thread(Receive);
                         rec.IsBackground = true;
                         rec.Start(clien);
@@ -95,8 +96,8 @@ namespace ServerChat
                 while (true) {
                     byte[] data = new byte[1024 * 5000];
                     clien.Receive(data);
-                    string mess = (string)Deserialize(data);
-                    checkString1(mess,clien);
+                    string s = (string)Deserialize(data);
+                    checkString1(s, clien);
                 }
             }
             catch { }
@@ -128,11 +129,13 @@ namespace ServerChat
                 string userName = "";string password = "";
                 while (true) {
                     if(s[i]!='@')userName += s[i];
-                    if (s[i] == '@') {i++;break;}
+                    else{i++;break;}
                     i++;
                 }
-                while (i < s.Length) 
+                while (i < s.Length) { 
                     password += s[i];i++;
+                }
+                textName.Text = $"{userName}   {password}";
                 int check = f.returnNo(userName, password, 1);
                 if (check == -1) {
                     sendString("1success", clien);
@@ -147,17 +150,12 @@ namespace ServerChat
                     if (s[i] != '@') username += s[i];
                     if (s[i] == '@'){i++; break;}i++;
                 }
-                while (true){
-                    if (s[i] != '@') password += s[i];
-                    if (s[i] == '@'){
-                        i++; break;
-                    }i++;
+                while (i < s.Length) { 
+                    password += s[i]; i++;
                 }
-                while (i < s.Length)
-                    name += s[i]; i++;
                 int check = f.returnNo(username, password, 2);
                 if (check == 0){
-                    f.inserAccount(username, password, name);
+                    f.inserAccount(username, password, "");
                     sendString("3success", clien);
                 }
                 else
@@ -185,6 +183,9 @@ namespace ServerChat
                     if (SocketConnected(item))
                         clien.Send(Serialize(listClien));
                 }
+            }
+            else if(s[0]== '5') { //Kiểm tra người dùng Out
+
             }
         }
         byte[] Serialize(object obj)

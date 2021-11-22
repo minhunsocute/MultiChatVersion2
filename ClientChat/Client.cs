@@ -45,7 +45,7 @@ namespace ClientChat
                 btnSignIn.Enabled = true;
                 btnRegister.Enabled = true;
 
-                Thread listerServer = new Thread(new ThreadStart(ReceiveMessage));
+                Thread listerServer = new Thread(ReceiveMessage);
                 listerServer.IsBackground = true;
                 listerServer.Start();
             }
@@ -61,10 +61,9 @@ namespace ClientChat
             while (true)
             {
                 byte[] buffer = new byte[1024 * 5000];
-
                 int rec = client.Receive(buffer);
                 string mess = (String)Deserialize(buffer);
-
+                MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
                 CheckMessage(mess);
             }
         }
@@ -75,20 +74,26 @@ namespace ClientChat
             //login thành công
             if (message[0] == '1')
             {
-                metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
+                this.Invoke(new Action(() =>
+                {
+                    metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
+                }));       
+                client.Send(Serialize($"4{Username.Text}"));
             }
             //login không thành công
             else if (message[0] == '2')
             {
-                MessageBox.Show("Invalid password or username");
+                MessageBox.Show("Invalid password or username","Message",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             //register thành công
             else if (message[0] == '3')
             {
                 MessageBox.Show("Register successfully");
-                UsernameRegister.Clear();
-                PasswordRegister.Clear();
-                RePassRegister.Clear();
+                this.Invoke(new Action(() =>{
+                    UsernameRegister.Clear();
+                    PasswordRegister.Clear();
+                    RePassRegister.Clear();
+                }));
             }
             //register không thành công
             else if (message[0] == '4')
