@@ -23,7 +23,7 @@ namespace ClientChat
 
         public Client()
         {
-            
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
         }
 
