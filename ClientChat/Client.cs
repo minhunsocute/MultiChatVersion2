@@ -119,27 +119,29 @@ namespace ClientChat
             //add client online into flow layout panel
             }else if(message[0] == '6')
             {
-                string mess = message.Substring(1);
+                this.Invoke(new Action(() => {
+                    string mess = message.Substring(1);
 
-                string[] listTmp = mess.Split('@');
+                    string[] listTmp = mess.Split('@');
+                    listClientOnline = new List<ClientOnline>();
+                    flpListClient.Controls.Clear();
 
-                flpListClient.Controls.Clear();
-
-                foreach(string s in listTmp)
-                {
-                    if (s != "" && s != name) {
-                        ClientOnline clientOnline = new ClientOnline();
-                        clientOnline.Name1 = s;
-                        clientOnline.Click += ClientOnline_Click;
-                        listClientOnline.Add(clientOnline);
+                    foreach(string s in listTmp)
+                    {
+                        if (s != "" && s != name) {
+                            ClientOnline clientOnline = new ClientOnline();
+                            clientOnline.lbName.Text = s;
+                            clientOnline.Click += ClientOnline_Click;
+                            listClientOnline.Add(clientOnline);
+                        }
                     }
-                }
 
-                foreach (ClientOnline item in listClientOnline)
-                {
-                    OpText.Text = item.Name1;
-                    flpListClient.Controls.Add(item);
-                }
+                    foreach (ClientOnline item in listClientOnline)
+                    {
+                        OpText.Text = item.Name1;
+                        flpListClient.Controls.Add(item);
+                    }
+                }));
             }
         }
 
