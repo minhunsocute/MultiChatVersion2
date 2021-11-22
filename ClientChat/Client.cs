@@ -21,6 +21,7 @@ namespace ClientChat
         IPEndPoint ipe;
         Thread threadConnectServer;
         string name;
+        List<ClientOnline> listClientOnline;
         public Client()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -115,7 +116,37 @@ namespace ClientChat
             else if (message[0] == '4')
             {
                 MessageBox.Show("Your username has been already exist");
+            //add client online into flow layout panel
+            }else if(message[0] == '6')
+            {
+                string mess = message.Substring(1);
+
+                string[] listTmp = mess.Split('@');
+
+                flpListClient.Controls.Clear();
+
+                foreach(string s in listTmp)
+                {
+                    if (s != "" && s != name) {
+                        ClientOnline clientOnline = new ClientOnline();
+                        clientOnline.Name1 = s;
+                        clientOnline.Click += ClientOnline_Click;
+                        listClientOnline.Add(clientOnline);
+                    }
+                }
+
+                foreach (ClientOnline item in listClientOnline)
+                {
+                    OpText.Text = item.Name1;
+                    flpListClient.Controls.Add(item);
+                }
             }
+        }
+
+        private void ClientOnline_Click(object sender, EventArgs e)
+        {
+            string s = (sender as ClientOnline).Tag as string;
+            OpText.Text = s;
         }
 
         byte[] Serialize(object obj)
