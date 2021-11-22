@@ -29,17 +29,20 @@ namespace ServerChat
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
-            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl();
+            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnOUT = new Guna.UI2.WinForms.Guna2Button();
             this.BtnConnect = new Guna.UI2.WinForms.Guna2Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.listClient = new Guna.UI2.WinForms.Guna2DataGridView();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,10 +51,8 @@ namespace ServerChat
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.textPort = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.textIP = new Guna.UI2.WinForms.Guna2TextBox();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.textIP = new Guna.UI2.WinForms.Guna2TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listClient)).BeginInit();
@@ -111,6 +112,16 @@ namespace ServerChat
             this.label1.Text = "Multi Chat Manage";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // panel3
+            // 
+            this.panel3.BackgroundImage = global::ServerChat.Properties.Resources.Logo_UIT_Web_Transparent;
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.panel3.Location = new System.Drawing.Point(14, 21);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(48, 48);
+            this.panel3.TabIndex = 0;
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -154,6 +165,7 @@ namespace ServerChat
             this.btnOUT.Size = new System.Drawing.Size(109, 42);
             this.btnOUT.TabIndex = 39;
             this.btnOUT.Text = "Close server";
+            this.btnOUT.Click += new System.EventHandler(this.btnOUT_Click);
             // 
             // BtnConnect
             // 
@@ -175,6 +187,16 @@ namespace ServerChat
             this.BtnConnect.Size = new System.Drawing.Size(193, 42);
             this.BtnConnect.TabIndex = 38;
             this.BtnConnect.Text = "Open Server";
+            this.BtnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.BackgroundImage = global::ServerChat.Properties.Resources.customer;
+            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel5.Location = new System.Drawing.Point(11, 93);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(30, 33);
+            this.panel5.TabIndex = 2;
             // 
             // guna2HtmlLabel3
             // 
@@ -188,33 +210,33 @@ namespace ServerChat
             // 
             // listClient
             // 
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
-            this.listClient.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            this.listClient.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.listClient.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.listClient.BackgroundColor = System.Drawing.Color.White;
             this.listClient.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listClient.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.listClient.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.listClient.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.listClient.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.listClient.ColumnHeadersHeight = 21;
             this.listClient.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.name,
             this.port});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.listClient.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.listClient.DefaultCellStyle = dataGridViewCellStyle6;
             this.listClient.EnableHeadersVisualStyles = false;
             this.listClient.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.listClient.Location = new System.Drawing.Point(14, 141);
@@ -331,6 +353,15 @@ namespace ServerChat
             this.guna2HtmlLabel1.TabIndex = 2;
             this.guna2HtmlLabel1.Text = "Port:";
             // 
+            // panel4
+            // 
+            this.panel4.BackgroundImage = global::ServerChat.Properties.Resources.laptop;
+            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel4.Location = new System.Drawing.Point(11, 16);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(30, 33);
+            this.panel4.TabIndex = 1;
+            // 
             // textIP
             // 
             this.textIP.BackColor = System.Drawing.SystemColors.Control;
@@ -359,34 +390,6 @@ namespace ServerChat
             this.textIP.ShadowDecoration.Parent = this.textIP;
             this.textIP.Size = new System.Drawing.Size(131, 30);
             this.textIP.TabIndex = 0;
-            // 
-            // panel5
-            // 
-            this.panel5.BackgroundImage = global::ServerChat.Properties.Resources.customer;
-            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(11, 93);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(30, 33);
-            this.panel5.TabIndex = 2;
-            // 
-            // panel4
-            // 
-            this.panel4.BackgroundImage = global::ServerChat.Properties.Resources.laptop;
-            this.panel4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel4.Location = new System.Drawing.Point(11, 16);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(30, 33);
-            this.panel4.TabIndex = 1;
-            // 
-            // panel3
-            // 
-            this.panel3.BackgroundImage = global::ServerChat.Properties.Resources.Logo_UIT_Web_Transparent;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.panel3.Location = new System.Drawing.Point(14, 21);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(48, 48);
-            this.panel3.TabIndex = 0;
             // 
             // Server
             // 
