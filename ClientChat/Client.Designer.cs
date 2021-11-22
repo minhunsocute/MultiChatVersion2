@@ -74,7 +74,7 @@ namespace ClientChat
             this.panel13 = new System.Windows.Forms.Panel();
             this.OpText = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.metroTextBox1 = new MetroFramework.Controls.MetroTextBox();
+            this.tbSearch = new MetroFramework.Controls.MetroTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2CircleButton3 = new Guna.UI2.WinForms.Guna2CircleButton();
             this.guna2CircleButton2 = new Guna.UI2.WinForms.Guna2CircleButton();
@@ -318,6 +318,7 @@ namespace ClientChat
             this.btnDisConnect.Size = new System.Drawing.Size(97, 43);
             this.btnDisConnect.TabIndex = 9;
             this.btnDisConnect.Text = "Disconnect";
+            this.btnDisConnect.Click += new System.EventHandler(this.btnDisConnect_Click);
             // 
             // metroTabControl1
             // 
@@ -326,7 +327,7 @@ namespace ClientChat
             this.metroTabControl1.Controls.Add(this.mess);
             this.metroTabControl1.Location = new System.Drawing.Point(0, 37);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 1;
+            this.metroTabControl1.SelectedIndex = 2;
             this.metroTabControl1.Size = new System.Drawing.Size(957, 607);
             this.metroTabControl1.TabIndex = 22;
             // 
@@ -827,7 +828,7 @@ namespace ClientChat
             // 
             // panel10
             // 
-            this.panel10.Controls.Add(this.metroTextBox1);
+            this.panel10.Controls.Add(this.tbSearch);
             this.panel10.Controls.Add(this.flowLayoutPanel1);
             this.panel10.Controls.Add(this.guna2CircleButton3);
             this.panel10.Controls.Add(this.guna2CircleButton2);
@@ -838,17 +839,17 @@ namespace ClientChat
             this.panel10.Size = new System.Drawing.Size(234, 562);
             this.panel10.TabIndex = 4;
             // 
-            // metroTextBox1
+            // tbSearch
             // 
-            this.metroTextBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.metroTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
-            this.metroTextBox1.Location = new System.Drawing.Point(11, 72);
-            this.metroTextBox1.Multiline = true;
-            this.metroTextBox1.Name = "metroTextBox1";
-            this.metroTextBox1.PromptText = "Search here";
-            this.metroTextBox1.Size = new System.Drawing.Size(209, 30);
-            this.metroTextBox1.TabIndex = 12;
-            this.metroTextBox1.UseStyleColors = true;
+            this.tbSearch.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.tbSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.tbSearch.Location = new System.Drawing.Point(11, 72);
+            this.tbSearch.Multiline = true;
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.PromptText = "Search here";
+            this.tbSearch.Size = new System.Drawing.Size(209, 30);
+            this.tbSearch.TabIndex = 12;
+            this.tbSearch.UseStyleColors = true;
             // 
             // flowLayoutPanel1
             // 
@@ -1041,7 +1042,7 @@ namespace ClientChat
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label OpText;
         private System.Windows.Forms.Panel panel10;
-        private MetroFramework.Controls.MetroTextBox metroTextBox1;
+        private MetroFramework.Controls.MetroTextBox tbSearch;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Guna.UI2.WinForms.Guna2CircleButton guna2CircleButton3;
         private Guna.UI2.WinForms.Guna2CircleButton guna2CircleButton2;

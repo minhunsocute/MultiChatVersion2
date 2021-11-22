@@ -20,7 +20,7 @@ namespace ClientChat
         Socket client;
         IPEndPoint ipe;
         Thread threadConnectServer;
-
+        string name;
         public Client()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -51,20 +51,26 @@ namespace ClientChat
             }
             catch
             {
-                ipe = new IPEndPoint(IPAddress.Parse(tbIP.Text), int.Parse(tbPort.Text));
-                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                MessageBox.Show("Can't connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ReceiveMessage()
         {
-            while (true)
+            try
             {
-                byte[] buffer = new byte[1024 * 5000];
-                int rec = client.Receive(buffer);
-                string mess = (String)Deserialize(buffer);
-                MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
-                CheckMessage(mess);
+                while (true)
+                {
+                    byte[] buffer = new byte[1024 * 5000];
+                    int rec = client.Receive(buffer);
+                    string mess = (String)Deserialize(buffer);
+                    MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
+                    CheckMessage(mess);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -74,10 +80,18 @@ namespace ClientChat
             //login thành công
             if (message[0] == '1')
             {
+                name = Username.Text;
+
                 this.Invoke(new Action(() =>
                 {
                     metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
-                }));       
+
+                    ((Control)mess).Enabled = true;
+                    ((Control)login).Enabled = false;
+                    ((Control)creat).Enabled = false;
+
+                }));
+                //load người dùng
                 client.Send(Serialize($"4{Username.Text}"));
             }
             //login không thành công
@@ -140,6 +154,21 @@ namespace ClientChat
             else
             {
                 MessageBox.Show("Username or password can't be empty");
+            }
+        }
+
+        private void btnDisConnect_Click(object sender, EventArgs e)
+        {
+            if(name != "") {
+                client.Send(Serialize($"3{name}"));
+                client.Close();
+                Application.Exit();
+            }
+            else
+            {
+                client.Send(Serialize($"3{name}"));
+                client.Close();
+                Application.Exit();
             }
         }
     }

@@ -65,6 +65,12 @@
     <Compile Include="Client.Designer.cs">
       <DependentUpon>Client.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientOnline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClientOnline.Designer.cs">
+      <DependentUpon>ClientOnline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Client.resx">
