@@ -44,6 +44,8 @@ namespace ClientChat
 
                 btnSignIn.Enabled = true;
                 btnRegister.Enabled = true;
+                btnDisConnect.Enabled = true;
+                btnConnectServer.Enabled = false;
 
                 Thread listerServer = new Thread(ReceiveMessage);
                 listerServer.IsBackground = true;

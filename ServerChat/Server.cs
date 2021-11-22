@@ -163,14 +163,16 @@ namespace ServerChat
             }
             else if (s[0] == '3') { //KIểm tra người dùng bị out 
                 string userName = s.Substring(1);
-                removeListClient(userName, f);
-                string listClien = f.getListClientActi(s.Substring(1));
-                foreach(Socket item in ClientList) {
-                    if (SocketConnected(item)) {
-                        clien.Send(Serialize(listClien));
-                    }    
-                    else
-                        continue;
+                if (!string.IsNullOrEmpty(userName)) { 
+                    removeListClient(userName, f);
+                    string listClien = f.getListClientActi(s.Substring(1));
+                    foreach(Socket item in ClientList) {
+                        if (SocketConnected(item)&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1) {
+                            clien.Send(Serialize(listClien));
+                        }    
+                        else
+                            continue;
+                    }
                 }
             }
             else if (s[0] == '4') {//Load danh sách người đang online cho người dùng
@@ -180,12 +182,9 @@ namespace ServerChat
                 LoadDatGridView(username, f,clien);
                 string listClien = f.getListClientActi(username);
                 foreach (Socket item in ClientList) {
-                    if (SocketConnected(item))
+                    if (SocketConnected(item)&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1)
                         clien.Send(Serialize(listClien));
                 }
-            }
-            else if(s[0]== '5') { //Kiểm tra người dùng Out
-
             }
         }
         byte[] Serialize(object obj)
