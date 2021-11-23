@@ -160,6 +160,8 @@ namespace ClientChat
                         if (s != "" && s != name) {
                             ClientOnline clientOnline = new ClientOnline();
                             clientOnline.lbName.Text = s;
+                            clientOnline.Tag = s;
+                            clientOnline.CheckClick = 0;
                             clientOnline.Click += ClientOnline_Click;
                             listClientOnline.Add(clientOnline);
                         }
@@ -179,6 +181,19 @@ namespace ClientChat
         {
             string s = (sender as ClientOnline).Tag as string;
             OpText.Text = s;
+            foreach(ClientOnline item in listClientOnline) { 
+                if(item.lbName.Text == s) {
+                    item.BackColor = Color.FromArgb(232,243,254);
+                    item.CheckClick = 1;
+                    item.lbName.BackColor = Color.FromArgb(232, 243, 254);
+                }
+                else
+                {
+                    item.CheckClick = 0;
+                    item.BackColor = DefaultBackColor;
+                    item.lbName.BackColor = DefaultBackColor;
+                }
+            }
         }
 
         byte[] Serialize(object obj)
