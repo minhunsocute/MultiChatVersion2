@@ -168,7 +168,7 @@ namespace ServerChat
                     string listClien = f.getListClientActi(s.Substring(1));
                     foreach(Socket item in ClientList) {
                         if (SocketConnected(item)&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1) {
-                            clien.Send(Serialize(listClien));
+                            item.Send(Serialize(listClien));
                         }    
                         else
                             continue;
@@ -183,7 +183,7 @@ namespace ServerChat
                 string listClien = f.getListClientActi(username);
                 foreach (Socket item in ClientList) {
                     if (SocketConnected(item)&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1)
-                        clien.Send(Serialize(listClien));
+                        item.Send(Serialize(listClien));
                 }
             }
             else if (s[0] == '5') {//Gửi và nhận tin nhắn
@@ -202,7 +202,7 @@ namespace ServerChat
                 }
                 foreach(Socket item in ClientList) {
                     if (SocketConnected(item)&&(item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':')+1))==ipPortRec) {
-                        clien.Send(Serialize($"8{nameSend}@{s.Substring(Index + 1)}"));
+                        item.Send(Serialize($"8{nameSend}@{s.Substring(Index + 1)}"));
                         break;
                     }
                     else
@@ -239,10 +239,33 @@ namespace ServerChat
 
         private void btnOUT_Click(object sender, EventArgs e){
             //Server1.Shutdown(SocketShutdown.Both);
+            sql_manage f = new sql_manage();
+            foreach(Client item in listCList) {
+                f.updateActi(item.Name, 0);
+            }
+            foreach(Socket item in ClientList)
+            {
+                if (SocketConnected(item) && checkPortInListClient(item.RemoteEndPoint.ToString()) == -1)
+                {
+                    item.Send(Serialize("5Disconnect"));
+                }
+                else
+                    continue;
+            }
+            listCList.Clear();
             Server1.Close();
             listClient.Rows.Clear();
             BtnConnect.Enabled = true;
             btnOUT.Enabled = false;
+        }
+        private void guna2ControlBox1_Click(object sender, EventArgs e)
+        {
+            listCList.Clear();
+            sql_manage f = new sql_manage();
+            foreach (Client item in listCList)
+            {
+                f.updateActi(item.Name, 0);
+            }
         }
     }
 }

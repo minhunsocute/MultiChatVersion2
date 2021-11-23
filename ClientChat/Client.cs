@@ -21,6 +21,13 @@ namespace ClientChat
         IPEndPoint ipe;
         Thread threadConnectServer;
         string name;
+        /// <summary>
+        /// BIến này là biến để kiểm tra xem là thằng server nó còn online hay k 
+        /// Kiểu đkm tk server nó mà tắt rối ấy t thấy cái ràng buộc client.send nó bắt buộc gửi 
+        /// nên bị lỗi ngầm mặc dù k hiện rõ ra nhưng nó vẫn là lỗi
+        /// nên tao thêm biến này 1 -> server còn connect 0 -> không còn
+        /// </summary>
+        int checkServerOn = 0;
         List<ClientOnline> listClientOnline;
         public Client()
         {
@@ -42,7 +49,7 @@ namespace ClientChat
                 ipe = new IPEndPoint(IPAddress.Parse(tbIP.Text), int.Parse(tbPort.Text));
                 client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 client.Connect(ipe);
-
+                checkServerOn = 1;
                 btnSignIn.Enabled = true;
                 btnRegister.Enabled = true;
                 btnDisConnect.Enabled = true;
@@ -57,7 +64,24 @@ namespace ClientChat
                 MessageBox.Show("Can't connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        //Hiện ra lỗi mỗi khi Server ngắt kết nối và trở về trang login
+        private void showErrorWhenServerDis() {
+            MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            checkServerOn = 0;
+            this.Invoke(new Action(() =>
+            {
+                flowLayoutPanel2.Controls.Clear();
+                flpListClient.Controls.Clear();
+                ((Control)mess).Enabled = false;
+                ((Control)login).Enabled = true;
+                ((Control)creat).Enabled = true;
+                btnConnectServer.Enabled = true;
+                btnDisConnect.Enabled = false;
+                metroTabControl1.SelectedTab = metroTabControl1.TabPages["login"];
+                Username.Text = Password.Text = string.Empty;
+                name = string.Empty;
+            }));
+        }
         private void ReceiveMessage()
         {
             try
@@ -73,7 +97,7 @@ namespace ClientChat
             }
             catch
             {
-                MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                showErrorWhenServerDis();
             }
         }
 
@@ -117,11 +141,16 @@ namespace ClientChat
             {
                 MessageBox.Show("Your username has been already exist");
             //add client online into flow layout panel
-            }else if(message[0] == '6')
+            }
+            //Kiểm tra server bị nhấn vào nút disconnect
+            else if (message[0] == '5')
+            {
+                showErrorWhenServerDis();
+            }
+            else if(message[0] == '6')
             {
                 this.Invoke(new Action(() => {
                     string mess = message.Substring(1);
-
                     string[] listTmp = mess.Split('@');
                     listClientOnline = new List<ClientOnline>();
                     flpListClient.Controls.Clear();
@@ -135,11 +164,12 @@ namespace ClientChat
                             listClientOnline.Add(clientOnline);
                         }
                     }
-
+                    int i = 0;
                     foreach (ClientOnline item in listClientOnline)
                     {
-                        OpText.Text = item.Name1;
+                        if (i == 0) OpText.Text = item.lbName.Text;
                         flpListClient.Controls.Add(item);
+                        i++;
                     }
                 }));
             }
@@ -194,16 +224,37 @@ namespace ClientChat
 
         private void btnDisConnect_Click(object sender, EventArgs e)
         {
-            if(name != "") {
-                client.Send(Serialize($"3{name}"));
-                client.Close();
-                Application.Exit();
-            }
-            else
+            if (checkServerOn == 1)
             {
-                client.Send(Serialize($"3{name}"));
-                client.Close();
-                Application.Exit();
+                if (name != "")
+                {
+                    client.Send(Serialize($"3{name}"));
+                    client.Close();
+                    Application.Exit();
+                }
+                else
+                {
+                    client.Send(Serialize($"3{name}"));
+                    client.Close();
+                    Application.Exit();
+                }
+            }
+        }
+
+        private void guna2ControlBox1_Click(object sender, EventArgs e)
+        {
+            if (checkServerOn == 1) { 
+                if(name != "") {
+                    client.Send(Serialize($"3{name}"));
+                    client.Close();
+                    Application.Exit();
+                }
+                else
+                {
+                    client.Send(Serialize($"3{name}"));
+                    client.Close();
+                    Application.Exit();
+                }
             }
         }
     }
