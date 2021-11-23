@@ -209,6 +209,11 @@ namespace ServerChat
                         continue;
                 }
             }
+            else if (s[0] == '6') { //Nhận và in ra danh sách các tin nhắn
+                int Index = s.IndexOf('@');
+                string sendString = f.LoadMess(s.Substring(1, Index - 1), s.Substring(Index + 1));
+                clien.Send(Serialize(sendString));
+            }
         }
         byte[] Serialize(object obj)
         {

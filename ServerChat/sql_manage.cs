@@ -134,7 +134,7 @@ namespace ServerChat
         }
         public string LoadMess(string nameSend, string nameRec)
         {
-            string sendString = "9";
+            string sendString = "7";
             conn = new SqlConnection(conStr);
             conn.Open();
             string sqlString = $"EXEC LOAD_MESS '{nameSend}','{nameRec}' ";

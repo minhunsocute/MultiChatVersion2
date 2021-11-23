@@ -35,6 +35,47 @@ namespace ClientChat
             InitializeComponent();
         }
 
+        private void buitSizeSend(string s,Send uc) { 
+            if(s.Length < 30){
+                uc.guna2CustomGradientPanel1.Width = s.Length * 10 + 40;
+                uc.label1.Width = s.Length*10+20;
+                uc.label1.Text = s;
+            }
+            else {
+                uc.label1.Text = string.Empty;
+                for(int i = 0; i < s.Length; i++) {
+                    if (i % 30 == 0&&i!=0) {
+                        uc.Height += 17;
+                        uc.guna2CustomGradientPanel1.Height += 17;
+                        uc.label1.Height += 17;
+                        uc.label1.Text += $"{Environment.NewLine}{s[i]}";
+                    }
+                    else
+                        uc.label1.Text += s[i];
+                }
+            }
+        }
+        private void buitSizeRec(string s,Recieve uc) { 
+            if(s.Length < 30){
+                uc.guna2CustomGradientPanel1.Width = s.Length * 10 + 40;
+                uc.label1.Width = s.Length*10+20;
+                uc.label1.Text = s;
+            }
+            else {
+                uc.label1.Text = string.Empty;
+                for(int i = 0; i < s.Length; i++) {
+                    if (i % 30 == 0&&i!=0) {
+                        uc.Height += 17;
+                        uc.guna2CustomGradientPanel1.Height += 17;
+                        uc.label1.Height += 17;
+                        uc.label1.Text += $"{Environment.NewLine}{s[i]}";
+                    }
+                    else
+                        uc.label1.Text += s[i];
+                }
+            }
+        }
+
         private void btnConnectServer_Click(object sender, EventArgs e)
         {
             threadConnectServer = new Thread(new ThreadStart(ConnectServer));
@@ -116,7 +157,7 @@ namespace ClientChat
                     ((Control)mess).Enabled = true;
                     ((Control)login).Enabled = false;
                     ((Control)creat).Enabled = false;
-
+                    nameCLient.Text = Username.Text;
                 }));
                 //load người dùng
                 client.Send(Serialize($"4{Username.Text}"));
@@ -175,6 +216,44 @@ namespace ClientChat
                     }
                 }));
             }
+            else if (message[0] == '7') { //Nhận và load danh sách các tin nhắn
+                this.Invoke(new Action(() => {
+                    flowLayoutPanel2.Controls.Clear();
+                    List<mess> lism = messInstance.Instance.LoadMess(nameCLient.Text, OpText.Text, message);
+                    foreach (mess item in lism)
+                    {
+                        if (item.Type == 1)
+                        {
+                            Send f = new Send();
+                            buitSizeSend(item.Content, f);
+                            flowLayoutPanel2.Controls.Add(f);
+                        }
+                        else if (item.Type == -1)
+                        {
+                            Recieve f = new Recieve();
+                            buitSizeRec(item.Content, f);
+                            flowLayoutPanel2.Controls.Add(f);
+                        }
+                    }
+                    //...
+                    if (lism[lism.Count - 1].Type == 1) {
+                        var pic = new Send();
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        flowLayoutPanel2.Controls.Remove(pic);
+                    }
+                    else {
+                        var pic = new Recieve();
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        flowLayoutPanel2.Controls.Remove(pic);
+                    }
+                }));                          
+            }
         }
 
         private void ClientOnline_Click(object sender, EventArgs e)
@@ -194,6 +273,7 @@ namespace ClientChat
                     item.lbName.BackColor = DefaultBackColor;
                 }
             }
+            client.Send(Serialize($"6{nameCLient.Text}@{s}"));
         }
 
         byte[] Serialize(object obj)
