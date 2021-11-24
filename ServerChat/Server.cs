@@ -98,6 +98,7 @@ namespace ServerChat
                     clien.Receive(data);
                     string s = (string)Deserialize(data);
                     checkString1(s, clien);
+                    textName.Text = s;
                 }
             }
             catch { }

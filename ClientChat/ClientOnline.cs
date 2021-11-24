@@ -16,6 +16,7 @@ namespace ClientChat
         {
             InitializeComponent();
             lbCount.Hide();
+            
         }
         public ClientOnline(string name)
         {
@@ -26,10 +27,8 @@ namespace ClientChat
         public string Name1 { get => name; set => name = value; }
         public int CheckClick { get => checkClick; set => checkClick = value; }
         public int NoRecDontSee { get => noRecDontSee; set => noRecDontSee = value; }
-
         private int checkClick;
         private int noRecDontSee;
-
         private void ClientOnline_MouseEnter(object sender, EventArgs e)
         {
             if (CheckClick == 0)

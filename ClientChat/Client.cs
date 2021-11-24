@@ -33,8 +33,9 @@ namespace ClientChat
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
+            metroTabControl1.SelectedTab = metroTabControl1.TabPages["login"];
         }
-
+        // CHỉnh size cho Send mess
         private void buitSizeSend(string s,Send uc) { 
             if(s.Length < 30){
                 uc.guna2CustomGradientPanel1.Width = s.Length * 10 + 40;
@@ -55,6 +56,7 @@ namespace ClientChat
                 }
             }
         }
+        //Chỉnh size cho Rec mess
         private void buitSizeRec(string s,Recieve uc) { 
             if(s.Length < 30){
                 uc.guna2CustomGradientPanel1.Width = s.Length * 10 + 40;
@@ -132,7 +134,7 @@ namespace ClientChat
                     byte[] buffer = new byte[1024 * 5000];
                     int rec = client.Receive(buffer);
                     string mess = (String)Deserialize(buffer);
-                    MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
+                    ///MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
                     CheckMessage(mess);
                 }
             }
@@ -204,6 +206,7 @@ namespace ClientChat
                             clientOnline.Tag = s;
                             clientOnline.CheckClick = 0;
                             clientOnline.Click += ClientOnline_Click;
+                            clientOnline.NoRecDontSee = 0;
                             listClientOnline.Add(clientOnline);
                         }
                     }
@@ -254,8 +257,30 @@ namespace ClientChat
                     }
                 }));                          
             }
+            else if (message[0] == '8') {
+                this.Invoke(new Action(() =>
+                {
+                    int Index = message.IndexOf('@');
+                    if (OpText.Text == message.Substring(1, Index - 1))
+                    {
+                        var pic = new Recieve();
+                        buitSizeRec(message.Substring(Index + 1), pic);
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    }
+                    else { 
+                        foreach(ClientOnline item in listClientOnline) { 
+                            if(item.lbName.Text == message.Substring(1, Index - 1)) {
+                                item.NoRecDontSee++;item.lbCount.Text = item.NoRecDontSee.ToString();item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
         }
-
         private void ClientOnline_Click(object sender, EventArgs e)
         {
             string s = (sender as ClientOnline).Tag as string;
@@ -271,6 +296,9 @@ namespace ClientChat
                     item.CheckClick = 0;
                     item.BackColor = DefaultBackColor;
                     item.lbName.BackColor = DefaultBackColor;
+                }
+                if (item.lbCount.Text != "0") {
+                    item.NoRecDontSee = 0;item.lbCount.Hide();
                 }
             }
             client.Send(Serialize($"6{nameCLient.Text}@{s}"));
@@ -295,24 +323,20 @@ namespace ClientChat
 
         private void btnSignIn_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text))
-            {
+            if(!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text)){
                 client.Send(Serialize($"1{Username.Text}@{Password.Text}"));
             }
-            else
-            {
+            else{
                 MessageBox.Show("Username or password can't be empty");
             }
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(UsernameRegister.Text) && !string.IsNullOrEmpty(PasswordRegister.Text) && PasswordRegister.Text == RePassRegister.Text)
-            {
+            if (!string.IsNullOrEmpty(UsernameRegister.Text) && !string.IsNullOrEmpty(PasswordRegister.Text) && PasswordRegister.Text == RePassRegister.Text){
                 client.Send(Serialize($"2{UsernameRegister.Text}@{PasswordRegister.Text}"));
             }
-            else
-            {
+            else{
                 MessageBox.Show("Username or password can't be empty");
             }
         }
@@ -349,6 +373,27 @@ namespace ClientChat
                     client.Send(Serialize($"3{name}"));
                     client.Close();
                     Application.Exit();
+                }
+            }
+        }
+        private void messageText_Enter(object sender, EventArgs e){
+            
+        }
+        private void messageText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter) { 
+                if (!string.IsNullOrEmpty(messageText.Text)) {
+                    this.Invoke(new Action(() =>
+                    {
+                        client.Send(Serialize($"5{OpText.Text}@{messageText.Text}"));
+                        var pic = new Send();
+                        buitSizeSend(messageText.Text, pic);
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        messageText.Text = "";
+                    }));
                 }
             }
         }

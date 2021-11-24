@@ -125,6 +125,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
+    <None Include="Resources\scared.png" />
+    <None Include="Resources\folder.png" />
+    <None Include="Resources\mail.png" />
+    <None Include="Resources\image.png" />
+    <None Include="Resources\thumb-up.png" />
+    <None Include="Resources\search1.png" />
+    <None Include="Resources\search.png" />
     <None Include="Resources\customer.png" />
     <None Include="Resources\192652194_1659856561070116_8406195883736750965_n.jpg" />
     <None Include="Resources\129797309_1008918169574285_3837839971887269051_n1.jpg" />
