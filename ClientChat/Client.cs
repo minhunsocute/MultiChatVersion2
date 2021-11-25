@@ -78,6 +78,14 @@ namespace ClientChat
             }
         }
 
+        private void sendData(byte header,string s) {
+            byte[] stringBye = Serialize(s);
+            byte[] send = new byte[stringBye.Length + 1];
+            send[0] = header;
+            for (int i = 1; i <= stringBye.Length; i++)
+                send[i] = stringBye[i - 1];
+            client.Send(send);
+        }
         private void btnConnectServer_Click(object sender, EventArgs e)
         {
             threadConnectServer = new Thread(new ThreadStart(ConnectServer));
@@ -162,7 +170,7 @@ namespace ClientChat
                     nameCLient.Text = Username.Text;
                 }));
                 //load người dùng
-                client.Send(Serialize($"4{Username.Text}"));
+                sendData(4, $"4{Username.Text}");
             }
             //login không thành công
             else if (message[0] == '2')
@@ -301,7 +309,8 @@ namespace ClientChat
                     item.NoRecDontSee = 0;item.lbCount.Hide();
                 }
             }
-            client.Send(Serialize($"6{nameCLient.Text}@{s}"));
+            //client.Send(Serialize($"6{nameCLient.Text}@{s}"));
+            sendData(6, $"6{nameCLient.Text}@{s}");
         }
 
         byte[] Serialize(object obj)
@@ -324,7 +333,8 @@ namespace ClientChat
         private void btnSignIn_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text)){
-                client.Send(Serialize($"1{Username.Text}@{Password.Text}"));
+                sendData(1, $"1{Username.Text}@{Password.Text}");
+                //client.Send(Serialize($"1{Username.Text}@{Password.Text}"));
             }
             else{
                 MessageBox.Show("Username or password can't be empty");
@@ -334,7 +344,8 @@ namespace ClientChat
         private void btnRegister_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(UsernameRegister.Text) && !string.IsNullOrEmpty(PasswordRegister.Text) && PasswordRegister.Text == RePassRegister.Text){
-                client.Send(Serialize($"2{UsernameRegister.Text}@{PasswordRegister.Text}"));
+                sendData(2, $"2{UsernameRegister.Text}@{PasswordRegister.Text}");
+                //client.Send(Serialize($"2{UsernameRegister.Text}@{PasswordRegister.Text}"));
             }
             else{
                 MessageBox.Show("Username or password can't be empty");
@@ -347,13 +358,15 @@ namespace ClientChat
             {
                 if (name != "")
                 {
-                    client.Send(Serialize($"3{name}"));
+                    sendData(3, $"3{name}");
+                    //client.Send(Serialize($"3{name}"));
                     client.Close();
                     Application.Exit();
                 }
                 else
                 {
-                    client.Send(Serialize($"3{name}"));
+                    sendData(3, $"3{name}");
+                    //client.Send(Serialize($"3{name}"));
                     client.Close();
                     Application.Exit();
                 }
@@ -364,13 +377,15 @@ namespace ClientChat
         {
             if (checkServerOn == 1) { 
                 if(name != "") {
-                    client.Send(Serialize($"3{name}"));
+                    sendData(3, $"3{name}");
+                    //client.Send(Serialize($"3{name}"));
                     client.Close();
                     Application.Exit();
                 }
                 else
                 {
-                    client.Send(Serialize($"3{name}"));
+                    sendData(3, $"3{name}");
+                    //client.Send(Serialize($"3{name}"));
                     client.Close();
                     Application.Exit();
                 }
@@ -385,7 +400,8 @@ namespace ClientChat
                 if (!string.IsNullOrEmpty(messageText.Text)) {
                     this.Invoke(new Action(() =>
                     {
-                        client.Send(Serialize($"5{OpText.Text}@{messageText.Text}"));
+                        sendData(5, $"5{OpText.Text}@{messageText.Text}");
+                        //client.Send(Serialize($"5{OpText.Text}@{messageText.Text}"));
                         var pic = new Send();
                         buitSizeSend(messageText.Text, pic);
                         flowLayoutPanel2.Controls.Add(pic);
@@ -395,6 +411,13 @@ namespace ClientChat
                         messageText.Text = "";
                     }));
                 }
+            }
+        }
+
+        private void guna2Button3_Click(object sender, EventArgs e){
+            FileDialog fd = new OpenFileDialog();
+            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK) { 
+            
             }
         }
     }

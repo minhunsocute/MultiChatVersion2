@@ -86,8 +86,8 @@ namespace ServerChat
                 return false;
             else
                 return true;
-        }
-        //Hàm nhận data từ người dùng
+            }
+            //Hàm nhận data từ người dùng
         private void Receive(object obj)
         {
             Socket clien = (Socket)obj;
@@ -96,9 +96,14 @@ namespace ServerChat
                 while (true) {
                     byte[] data = new byte[1024 * 5000];
                     clien.Receive(data);
-                    string s = (string)Deserialize(data);
-                    checkString1(s, clien);
-                    textName.Text = s;
+                    textName.Text = data[23].ToString();
+                    byte[] data1 = new byte[1024 * 5000];
+                    for (int i = 1; i < 1024 * 5000; i++)
+                    {
+                        data1[i - 1] = data[i];
+                    }
+                    string s = (string)Deserialize(data1);
+                    checkString1(s, clien, data);
                 }
             }
             catch { }
@@ -123,9 +128,9 @@ namespace ServerChat
             int index = clien.RemoteEndPoint.ToString().IndexOf(':');
             f.Loaddata(listClient, clien.RemoteEndPoint.ToString().Substring(index + 1), username, 0);
         }
-        private void checkString1(string s,Socket clien) {
+        private void checkString1(string s,Socket clien,byte[] rec) {
             sql_manage f = new sql_manage();
-            if (s[0] == '1') {//Kiểm tra người dùng đăng nhập thành công 
+            if (rec[0]==1) {//Kiểm tra người dùng đăng nhập thành công 
                 int i = 1;
                 string userName = "";string password = "";
                 while (true) {
@@ -144,7 +149,7 @@ namespace ServerChat
                 else
                     sendString("2unsuccess", clien);
             }
-            else if (s[0] == '2') {//Kiểm tra người dùng đăng kí thành công
+            else if (rec[0] == 2) {//Kiểm tra người dùng đăng kí thành công
                 int i = 1;
                 string username = "";string password = "";string name = "";
                 while (true){
@@ -162,7 +167,7 @@ namespace ServerChat
                 else
                     sendString("4unsuccess", clien);
             }
-            else if (s[0] == '3') { //KIểm tra người dùng bị out 
+            else if (rec[0] == 3) { //KIểm tra người dùng bị out 
                 string userName = s.Substring(1);
                 if (!string.IsNullOrEmpty(userName)) { 
                     removeListClient(userName, f);
@@ -176,18 +181,19 @@ namespace ServerChat
                     }
                 }
             }
-            else if (s[0] == '4') {//Load danh sách người đang online cho người dùng
+            else if (rec[0] == 4) {//Load danh sách người đang online cho người dùng
                 string username = "";
                 for (int i = 1; i < s.Length; i++)
                     username += s[i];
-                LoadDatGridView(username, f,clien);
+                LoadDatGridView(username, f, clien);
                 string listClien = f.getListClientActi(username);
-                foreach (Socket item in ClientList) {
-                    if (SocketConnected(item)&&checkPortInListClient(item.RemoteEndPoint.ToString())==-1)
+                foreach (Socket item in ClientList)
+                {
+                    if (SocketConnected(item) && checkPortInListClient(item.RemoteEndPoint.ToString()) == -1)
                         item.Send(Serialize(listClien));
                 }
             }
-            else if (s[0] == '5') {//Gửi và nhận tin nhắn
+            else if (rec[0] == 5) {//Gửi và nhận tin nhắn
                 int Index = s.IndexOf('@');
                 string userName = s.Substring(1, Index - 1);
                 string nameSend = "";
@@ -210,7 +216,7 @@ namespace ServerChat
                         continue;
                 }
             }
-            else if (s[0] == '6') { //Nhận và in ra danh sách các tin nhắn
+            else if (rec[0] == 6) { //Nhận và in ra danh sách các tin nhắn
                 int Index = s.IndexOf('@');
                 string sendString = f.LoadMess(s.Substring(1, Index - 1), s.Substring(Index + 1));
                 clien.Send(Serialize(sendString));
