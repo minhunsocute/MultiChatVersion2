@@ -49,6 +49,20 @@ namespace ServerChat
                 }
             }
         }
+        //Nhận File
+        public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
+        public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
+            try {         
+                int fileNameLen = BitConverter.ToInt32(clientData, 0);
+                string fileName = Encoding.UTF8.GetString(clientData, 4, fileNameLen);
+
+                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + "/" + fileName, FileMode.Append));
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+                bWrite.Close();            }
+            catch {
+                MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
+            }
+        }
         //Hàm tạo mới IP Socket và connect với người dùng
         private void Connect() {
             ClientList = new List<Socket>();
@@ -95,15 +109,25 @@ namespace ServerChat
             {
                 while (true) {
                     byte[] data = new byte[1024 * 5000];
-                    clien.Receive(data);
-                    textName.Text = data[23].ToString();
-                    byte[] data1 = new byte[1024 * 5000];
-                    for (int i = 1; i < 1024 * 5000; i++)
-                    {
-                        data1[i - 1] = data[i];
+                    int recive = clien.Receive(data);
+                    if (data[0] != 11) {
+                        textName.Text = data[23].ToString();
+                        byte[] data1 = new byte[1024 * 5000];
+                        for (int i = 1; i < 1024 * 5000; i++)
+                        {
+                            data1[i - 1] = data[i];
+                        }
+                        string s = (string)Deserialize(data1);
+                        checkString1(s, clien, data);
                     }
-                    string s = (string)Deserialize(data1);
-                    checkString1(s, clien, data);
+                    else {
+                        byte[] data1 = new byte[1024 * 5000];
+                        for (int i = 1; i < 1024 * 5000; i++)
+                        {
+                            data1[i - 1] = data[i];
+                        }
+                        ReceiveFile(recive-1, data1);
+                    }
                 }
             }
             catch { }

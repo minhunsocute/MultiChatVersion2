@@ -413,12 +413,59 @@ namespace ClientChat
                 }
             }
         }
+        //Gửi file
+        public void sendFile(string fileName) {
+            try
+            {
+                string filePath = "";
 
-        private void guna2Button3_Click(object sender, EventArgs e){
-            FileDialog fd = new OpenFileDialog();
-            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK) { 
-            
+                fileName = fileName.Replace("\\", "/");
+                while (fileName.IndexOf("/") > -1)
+                {
+                    filePath += fileName.Substring(0, fileName.IndexOf("/") + 1);
+                    fileName = fileName.Substring(fileName.IndexOf("/") + 1);
+                }
+
+
+                byte[] fileNameByte = Encoding.UTF8.GetBytes(fileName);
+                if (fileNameByte.Length > (5000 * 1024-100))                {
+                    MessageBox.Show("File size is more than 5Mb,please try with small file ","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    return;
+                }
+                string fullPath = filePath + fileName;
+                byte[] fileData = File.ReadAllBytes(fullPath);
+                byte[] clientData = new byte[4 + fileNameByte.Length + fileData.Length];
+                byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
+
+                fileNameLen.CopyTo(clientData, 0);
+                fileNameByte.CopyTo(clientData, 4);
+                fileData.CopyTo(clientData, 4 + fileNameByte.Length);
+                //Thêm Header vào cho việc gửi size
+                byte[] send = new byte[clientData.Length + 1];
+                send[0] = 11;
+                for (int i = 1; i <= clientData.Length; i++)
+                    send[i] = clientData[i - 1];
+                client.Send(send, 0, send.Length, 0);
+                MessageBox.Show($"File[{fullPath}]Transferd","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
+            catch(Exception ex) {
+                if (ex.Message == "No connection could be made because the target machine actively refused it")
+                    MessageBox.Show("File Sending fail. Because server not running.","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                else
+                    MessageBox.Show("File Sending fail." + ex.Message,"Message",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+        }
+        private void guna2Button3_Click(object sender, EventArgs e){
+            Thread t = new Thread((ThreadStart)(() => {
+                FileDialog fd = new OpenFileDialog();
+                if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    sendFile(fd.FileName);
+                }
+            }));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            t.Join();
         }
     }
 }
