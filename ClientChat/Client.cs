@@ -133,6 +133,20 @@ namespace ClientChat
                 name = string.Empty;
             }));
         }
+        //Nhận File
+        public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
+        public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
+            try {         
+                int fileNameLen = BitConverter.ToInt32(clientData, 0);
+                string fileName = Encoding.UTF8.GetString(clientData, 4, fileNameLen);
+
+                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + "/" + fileName, FileMode.Append));
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+                bWrite.Close();            }
+            catch {
+                MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
+            }
+        }
         private void ReceiveMessage()
         {
             try
@@ -141,9 +155,18 @@ namespace ClientChat
                 {
                     byte[] buffer = new byte[1024 * 5000];
                     int rec = client.Receive(buffer);
-                    string mess = (String)Deserialize(buffer);
-                    ///MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
-                    CheckMessage(mess);
+                    if (buffer[0] != 11) { 
+                        string mess = (String)Deserialize(buffer);
+                        ///MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
+                        CheckMessage(mess);
+                    }
+                    else {
+                        byte[] data = new byte[1024 * 5000];
+                        for(int i = 1; i < 1024 * 5000; i++) {
+                            data[i - 1] = buffer[i];
+                        }
+                        ReceiveFile(rec - 1, data);
+                    }
                 }
             }
             catch
@@ -428,7 +451,7 @@ namespace ClientChat
 
 
                 byte[] fileNameByte = Encoding.UTF8.GetBytes(fileName);
-                if (fileNameByte.Length > (5000 * 1024-100))                {
+                if (fileNameByte.Length > (50 * 1024-100)){
                     MessageBox.Show("File size is more than 5Mb,please try with small file ","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                     return;
                 }
@@ -436,15 +459,19 @@ namespace ClientChat
                 byte[] fileData = File.ReadAllBytes(fullPath);
                 byte[] clientData = new byte[4 + fileNameByte.Length + fileData.Length];
                 byte[] fileNameLen = BitConverter.GetBytes(fileNameByte.Length);
-
                 fileNameLen.CopyTo(clientData, 0);
                 fileNameByte.CopyTo(clientData, 4);
                 fileData.CopyTo(clientData, 4 + fileNameByte.Length);
                 //Thêm Header vào cho việc gửi size
-                byte[] send = new byte[clientData.Length + 1];
+                byte[] send = new byte[clientData.Length + OpText.Text.Length+2];
                 send[0] = 11;
-                for (int i = 1; i <= clientData.Length; i++)
-                    send[i] = clientData[i - 1];
+                send[1] = (byte)OpText.Text.Length;
+                for(int i = 0; i < OpText.Text.Length; i++) { 
+                    send[i+2]=Convert.ToByte(OpText.Text[i]);
+                }
+                int k = OpText.Text.Length+2;
+                for (int i = 0; i < clientData.Length; i++)
+                { send[k] = clientData[i];k++; }
                 client.Send(send, 0, send.Length, 0);
                 MessageBox.Show($"File[{fullPath}]Transferd","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }

@@ -113,20 +113,37 @@ namespace ServerChat
                     if (data[0] != 11) {
                         textName.Text = data[23].ToString();
                         byte[] data1 = new byte[1024 * 5000];
-                        for (int i = 1; i < 1024 * 5000; i++)
-                        {
+                        for (int i = 1; i < 1024 * 5000; i++){
                             data1[i - 1] = data[i];
                         }
                         string s = (string)Deserialize(data1);
                         checkString1(s, clien, data);
                     }
                     else {
-                        byte[] data1 = new byte[1024 * 5000];
-                        for (int i = 1; i < 1024 * 5000; i++)
-                        {
-                            data1[i - 1] = data[i];
+                        int lengthname = (int)data[1];
+                        byte[] data1 = new byte[recive-1-lengthname];
+                        string opName = "";
+                        data1[0] = 11;
+                        for (int i = 2; i < 2 + lengthname; i++)
+                            opName += Convert.ToChar(data[i]);
+                        textName.Text = $"{opName}+{recive}";
+                        int k = 1;
+                        for(int i = 2+lengthname; i < recive; i++) {
+                            data1[k] = data[i];k++;
                         }
-                        ReceiveFile(recive-1, data1);
+                        string ipPortRec = "";
+                        //ReceiveFile(recive-2-lengthname, data1);
+                        foreach(Client item in listCList) {
+                            if (opName == item.Name)
+                                ipPortRec = item.IpPort;
+                        }
+                        foreach(Socket item in ClientList) {
+                            if (SocketConnected(item)&&(item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':')+1))==ipPortRec) {
+                                item.Send(data1);
+                                break;
+                            }
+                            else continue;
+                        }
                     }
                 }
             }
