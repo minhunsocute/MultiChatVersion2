@@ -52,16 +52,6 @@ namespace ClientChat
             this.Password = new Guna.UI2.WinForms.Guna2TextBox();
             this.Username = new Guna.UI2.WinForms.Guna2TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.creat = new MetroFramework.Controls.MetroTabPage();
-            this.guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            this.RePassRegister = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2CustomGradientPanel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.guna2ToggleSwitch2 = new Guna.UI2.WinForms.Guna2ToggleSwitch();
-            this.btnRegister = new Guna.UI2.WinForms.Guna2GradientTileButton();
-            this.PasswordRegister = new Guna.UI2.WinForms.Guna2TextBox();
-            this.UsernameRegister = new Guna.UI2.WinForms.Guna2TextBox();
-            this.panel7 = new System.Windows.Forms.Panel();
             this.mess = new MetroFramework.Controls.MetroTabPage();
             this.panel11 = new System.Windows.Forms.Panel();
             this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
@@ -84,6 +74,16 @@ namespace ClientChat
             this.flpListClient = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2CustomGradientPanel5 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.creat = new MetroFramework.Controls.MetroTabPage();
+            this.guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.RePassRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2CustomGradientPanel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.guna2ToggleSwitch2 = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.btnRegister = new Guna.UI2.WinForms.Guna2GradientTileButton();
+            this.PasswordRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UsernameRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.nameCLient = new System.Windows.Forms.Label();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.panel14 = new System.Windows.Forms.Panel();
@@ -92,14 +92,14 @@ namespace ClientChat
             this.login.SuspendLayout();
             this.guna2CustomGradientPanel1.SuspendLayout();
             this.guna2CustomGradientPanel2.SuspendLayout();
-            this.creat.SuspendLayout();
-            this.guna2CustomGradientPanel3.SuspendLayout();
-            this.guna2CustomGradientPanel4.SuspendLayout();
             this.mess.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel10.SuspendLayout();
             this.guna2CustomGradientPanel5.SuspendLayout();
+            this.creat.SuspendLayout();
+            this.guna2CustomGradientPanel3.SuspendLayout();
+            this.guna2CustomGradientPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel3
@@ -328,8 +328,8 @@ namespace ClientChat
             // metroTabControl1
             // 
             this.metroTabControl1.Controls.Add(this.login);
-            this.metroTabControl1.Controls.Add(this.mess);
             this.metroTabControl1.Controls.Add(this.creat);
+            this.metroTabControl1.Controls.Add(this.mess);
             this.metroTabControl1.CustomBackground = true;
             this.metroTabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.metroTabControl1.HotTrack = true;
@@ -516,214 +516,6 @@ namespace ClientChat
             this.panel2.Size = new System.Drawing.Size(545, 463);
             this.panel2.TabIndex = 11;
             // 
-            // creat
-            // 
-            this.creat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.creat.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.creat.Controls.Add(this.guna2CustomGradientPanel3);
-            this.creat.Controls.Add(this.panel7);
-            this.creat.CustomBackground = true;
-            this.creat.HorizontalScrollbarBarColor = true;
-            this.creat.Location = new System.Drawing.Point(4, 35);
-            this.creat.Name = "creat";
-            this.creat.Size = new System.Drawing.Size(949, 568);
-            this.creat.TabIndex = 1;
-            this.creat.Text = "Create new Account";
-            this.creat.VerticalScrollbarBarColor = true;
-            // 
-            // guna2CustomGradientPanel3
-            // 
-            this.guna2CustomGradientPanel3.BorderRadius = 13;
-            this.guna2CustomGradientPanel3.Controls.Add(this.RePassRegister);
-            this.guna2CustomGradientPanel3.Controls.Add(this.guna2CustomGradientPanel4);
-            this.guna2CustomGradientPanel3.Controls.Add(this.guna2ToggleSwitch2);
-            this.guna2CustomGradientPanel3.Controls.Add(this.btnRegister);
-            this.guna2CustomGradientPanel3.Controls.Add(this.PasswordRegister);
-            this.guna2CustomGradientPanel3.Controls.Add(this.UsernameRegister);
-            this.guna2CustomGradientPanel3.FillColor = System.Drawing.Color.DimGray;
-            this.guna2CustomGradientPanel3.FillColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2CustomGradientPanel3.Location = new System.Drawing.Point(617, 33);
-            this.guna2CustomGradientPanel3.Name = "guna2CustomGradientPanel3";
-            this.guna2CustomGradientPanel3.ShadowDecoration.Parent = this.guna2CustomGradientPanel3;
-            this.guna2CustomGradientPanel3.Size = new System.Drawing.Size(307, 502);
-            this.guna2CustomGradientPanel3.TabIndex = 10;
-            // 
-            // RePassRegister
-            // 
-            this.RePassRegister.BackColor = System.Drawing.Color.Transparent;
-            this.RePassRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.RePassRegister.BorderRadius = 8;
-            this.RePassRegister.BorderThickness = 0;
-            this.RePassRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.RePassRegister.DefaultText = "";
-            this.RePassRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.RePassRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.RePassRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.RePassRegister.DisabledState.Parent = this.RePassRegister;
-            this.RePassRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.RePassRegister.FillColor = System.Drawing.SystemColors.Control;
-            this.RePassRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.RePassRegister.FocusedState.Parent = this.RePassRegister;
-            this.RePassRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.RePassRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.RePassRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.RePassRegister.HoverState.Parent = this.RePassRegister;
-            this.RePassRegister.Location = new System.Drawing.Point(50, 309);
-            this.RePassRegister.Margin = new System.Windows.Forms.Padding(2);
-            this.RePassRegister.Name = "RePassRegister";
-            this.RePassRegister.PasswordChar = '\0';
-            this.RePassRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.RePassRegister.PlaceholderText = "Repassword";
-            this.RePassRegister.SelectedText = "";
-            this.RePassRegister.ShadowDecoration.Parent = this.RePassRegister;
-            this.RePassRegister.Size = new System.Drawing.Size(204, 47);
-            this.RePassRegister.TabIndex = 9;
-            this.RePassRegister.UseSystemPasswordChar = true;
-            // 
-            // guna2CustomGradientPanel4
-            // 
-            this.guna2CustomGradientPanel4.BackColor = System.Drawing.Color.Transparent;
-            this.guna2CustomGradientPanel4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2CustomGradientPanel4.BorderRadius = 10;
-            this.guna2CustomGradientPanel4.BorderThickness = 2;
-            this.guna2CustomGradientPanel4.Controls.Add(this.panel8);
-            this.guna2CustomGradientPanel4.FillColor = System.Drawing.Color.Transparent;
-            this.guna2CustomGradientPanel4.FillColor2 = System.Drawing.Color.Transparent;
-            this.guna2CustomGradientPanel4.FillColor3 = System.Drawing.Color.Transparent;
-            this.guna2CustomGradientPanel4.FillColor4 = System.Drawing.Color.Transparent;
-            this.guna2CustomGradientPanel4.Location = new System.Drawing.Point(94, 14);
-            this.guna2CustomGradientPanel4.Name = "guna2CustomGradientPanel4";
-            this.guna2CustomGradientPanel4.ShadowDecoration.Parent = this.guna2CustomGradientPanel4;
-            this.guna2CustomGradientPanel4.Size = new System.Drawing.Size(124, 113);
-            this.guna2CustomGradientPanel4.TabIndex = 7;
-            // 
-            // panel8
-            // 
-            this.panel8.BackgroundImage = global::ClientChat.Properties.Resources.Logo_UIT_Web_Transparent;
-            this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel8.Location = new System.Drawing.Point(22, 16);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(79, 80);
-            this.panel8.TabIndex = 0;
-            // 
-            // guna2ToggleSwitch2
-            // 
-            this.guna2ToggleSwitch2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2ToggleSwitch2.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
-            this.guna2ToggleSwitch2.CheckedState.FillColor = System.Drawing.Color.Transparent;
-            this.guna2ToggleSwitch2.CheckedState.InnerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
-            this.guna2ToggleSwitch2.CheckedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
-            this.guna2ToggleSwitch2.CheckedState.Parent = this.guna2ToggleSwitch2;
-            this.guna2ToggleSwitch2.Location = new System.Drawing.Point(50, 373);
-            this.guna2ToggleSwitch2.Name = "guna2ToggleSwitch2";
-            this.guna2ToggleSwitch2.ShadowDecoration.Parent = this.guna2ToggleSwitch2;
-            this.guna2ToggleSwitch2.Size = new System.Drawing.Size(35, 20);
-            this.guna2ToggleSwitch2.TabIndex = 8;
-            this.guna2ToggleSwitch2.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2ToggleSwitch2.UncheckedState.BorderThickness = 1;
-            this.guna2ToggleSwitch2.UncheckedState.FillColor = System.Drawing.Color.Transparent;
-            this.guna2ToggleSwitch2.UncheckedState.InnerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2ToggleSwitch2.UncheckedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2ToggleSwitch2.UncheckedState.Parent = this.guna2ToggleSwitch2;
-            // 
-            // btnRegister
-            // 
-            this.btnRegister.BackColor = System.Drawing.Color.Transparent;
-            this.btnRegister.BorderRadius = 11;
-            this.btnRegister.CheckedState.Parent = this.btnRegister;
-            this.btnRegister.CustomImages.Parent = this.btnRegister;
-            this.btnRegister.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnRegister.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnRegister.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnRegister.DisabledState.Parent = this.btnRegister;
-            this.btnRegister.Enabled = false;
-            this.btnRegister.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.btnRegister.FillColor2 = System.Drawing.Color.Cyan;
-            this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.HoverState.Parent = this.btnRegister;
-            this.btnRegister.Location = new System.Drawing.Point(142, 401);
-            this.btnRegister.Name = "btnRegister";
-            this.btnRegister.ShadowDecoration.Parent = this.btnRegister;
-            this.btnRegister.Size = new System.Drawing.Size(112, 43);
-            this.btnRegister.TabIndex = 7;
-            this.btnRegister.Text = "Register";
-            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
-            // 
-            // PasswordRegister
-            // 
-            this.PasswordRegister.BackColor = System.Drawing.Color.Transparent;
-            this.PasswordRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.PasswordRegister.BorderRadius = 8;
-            this.PasswordRegister.BorderThickness = 0;
-            this.PasswordRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.PasswordRegister.DefaultText = "";
-            this.PasswordRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.PasswordRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.PasswordRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.PasswordRegister.DisabledState.Parent = this.PasswordRegister;
-            this.PasswordRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.PasswordRegister.FillColor = System.Drawing.SystemColors.Control;
-            this.PasswordRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.PasswordRegister.FocusedState.Parent = this.PasswordRegister;
-            this.PasswordRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.PasswordRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.PasswordRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.PasswordRegister.HoverState.Parent = this.PasswordRegister;
-            this.PasswordRegister.Location = new System.Drawing.Point(50, 237);
-            this.PasswordRegister.Margin = new System.Windows.Forms.Padding(2);
-            this.PasswordRegister.Name = "PasswordRegister";
-            this.PasswordRegister.PasswordChar = '\0';
-            this.PasswordRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.PasswordRegister.PlaceholderText = "Password";
-            this.PasswordRegister.SelectedText = "";
-            this.PasswordRegister.ShadowDecoration.Parent = this.PasswordRegister;
-            this.PasswordRegister.Size = new System.Drawing.Size(204, 47);
-            this.PasswordRegister.TabIndex = 1;
-            this.PasswordRegister.UseSystemPasswordChar = true;
-            // 
-            // UsernameRegister
-            // 
-            this.UsernameRegister.BackColor = System.Drawing.Color.Transparent;
-            this.UsernameRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.UsernameRegister.BorderRadius = 8;
-            this.UsernameRegister.BorderThickness = 0;
-            this.UsernameRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.UsernameRegister.DefaultText = "";
-            this.UsernameRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.UsernameRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.UsernameRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.UsernameRegister.DisabledState.Parent = this.UsernameRegister;
-            this.UsernameRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.UsernameRegister.FillColor = System.Drawing.SystemColors.Control;
-            this.UsernameRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.UsernameRegister.FocusedState.Parent = this.UsernameRegister;
-            this.UsernameRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.UsernameRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.UsernameRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.UsernameRegister.HoverState.Parent = this.UsernameRegister;
-            this.UsernameRegister.Location = new System.Drawing.Point(50, 158);
-            this.UsernameRegister.Margin = new System.Windows.Forms.Padding(2);
-            this.UsernameRegister.Name = "UsernameRegister";
-            this.UsernameRegister.PasswordChar = '\0';
-            this.UsernameRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.UsernameRegister.PlaceholderText = "Username";
-            this.UsernameRegister.SelectedText = "";
-            this.UsernameRegister.ShadowDecoration.Parent = this.UsernameRegister;
-            this.UsernameRegister.Size = new System.Drawing.Size(204, 47);
-            this.UsernameRegister.TabIndex = 0;
-            // 
-            // panel7
-            // 
-            this.panel7.BackgroundImage = global::ClientChat.Properties.Resources.facebook_chat_screenshot_2;
-            this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel7.Location = new System.Drawing.Point(42, 33);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(551, 502);
-            this.panel7.TabIndex = 11;
-            // 
             // mess
             // 
             this.mess.Controls.Add(this.panel11);
@@ -813,6 +605,7 @@ namespace ClientChat
             this.guna2Button2.ShadowDecoration.Parent = this.guna2Button2;
             this.guna2Button2.Size = new System.Drawing.Size(39, 33);
             this.guna2Button2.TabIndex = 20;
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
             // 
             // guna2Button1
             // 
@@ -1040,6 +833,214 @@ namespace ClientChat
             this.panel9.Size = new System.Drawing.Size(42, 40);
             this.panel9.TabIndex = 8;
             // 
+            // creat
+            // 
+            this.creat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.creat.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.creat.Controls.Add(this.guna2CustomGradientPanel3);
+            this.creat.Controls.Add(this.panel7);
+            this.creat.CustomBackground = true;
+            this.creat.HorizontalScrollbarBarColor = true;
+            this.creat.Location = new System.Drawing.Point(4, 35);
+            this.creat.Name = "creat";
+            this.creat.Size = new System.Drawing.Size(949, 568);
+            this.creat.TabIndex = 1;
+            this.creat.Text = "Create new Account";
+            this.creat.VerticalScrollbarBarColor = true;
+            // 
+            // guna2CustomGradientPanel3
+            // 
+            this.guna2CustomGradientPanel3.BorderRadius = 13;
+            this.guna2CustomGradientPanel3.Controls.Add(this.RePassRegister);
+            this.guna2CustomGradientPanel3.Controls.Add(this.guna2CustomGradientPanel4);
+            this.guna2CustomGradientPanel3.Controls.Add(this.guna2ToggleSwitch2);
+            this.guna2CustomGradientPanel3.Controls.Add(this.btnRegister);
+            this.guna2CustomGradientPanel3.Controls.Add(this.PasswordRegister);
+            this.guna2CustomGradientPanel3.Controls.Add(this.UsernameRegister);
+            this.guna2CustomGradientPanel3.FillColor = System.Drawing.Color.DimGray;
+            this.guna2CustomGradientPanel3.FillColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.guna2CustomGradientPanel3.Location = new System.Drawing.Point(617, 33);
+            this.guna2CustomGradientPanel3.Name = "guna2CustomGradientPanel3";
+            this.guna2CustomGradientPanel3.ShadowDecoration.Parent = this.guna2CustomGradientPanel3;
+            this.guna2CustomGradientPanel3.Size = new System.Drawing.Size(307, 502);
+            this.guna2CustomGradientPanel3.TabIndex = 10;
+            // 
+            // RePassRegister
+            // 
+            this.RePassRegister.BackColor = System.Drawing.Color.Transparent;
+            this.RePassRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.RePassRegister.BorderRadius = 8;
+            this.RePassRegister.BorderThickness = 0;
+            this.RePassRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.RePassRegister.DefaultText = "";
+            this.RePassRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.RePassRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.RePassRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.RePassRegister.DisabledState.Parent = this.RePassRegister;
+            this.RePassRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.RePassRegister.FillColor = System.Drawing.SystemColors.Control;
+            this.RePassRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.RePassRegister.FocusedState.Parent = this.RePassRegister;
+            this.RePassRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.RePassRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.RePassRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.RePassRegister.HoverState.Parent = this.RePassRegister;
+            this.RePassRegister.Location = new System.Drawing.Point(50, 309);
+            this.RePassRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.RePassRegister.Name = "RePassRegister";
+            this.RePassRegister.PasswordChar = '\0';
+            this.RePassRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.RePassRegister.PlaceholderText = "Repassword";
+            this.RePassRegister.SelectedText = "";
+            this.RePassRegister.ShadowDecoration.Parent = this.RePassRegister;
+            this.RePassRegister.Size = new System.Drawing.Size(204, 47);
+            this.RePassRegister.TabIndex = 9;
+            this.RePassRegister.UseSystemPasswordChar = true;
+            // 
+            // guna2CustomGradientPanel4
+            // 
+            this.guna2CustomGradientPanel4.BackColor = System.Drawing.Color.Transparent;
+            this.guna2CustomGradientPanel4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.guna2CustomGradientPanel4.BorderRadius = 10;
+            this.guna2CustomGradientPanel4.BorderThickness = 2;
+            this.guna2CustomGradientPanel4.Controls.Add(this.panel8);
+            this.guna2CustomGradientPanel4.FillColor = System.Drawing.Color.Transparent;
+            this.guna2CustomGradientPanel4.FillColor2 = System.Drawing.Color.Transparent;
+            this.guna2CustomGradientPanel4.FillColor3 = System.Drawing.Color.Transparent;
+            this.guna2CustomGradientPanel4.FillColor4 = System.Drawing.Color.Transparent;
+            this.guna2CustomGradientPanel4.Location = new System.Drawing.Point(94, 14);
+            this.guna2CustomGradientPanel4.Name = "guna2CustomGradientPanel4";
+            this.guna2CustomGradientPanel4.ShadowDecoration.Parent = this.guna2CustomGradientPanel4;
+            this.guna2CustomGradientPanel4.Size = new System.Drawing.Size(124, 113);
+            this.guna2CustomGradientPanel4.TabIndex = 7;
+            // 
+            // panel8
+            // 
+            this.panel8.BackgroundImage = global::ClientChat.Properties.Resources.Logo_UIT_Web_Transparent;
+            this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel8.Location = new System.Drawing.Point(22, 16);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(79, 80);
+            this.panel8.TabIndex = 0;
+            // 
+            // guna2ToggleSwitch2
+            // 
+            this.guna2ToggleSwitch2.BackColor = System.Drawing.Color.Transparent;
+            this.guna2ToggleSwitch2.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
+            this.guna2ToggleSwitch2.CheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.guna2ToggleSwitch2.CheckedState.InnerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
+            this.guna2ToggleSwitch2.CheckedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
+            this.guna2ToggleSwitch2.CheckedState.Parent = this.guna2ToggleSwitch2;
+            this.guna2ToggleSwitch2.Location = new System.Drawing.Point(50, 373);
+            this.guna2ToggleSwitch2.Name = "guna2ToggleSwitch2";
+            this.guna2ToggleSwitch2.ShadowDecoration.Parent = this.guna2ToggleSwitch2;
+            this.guna2ToggleSwitch2.Size = new System.Drawing.Size(35, 20);
+            this.guna2ToggleSwitch2.TabIndex = 8;
+            this.guna2ToggleSwitch2.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.guna2ToggleSwitch2.UncheckedState.BorderThickness = 1;
+            this.guna2ToggleSwitch2.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.guna2ToggleSwitch2.UncheckedState.InnerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.guna2ToggleSwitch2.UncheckedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.guna2ToggleSwitch2.UncheckedState.Parent = this.guna2ToggleSwitch2;
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.BackColor = System.Drawing.Color.Transparent;
+            this.btnRegister.BorderRadius = 11;
+            this.btnRegister.CheckedState.Parent = this.btnRegister;
+            this.btnRegister.CustomImages.Parent = this.btnRegister;
+            this.btnRegister.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnRegister.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnRegister.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnRegister.DisabledState.Parent = this.btnRegister;
+            this.btnRegister.Enabled = false;
+            this.btnRegister.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.btnRegister.FillColor2 = System.Drawing.Color.Cyan;
+            this.btnRegister.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnRegister.ForeColor = System.Drawing.Color.White;
+            this.btnRegister.HoverState.Parent = this.btnRegister;
+            this.btnRegister.Location = new System.Drawing.Point(142, 401);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.ShadowDecoration.Parent = this.btnRegister;
+            this.btnRegister.Size = new System.Drawing.Size(112, 43);
+            this.btnRegister.TabIndex = 7;
+            this.btnRegister.Text = "Register";
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
+            // PasswordRegister
+            // 
+            this.PasswordRegister.BackColor = System.Drawing.Color.Transparent;
+            this.PasswordRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.BorderRadius = 8;
+            this.PasswordRegister.BorderThickness = 0;
+            this.PasswordRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PasswordRegister.DefaultText = "";
+            this.PasswordRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.PasswordRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.PasswordRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.PasswordRegister.DisabledState.Parent = this.PasswordRegister;
+            this.PasswordRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.PasswordRegister.FillColor = System.Drawing.SystemColors.Control;
+            this.PasswordRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.FocusedState.Parent = this.PasswordRegister;
+            this.PasswordRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.PasswordRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.HoverState.Parent = this.PasswordRegister;
+            this.PasswordRegister.Location = new System.Drawing.Point(50, 237);
+            this.PasswordRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.PasswordRegister.Name = "PasswordRegister";
+            this.PasswordRegister.PasswordChar = '\0';
+            this.PasswordRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.PasswordRegister.PlaceholderText = "Password";
+            this.PasswordRegister.SelectedText = "";
+            this.PasswordRegister.ShadowDecoration.Parent = this.PasswordRegister;
+            this.PasswordRegister.Size = new System.Drawing.Size(204, 47);
+            this.PasswordRegister.TabIndex = 1;
+            this.PasswordRegister.UseSystemPasswordChar = true;
+            // 
+            // UsernameRegister
+            // 
+            this.UsernameRegister.BackColor = System.Drawing.Color.Transparent;
+            this.UsernameRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.BorderRadius = 8;
+            this.UsernameRegister.BorderThickness = 0;
+            this.UsernameRegister.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UsernameRegister.DefaultText = "";
+            this.UsernameRegister.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UsernameRegister.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UsernameRegister.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UsernameRegister.DisabledState.Parent = this.UsernameRegister;
+            this.UsernameRegister.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UsernameRegister.FillColor = System.Drawing.SystemColors.Control;
+            this.UsernameRegister.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.FocusedState.Parent = this.UsernameRegister;
+            this.UsernameRegister.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UsernameRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.HoverState.Parent = this.UsernameRegister;
+            this.UsernameRegister.Location = new System.Drawing.Point(50, 158);
+            this.UsernameRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.UsernameRegister.Name = "UsernameRegister";
+            this.UsernameRegister.PasswordChar = '\0';
+            this.UsernameRegister.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.UsernameRegister.PlaceholderText = "Username";
+            this.UsernameRegister.SelectedText = "";
+            this.UsernameRegister.ShadowDecoration.Parent = this.UsernameRegister;
+            this.UsernameRegister.Size = new System.Drawing.Size(204, 47);
+            this.UsernameRegister.TabIndex = 0;
+            // 
+            // panel7
+            // 
+            this.panel7.BackgroundImage = global::ClientChat.Properties.Resources.facebook_chat_screenshot_2;
+            this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel7.Location = new System.Drawing.Point(42, 33);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(551, 502);
+            this.panel7.TabIndex = 11;
+            // 
             // nameCLient
             // 
             this.nameCLient.AutoSize = true;
@@ -1090,9 +1091,6 @@ namespace ClientChat
             this.login.ResumeLayout(false);
             this.guna2CustomGradientPanel1.ResumeLayout(false);
             this.guna2CustomGradientPanel2.ResumeLayout(false);
-            this.creat.ResumeLayout(false);
-            this.guna2CustomGradientPanel3.ResumeLayout(false);
-            this.guna2CustomGradientPanel4.ResumeLayout(false);
             this.mess.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
@@ -1100,6 +1098,9 @@ namespace ClientChat
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             this.guna2CustomGradientPanel5.ResumeLayout(false);
+            this.creat.ResumeLayout(false);
+            this.guna2CustomGradientPanel3.ResumeLayout(false);
+            this.guna2CustomGradientPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -46,7 +46,9 @@
     <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,6 +73,18 @@
     <Compile Include="ClientOnline.Designer.cs">
       <DependentUpon>ClientOnline.cs</DependentUpon>
     </Compile>
+    <Compile Include="imageMessRec.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="imageMessRec.Designer.cs">
+      <DependentUpon>imageMessRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageMessSend.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageMessSend.Designer.cs">
+      <DependentUpon>ImageMessSend.cs</DependentUpon>
+    </Compile>
     <Compile Include="mess.cs" />
     <Compile Include="messInstance.cs" />
     <Compile Include="Program.cs" />
@@ -92,6 +106,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientOnline.resx">
       <DependentUpon>ClientOnline.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="imageMessRec.resx">
+      <DependentUpon>imageMessRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageMessSend.resx">
+      <DependentUpon>ImageMessSend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -125,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
+    <None Include="Resources\dowload.png" />
     <None Include="Resources\scared.png" />
     <None Include="Resources\folder.png" />
     <None Include="Resources\mail.png" />

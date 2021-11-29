@@ -135,18 +135,50 @@ namespace ClientChat
         }
         //Nhận File
         public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
+        public static string receivedPath1 = "D:/sql/MultiChatVersion2/imageTrash/";
         public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
             try {         
                 int fileNameLen = BitConverter.ToInt32(clientData, 0);
                 string fileName = Encoding.UTF8.GetString(clientData, 4, fileNameLen);
 
-                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + "/" + fileName, FileMode.Append));
+                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath1 + "/" + fileName, FileMode.Append));
                 bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-                bWrite.Close();            }
+                bWrite.Close();
+                if (fileName.Substring(fileName.Length - 3) == "jpg" || fileName.Substring(fileName.Length - 3) == "png") {
+                    this.Invoke(new Action(() =>
+                    {
+                        var pic = new imageMessRec();
+                        Image image = Image.FromFile(receivedPath1+"/"+fileName);
+                        var ms = new MemoryStream();
+                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        var bytes = ms.ToArray();
+                        pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                        //pic.guna2Button4.Click += functionSave;
+                        pic.clientData = clientData;
+                        pic.receivedBytesLen = receivedBytesLen;
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    }));
+                }
+            }
             catch {
                 MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
             }
         }
+        //Tải ảnh xuống
+        private void functionSave(object sender, EventArgs e)
+        {
+            try
+            {
+                
+            }
+            catch {
+                MessageBox.Show("Cannot dowload this Image", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void ReceiveMessage()
         {
             try
@@ -473,7 +505,6 @@ namespace ClientChat
                 for (int i = 0; i < clientData.Length; i++)
                 { send[k] = clientData[i];k++; }
                 client.Send(send, 0, send.Length, 0);
-                MessageBox.Show($"File[{fullPath}]Transferd","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
             catch(Exception ex) {
                 if (ex.Message == "No connection could be made because the target machine actively refused it")
@@ -488,6 +519,42 @@ namespace ClientChat
                 if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     sendFile(fd.FileName);
+                }
+            }));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            t.Join();
+        }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            Thread t = new Thread((ThreadStart)(() => {
+                OpenFileDialog OD = new OpenFileDialog();
+                OD.FileName = "";
+                OD.Filter = "Supported Images |*.jpg;*.jpeg;*.png";
+                if (OD.ShowDialog() == DialogResult.OK)
+                {
+                    var pic = new ImageMessSend();
+                    pic.guna2PictureBox1.Load(OD.FileName);
+                    pic.guna2PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                    if (this.InvokeRequired)
+                    {
+                        this.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            flowLayoutPanel2.Controls.Add(pic);
+                            flowLayoutPanel2.ScrollControlIntoView(pic);
+                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        });
+                    }
+                    else
+                    {
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    }
+                    sendFile(OD.FileName);
                 }
             }));
             t.SetApartmentState(ApartmentState.STA);
