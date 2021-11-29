@@ -162,6 +162,19 @@ namespace ClientChat
                                                                         pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
                     }));
                 }
+                else {
+                    this.Invoke(new Action(() =>
+                    {
+                        var pic = new filMessRec();
+                        pic.guna2TextBox1.Text = fileName;
+                        pic.receivedBytesLen = receivedBytesLen;
+                        pic.clientData = clientData;
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    }));
+                }
             }
             catch {
                 MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
@@ -473,15 +486,12 @@ namespace ClientChat
             try
             {
                 string filePath = "";
-
                 fileName = fileName.Replace("\\", "/");
                 while (fileName.IndexOf("/") > -1)
                 {
                     filePath += fileName.Substring(0, fileName.IndexOf("/") + 1);
                     fileName = fileName.Substring(fileName.IndexOf("/") + 1);
                 }
-
-
                 byte[] fileNameByte = Encoding.UTF8.GetBytes(fileName);
                 if (fileNameByte.Length > (50 * 1024-100)){
                     MessageBox.Show("File size is more than 5Mb,please try with small file ","Message",MessageBoxButtons.OK,MessageBoxIcon.Warning);
@@ -518,6 +528,31 @@ namespace ClientChat
                 FileDialog fd = new OpenFileDialog();
                 if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    string fileName = fd.FileName; 
+                    fileName = fileName.Replace("\\", "/");
+                    while (fileName.IndexOf("/") > -1)
+                    {
+                        fileName = fileName.Substring(fileName.IndexOf("/") + 1);
+                    }
+                    FilMessSend pic = new FilMessSend();
+                    pic.guna2TextBox1.Text = fileName;
+                    if (this.InvokeRequired)
+                    {
+                        this.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            flowLayoutPanel2.Controls.Add(pic);
+                            flowLayoutPanel2.ScrollControlIntoView(pic);
+                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        });
+                    }
+                    else
+                    {
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    }
                     sendFile(fd.FileName);
                 }
             }));
@@ -560,6 +595,17 @@ namespace ClientChat
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            FileStream fs = new System.IO.FileStream(@"ClientChat\thumb-up.png", FileMode.Open, FileAccess.Read);
+            Image image = Image.FromFile(@"..\..\..\ClientChat\thumb-up.png");
+            var ms = new MemoryStream();
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            var bytes = ms.ToArray();
+            pictureBox1.Image= Image.FromStream(fs);
+            fs.Close();
         }
     }
 }

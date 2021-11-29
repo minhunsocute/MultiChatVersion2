@@ -73,6 +73,18 @@
     <Compile Include="ClientOnline.Designer.cs">
       <DependentUpon>ClientOnline.cs</DependentUpon>
     </Compile>
+    <Compile Include="filMessRec.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="filMessRec.Designer.cs">
+      <DependentUpon>filMessRec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FilMessSend.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilMessSend.Designer.cs">
+      <DependentUpon>FilMessSend.cs</DependentUpon>
+    </Compile>
     <Compile Include="imageMessRec.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -106,6 +118,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientOnline.resx">
       <DependentUpon>ClientOnline.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="filMessRec.resx">
+      <DependentUpon>filMessRec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilMessSend.resx">
+      <DependentUpon>FilMessSend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="imageMessRec.resx">
       <DependentUpon>imageMessRec.cs</DependentUpon>
