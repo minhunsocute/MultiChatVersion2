@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
@@ -34,6 +35,8 @@ namespace ClientChat
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             metroTabControl1.SelectedTab = metroTabControl1.TabPages["login"];
+            LoadListView();
+            allEmoji.Hide();
         }
         // CHỉnh size cho Send mess
         private void buitSizeSend(string s,Send uc) { 
@@ -150,7 +153,7 @@ namespace ClientChat
                         var pic = new imageMessRec();
                         Image image = Image.FromFile(receivedPath1+"/"+fileName);
                         var ms = new MemoryStream();
-                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                         var bytes = ms.ToArray();
                         pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
                         //pic.guna2Button4.Click += functionSave;
@@ -183,9 +186,8 @@ namespace ClientChat
         //Tải ảnh xuống
         private void functionSave(object sender, EventArgs e)
         {
-            try
-            {
-                
+            try{
+                 
             }
             catch {
                 MessageBox.Show("Cannot dowload this Image", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -194,10 +196,8 @@ namespace ClientChat
 
         private void ReceiveMessage()
         {
-            try
-            {
-                while (true)
-                {
+            try{
+                while (true){
                     byte[] buffer = new byte[1024 * 5000];
                     int rec = client.Receive(buffer);
                     if (buffer[0] != 11) { 
@@ -231,7 +231,7 @@ namespace ClientChat
                 this.Invoke(new Action(() =>
                 {
                     metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
-
+                    allEmoji.Hide();
                     ((Control)mess).Enabled = true;
                     ((Control)login).Enabled = false;
                     ((Control)creat).Enabled = false;
@@ -297,21 +297,51 @@ namespace ClientChat
             }
             else if (message[0] == '7') { //Nhận và load danh sách các tin nhắn
                 this.Invoke(new Action(() => {
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                     flowLayoutPanel2.Controls.Clear();
                     List<mess> lism = messInstance.Instance.LoadMess(nameCLient.Text, OpText.Text, message);
                     foreach (mess item in lism)
                     {
-                        if (item.Type == 1)
-                        {
-                            Send f = new Send();
-                            buitSizeSend(item.Content, f);
-                            flowLayoutPanel2.Controls.Add(f);
+                        if (item.Content[0] == '0') { 
+                            if (item.Type == 1)
+                            {
+                                Send f = new Send();
+                                buitSizeSend(item.Content.Substring(1), f);
+                                flowLayoutPanel2.Controls.Add(f);
+                            }
+                            else if (item.Type == -1)
+                            {
+                                Recieve f = new Recieve();
+                                buitSizeRec(item.Content.Substring(1), f);
+                                flowLayoutPanel2.Controls.Add(f);
+                            }
                         }
-                        else if (item.Type == -1)
-                        {
-                            Recieve f = new Recieve();
-                            buitSizeRec(item.Content, f);
-                            flowLayoutPanel2.Controls.Add(f);
+                        else { 
+                            if(item.Type == 1) {
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                var pic = new ImageMessSend();
+                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                pic.Height -= 100;
+                                pic.guna2PictureBox1.Height -= 100;
+                                pic.guna2PictureBox1.Width -= 140;
+                                flowLayoutPanel2.Controls.Add(pic);
+
+                            }
+                            else if(item.Type == -1) {
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                var pic = new imageMessRec();
+                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                pic.Height -= 100;
+                                pic.guna2PictureBox1.Height -= 100;
+                                pic.guna2PictureBox1.Width -= 140;
+                                flowLayoutPanel2.Controls.Add(pic);
+                            }
                         }
                     }
                     //...
@@ -333,7 +363,7 @@ namespace ClientChat
                     }
                 }));                          
             }
-            else if (message[0] == '8') {
+            else if (message[0] == '8') {//mesage 
                 this.Invoke(new Action(() =>
                 {
                     int Index = message.IndexOf('@');
@@ -356,7 +386,91 @@ namespace ClientChat
                     }
                 }));
             }
+            else if (message[0] == '9') {//Nhận Emoji              
+                this.Invoke(new Action(() =>
+                {
+                    int Index = message.IndexOf('@');
+                    if (OpText.Text == message.Substring(1, Index - 1))
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\"+message.Substring(Index+1));
+                        var ms = new MemoryStream();
+                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        var bytes = ms.ToArray();
+                        var pic = new imageMessRec();
+                        pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                        pic.Height -= 100;
+                        pic.guna2PictureBox1.Height -= 100;
+                        pic.guna2PictureBox1.Width -= 140;
+                        flowLayoutPanel2.Controls.Add(pic);
+                        flowLayoutPanel2.ScrollControlIntoView(pic);
+                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    }
+                    else { 
+                        foreach(ClientOnline item in listClientOnline) { 
+                            if(item.lbName.Text == message.Substring(1, Index - 1)) {
+                                item.NoRecDontSee++;item.lbCount.Text = item.NoRecDontSee.ToString();item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
         }
+        //Load ListView 
+        private void LoadListView(){
+            allEmoji.Controls.Clear();
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            for(int i = 1; i <= 25; i++) {
+                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\"+$"{i.ToString()}.png");
+                var ms = new MemoryStream();
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                var bytes = ms.ToArray();
+                Guna.UI2.WinForms.Guna2Button f = new Guna.UI2.WinForms.Guna2Button() { Width = 60,Height=60};
+                f.Image = Image.FromStream(new MemoryStream(bytes));
+                f.BackColor = Color.Transparent;
+                f.Tag = i.ToString();
+                f.Click += EmojiClick;
+                f.ImageSize = new Size(60, 60);
+                f.FillColor = Color.Transparent;
+                allEmoji.Controls.Add(f);
+            }
+        }
+        //Emoji click 
+        private void EmojiClick(object sender, EventArgs e){
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string name = ((sender as Guna.UI2.WinForms.Guna2Button).Tag as string);
+            Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\"+$"{name}.png");
+            var ms = new MemoryStream();
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            var bytes = ms.ToArray();
+            var pic = new ImageMessSend();
+            pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+            pic.Height -= 100;
+            pic.guna2PictureBox1.Height -= 100;
+            pic.guna2PictureBox1.Width -= 140;
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    flowLayoutPanel2.Controls.Add(pic);
+                    flowLayoutPanel2.ScrollControlIntoView(pic);
+                    flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                    pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                });
+            }
+            else
+            {
+                flowLayoutPanel2.Controls.Add(pic);
+                flowLayoutPanel2.ScrollControlIntoView(pic);
+                flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+            }
+            allEmoji.Hide();
+            sendData(7, $"{OpText.Text}@{name}.png");
+        }
+
         private void ClientOnline_Click(object sender, EventArgs e)
         {
             string s = (sender as ClientOnline).Tag as string;
@@ -422,17 +536,14 @@ namespace ClientChat
 
         private void btnDisConnect_Click(object sender, EventArgs e)
         {
-            if (checkServerOn == 1)
-            {
-                if (name != "")
-                {
+            if (checkServerOn == 1){
+                if (name != ""){
                     sendData(3, $"3{name}");
                     //client.Send(Serialize($"3{name}"));
                     client.Close();
                     Application.Exit();
                 }
-                else
-                {
+                else{
                     sendData(3, $"3{name}");
                     //client.Send(Serialize($"3{name}"));
                     client.Close();
@@ -523,6 +634,7 @@ namespace ClientChat
                     MessageBox.Show("File Sending fail." + ex.Message,"Message",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
+        //Gửi file
         private void guna2Button3_Click(object sender, EventArgs e){
             Thread t = new Thread((ThreadStart)(() => {
                 FileDialog fd = new OpenFileDialog();
@@ -536,18 +648,15 @@ namespace ClientChat
                     }
                     FilMessSend pic = new FilMessSend();
                     pic.guna2TextBox1.Text = fileName;
-                    if (this.InvokeRequired)
-                    {
-                        this.BeginInvoke((MethodInvoker)delegate ()
-                        {
+                    if (this.InvokeRequired){
+                        this.BeginInvoke((MethodInvoker)delegate (){
                             flowLayoutPanel2.Controls.Add(pic);
                             flowLayoutPanel2.ScrollControlIntoView(pic);
                             flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
                                                                             pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
                         });
                     }
-                    else
-                    {
+                    else{
                         flowLayoutPanel2.Controls.Add(pic);
                         flowLayoutPanel2.ScrollControlIntoView(pic);
                         flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
@@ -560,7 +669,7 @@ namespace ClientChat
             t.Start();
             t.Join();
         }
-
+        //GỬi  hình ảnh
         private void guna2Button2_Click(object sender, EventArgs e)
         {
             Thread t = new Thread((ThreadStart)(() => {
@@ -596,16 +705,43 @@ namespace ClientChat
             t.Start();
             t.Join();
         }
-
+        //Gửi like
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            FileStream fs = new System.IO.FileStream(@"ClientChat\thumb-up.png", FileMode.Open, FileAccess.Read);
-            Image image = Image.FromFile(@"..\..\..\ClientChat\thumb-up.png");
+            //Nhận đường link đến file Debug
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            Image image = Image.FromFile(path.Substring(0,path.Length-9)+@"emoji\thumb-up.png");
             var ms = new MemoryStream();
-            image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
             var bytes = ms.ToArray();
-            pictureBox1.Image= Image.FromStream(fs);
-            fs.Close();
+            var pic = new ImageMessSend();
+            pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+            pic.Height -= 100;
+            pic.guna2PictureBox1.Height -= 100;
+            pic.guna2PictureBox1.Width -= 140;
+            pic.guna2PictureBox1.BorderRadius = 0;
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    flowLayoutPanel2.Controls.Add(pic);
+                    flowLayoutPanel2.ScrollControlIntoView(pic);
+                    flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                    pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                });
+            }
+            else{
+                flowLayoutPanel2.Controls.Add(pic);
+                flowLayoutPanel2.ScrollControlIntoView(pic);
+                flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+            }
+            sendData(7,$"{OpText.Text}@thumb-up.png");
+        }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            allEmoji.Show();
         }
     }
 }

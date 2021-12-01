@@ -147,16 +147,17 @@ namespace ServerChat
                 string name_send = dt.Rows[i]["NAMESEND"].ToString();
                 string name_rec = dt.Rows[i]["NAMERECEVIE"].ToString();
                 string content = dt.Rows[i]["CONTENT"].ToString();
-                sendString += $"*{name_send.Length.ToString()}*{name_send}*{name_rec.Length.ToString()}*{name_rec}*{content.Length.ToString()}*{content}";
+                string typeMess = dt.Rows[i]["TYPE_MESS"].ToString();
+                sendString += $"*{name_send.Length.ToString()}*{name_send}*{name_rec.Length.ToString()}*{name_rec}*{(content.Length+1).ToString()}*{typeMess}{content}";
             }
             return sendString;
         }
 
-        public void InsertMess(string nameSend, string nameRec, string content)
+        public void InsertMess(string nameSend, string nameRec, string content,int type)
         {
             conn = new SqlConnection(conStr);
             conn.Open();
-            string sqlString = $"EXEC INSERT_MESS '{nameSend}','{nameRec}',N'{content}'";
+            string sqlString = $"EXEC INSERT_MESS '{nameSend}','{nameRec}',N'{content}',{type.ToString()}";
             comm = new SqlCommand(sqlString, conn);
             comm.ExecuteNonQuery();
             conn.Close();

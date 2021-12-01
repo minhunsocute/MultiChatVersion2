@@ -87,7 +87,7 @@ namespace ClientChat
             this.nameCLient = new System.Windows.Forms.Label();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.panel14 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.allEmoji = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.login.SuspendLayout();
@@ -101,7 +101,6 @@ namespace ClientChat
             this.panel12.SuspendLayout();
             this.panel10.SuspendLayout();
             this.guna2CustomGradientPanel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -742,6 +741,7 @@ namespace ClientChat
             // panel11
             // 
             this.panel11.BackColor = System.Drawing.Color.White;
+            this.panel11.Controls.Add(this.allEmoji);
             this.panel11.Controls.Add(this.guna2Button4);
             this.panel11.Controls.Add(this.guna2Button3);
             this.panel11.Controls.Add(this.guna2Button2);
@@ -774,6 +774,7 @@ namespace ClientChat
             this.guna2Button4.ShadowDecoration.Parent = this.guna2Button4;
             this.guna2Button4.Size = new System.Drawing.Size(39, 33);
             this.guna2Button4.TabIndex = 22;
+            this.guna2Button4.Click += new System.EventHandler(this.guna2Button4_Click);
             // 
             // guna2Button3
             // 
@@ -842,7 +843,6 @@ namespace ClientChat
             // 
             this.flowLayoutPanel2.AutoScroll = true;
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.White;
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 74);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(623, 436);
@@ -876,7 +876,6 @@ namespace ClientChat
             // 
             // panel12
             // 
-            this.panel12.Controls.Add(this.pictureBox1);
             this.panel12.Controls.Add(this.label3);
             this.panel12.Controls.Add(this.panel13);
             this.panel12.Controls.Add(this.OpText);
@@ -1069,14 +1068,14 @@ namespace ClientChat
             this.panel14.Size = new System.Drawing.Size(40, 41);
             this.panel14.TabIndex = 23;
             // 
-            // pictureBox1
+            // allEmoji
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(350, 8);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.allEmoji.AutoScroll = true;
+            this.allEmoji.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.allEmoji.Location = new System.Drawing.Point(0, 73);
+            this.allEmoji.Name = "allEmoji";
+            this.allEmoji.Size = new System.Drawing.Size(220, 437);
+            this.allEmoji.TabIndex = 12;
             // 
             // Client
             // 
@@ -1114,7 +1113,6 @@ namespace ClientChat
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             this.guna2CustomGradientPanel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1178,7 +1176,7 @@ namespace ClientChat
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
         private Guna.UI2.WinForms.Guna2Button guna2Button3;
         private Guna.UI2.WinForms.Guna2Button guna2Button4;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.FlowLayoutPanel allEmoji;
     }
 }
 
