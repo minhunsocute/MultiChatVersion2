@@ -18,6 +18,7 @@ namespace ClientChat
 {
     public partial class Client : Form
     {
+        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         Socket client;
         IPEndPoint ipe;
         Thread threadConnectServer;
@@ -29,6 +30,8 @@ namespace ClientChat
         /// nên tao thêm biến này 1 -> server còn connect 0 -> không còn
         /// </summary>
         int checkServerOn = 0;
+        string fileNamePath = "";
+        int choseAvt = 0;
         List<ClientOnline> listClientOnline;
         public Client()
         {
@@ -122,8 +125,7 @@ namespace ClientChat
         private void showErrorWhenServerDis() {
             MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             checkServerOn = 0;
-            this.Invoke(new Action(() =>
-            {
+            this.Invoke(new Action(() =>{
                 flowLayoutPanel2.Controls.Clear();
                 flpListClient.Controls.Clear();
                 ((Control)mess).Enabled = false;
@@ -148,14 +150,15 @@ namespace ClientChat
                 bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
                 bWrite.Close();
                 if (fileName.Substring(fileName.Length - 3) == "jpg" || fileName.Substring(fileName.Length - 3) == "png") {
-                    this.Invoke(new Action(() =>
-                    {
+                    this.Invoke(new Action(() =>{
                         var pic = new imageMessRec();
                         Image image = Image.FromFile(receivedPath1+"/"+fileName);
                         var ms = new MemoryStream();
                         image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                         var bytes = ms.ToArray();
                         pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                         //pic.guna2Button4.Click += functionSave;
                         pic.clientData = clientData;
                         pic.receivedBytesLen = receivedBytesLen;
@@ -184,15 +187,6 @@ namespace ClientChat
             }
         }
         //Tải ảnh xuống
-        private void functionSave(object sender, EventArgs e)
-        {
-            try{
-                 
-            }
-            catch {
-                MessageBox.Show("Cannot dowload this Image", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
 
         private void ReceiveMessage()
         {
@@ -202,7 +196,6 @@ namespace ClientChat
                     int rec = client.Receive(buffer);
                     if (buffer[0] != 11) { 
                         string mess = (String)Deserialize(buffer);
-                        ///MessageFromServer.Text += $"Server:{mess}{Environment.NewLine}";
                         CheckMessage(mess);
                     }
                     else {
@@ -221,21 +214,23 @@ namespace ClientChat
         }
 
         //hàm check message từ server
-        private void CheckMessage(string message)
-        {
+        private void CheckMessage(string message){
             //login thành công
-            if (message[0] == '1')
-            {
+            if (message[0] == '1'){
                 name = Username.Text;
-
-                this.Invoke(new Action(() =>
-                {
+                this.Invoke(new Action(() =>{
                     metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
                     allEmoji.Hide();
                     ((Control)mess).Enabled = true;
                     ((Control)login).Enabled = false;
                     ((Control)creat).Enabled = false;
                     nameCLient.Text = Username.Text;
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\"+message.Substring(8));
+                    var ms = new MemoryStream();
+                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    var bytes = ms.ToArray();
+                    avtClient.Image = Image.FromStream(new MemoryStream(bytes));
                 }));
                 //load người dùng
                 sendData(4, $"4{Username.Text}");
@@ -270,26 +265,33 @@ namespace ClientChat
             {
                 this.Invoke(new Action(() => {
                     string mess = message.Substring(1);
-                    string[] listTmp = mess.Split('@');
+                    string[] listTmp = mess.Split(':');
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                     listClientOnline = new List<ClientOnline>();
                     flpListClient.Controls.Clear();
-
-                    foreach(string s in listTmp)
-                    {
-                        if (s != "" && s != name) {
+                    for (int j = 0; j < listTmp.Length; j+=2) {
+                        if (listTmp[j] != "" && listTmp[j] != name) {
                             ClientOnline clientOnline = new ClientOnline();
-                            clientOnline.lbName.Text = s;
-                            clientOnline.Tag = s;
+                            clientOnline.lbName.Text = listTmp[j];
                             clientOnline.CheckClick = 0;
-                            clientOnline.Click += ClientOnline_Click;
                             clientOnline.NoRecDontSee = 0;
                             listClientOnline.Add(clientOnline);
+                            Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + listTmp[j+1]);
+                            var ms = new MemoryStream();
+                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            var bytes = ms.ToArray();
+                            clientOnline.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                            clientOnline.Tag = clientOnline;
+                            clientOnline.Click += ClientOnline_Click;
                         }
                     }
                     int i = 0;
                     foreach (ClientOnline item in listClientOnline)
                     {
-                        if (i == 0) OpText.Text = item.lbName.Text;
+                        if (i == 0) { 
+                            OpText.Text = item.lbName.Text;
+                            opAvt.Image = item.avtClient.Image;
+                        }
                         flpListClient.Controls.Add(item);
                         i++;
                     }
@@ -312,6 +314,8 @@ namespace ClientChat
                             else if (item.Type == -1)
                             {
                                 Recieve f = new Recieve();
+                                f.guna2CirclePictureBox1.Image = opAvt.Image;
+                                f.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                                 buitSizeRec(item.Content.Substring(1), f);
                                 flowLayoutPanel2.Controls.Add(f);
                             }
@@ -337,6 +341,8 @@ namespace ClientChat
                                 var bytes = ms.ToArray();
                                 var pic = new imageMessRec();
                                 pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                                 pic.Height -= 100;
                                 pic.guna2PictureBox1.Height -= 100;
                                 pic.guna2PictureBox1.Width -= 140;
@@ -345,21 +351,26 @@ namespace ClientChat
                         }
                     }
                     //...
-                    if (lism[lism.Count - 1].Type == 1) {
-                        var pic = new Send();
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
-                        flowLayoutPanel2.Controls.Remove(pic);
-                    }
-                    else {
-                        var pic = new Recieve();
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
-                        flowLayoutPanel2.Controls.Remove(pic);
+                    if (lism.Count != 0)
+                    {
+                        if (lism[lism.Count - 1].Type == 1)
+                        {
+                            var pic = new Send();
+                            flowLayoutPanel2.Controls.Add(pic);
+                            flowLayoutPanel2.ScrollControlIntoView(pic);
+                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                            flowLayoutPanel2.Controls.Remove(pic);
+                        }
+                        else
+                        {
+                            var pic = new Recieve();
+                            flowLayoutPanel2.Controls.Add(pic);
+                            flowLayoutPanel2.ScrollControlIntoView(pic);
+                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
+                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                            flowLayoutPanel2.Controls.Remove(pic);
+                        }
                     }
                 }));                          
             }
@@ -371,6 +382,8 @@ namespace ClientChat
                     {
                         var pic = new Recieve();
                         buitSizeRec(message.Substring(Index + 1), pic);
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage; 
                         flowLayoutPanel2.Controls.Add(pic);
                         flowLayoutPanel2.ScrollControlIntoView(pic);
                         flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
@@ -399,6 +412,8 @@ namespace ClientChat
                         var bytes = ms.ToArray();
                         var pic = new imageMessRec();
                         pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                         pic.Height -= 100;
                         pic.guna2PictureBox1.Height -= 100;
                         pic.guna2PictureBox1.Width -= 140;
@@ -473,10 +488,12 @@ namespace ClientChat
 
         private void ClientOnline_Click(object sender, EventArgs e)
         {
-            string s = (sender as ClientOnline).Tag as string;
-            OpText.Text = s;
+            ClientOnline ite = (sender as ClientOnline).Tag as ClientOnline;
+            //string s = (sender as ClientOnline).Tag as string;
+            OpText.Text = ite.lbName.Text;
+            opAvt.Image = ite.avtClient.Image;
             foreach(ClientOnline item in listClientOnline) { 
-                if(item.lbName.Text == s) {
+                if(item.lbName.Text == ite.lbName.Text) {
                     item.BackColor = Color.FromArgb(232,243,254);
                     item.CheckClick = 1;
                     item.lbName.BackColor = Color.FromArgb(232, 243, 254);
@@ -492,7 +509,7 @@ namespace ClientChat
                 }
             }
             //client.Send(Serialize($"6{nameCLient.Text}@{s}"));
-            sendData(6, $"6{nameCLient.Text}@{s}");
+            sendData(6, $"6{nameCLient.Text}@{ite.lbName.Text}");
         }
 
         byte[] Serialize(object obj)
@@ -507,11 +524,9 @@ namespace ClientChat
         object Deserialize(byte[] data)
         {
             MemoryStream stream = new MemoryStream(data);
-            BinaryFormatter formatter = new BinaryFormatter();
-
+            BinaryFormatter formatter = new BinaryFormatter();  
             return formatter.Deserialize(stream);
         }
-
         private void btnSignIn_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text)){
@@ -522,18 +537,22 @@ namespace ClientChat
                 MessageBox.Show("Username or password can't be empty");
             }
         }
-
         private void btnRegister_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(UsernameRegister.Text) && !string.IsNullOrEmpty(PasswordRegister.Text) && PasswordRegister.Text == RePassRegister.Text){
-                sendData(2, $"2{UsernameRegister.Text}@{PasswordRegister.Text}");
-                //client.Send(Serialize($"2{UsernameRegister.Text}@{PasswordRegister.Text}"));
+                if(Avt.Image != null) { 
+                    //sendData(2, $"2{UsernameRegister.Text}@{PasswordRegister.Text}");
+                    sendFile(fileNamePath, $"{UsernameRegister.Text}@{PasswordRegister.Text}", 2);
+                    //client.Send(Serialize($"2{UsernameRegister.Text}@{PasswordRegister.Text}"));
+                }
+                else {
+                    MessageBox.Show("Please choose Avt for Account", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else{
                 MessageBox.Show("Username or password can't be empty");
             }
         }
-
         private void btnDisConnect_Click(object sender, EventArgs e)
         {
             if (checkServerOn == 1){
@@ -551,7 +570,6 @@ namespace ClientChat
                 }
             }
         }
-
         private void guna2ControlBox1_Click(object sender, EventArgs e)
         {
             if (checkServerOn == 1) { 
@@ -593,7 +611,7 @@ namespace ClientChat
             }
         }
         //Gửi file
-        public void sendFile(string fileName) {
+        public void sendFile(string fileName,string s,byte header) {
             try
             {
                 string filePath = "";
@@ -616,13 +634,13 @@ namespace ClientChat
                 fileNameByte.CopyTo(clientData, 4);
                 fileData.CopyTo(clientData, 4 + fileNameByte.Length);
                 //Thêm Header vào cho việc gửi size
-                byte[] send = new byte[clientData.Length + OpText.Text.Length+2];
-                send[0] = 11;
-                send[1] = (byte)OpText.Text.Length;
-                for(int i = 0; i < OpText.Text.Length; i++) { 
-                    send[i+2]=Convert.ToByte(OpText.Text[i]);
+                byte[] send = new byte[clientData.Length + s.Length+2];
+                send[0] = header;
+                send[1] = (byte)s.Length;
+                for(int i = 0; i < s.Length; i++) { 
+                    send[i+2]=Convert.ToByte(s[i]);
                 }
-                int k = OpText.Text.Length+2;
+                int k = s.Length+2;
                 for (int i = 0; i < clientData.Length; i++)
                 { send[k] = clientData[i];k++; }
                 client.Send(send, 0, send.Length, 0);
@@ -662,7 +680,7 @@ namespace ClientChat
                         flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
                                                                         pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
                     }
-                    sendFile(fd.FileName);
+                    sendFile(fd.FileName,OpText.Text,11);
                 }
             }));
             t.SetApartmentState(ApartmentState.STA);
@@ -698,7 +716,7 @@ namespace ClientChat
                         flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
                                                                         pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
                     }
-                    sendFile(OD.FileName);
+                    sendFile(OD.FileName,OpText.Text,11);
                 }
             }));
             t.SetApartmentState(ApartmentState.STA);
@@ -742,6 +760,24 @@ namespace ClientChat
         private void guna2Button4_Click(object sender, EventArgs e)
         {
             allEmoji.Show();
+        }
+        //Thêm Avt khi đăng kí
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Thread t = new Thread((ThreadStart)(() => {
+                OpenFileDialog OD = new OpenFileDialog();
+                OD.FileName = "";
+                OD.Filter = "Supported Images |*.jpg;*.jpeg;*.png";
+                if (OD.ShowDialog() == DialogResult.OK){
+                    choseAvt = 1;
+                    Avt.Load(OD.FileName);
+                    Avt.SizeMode = PictureBoxSizeMode.StretchImage;
+                    fileNamePath = OD.FileName;
+                }
+            }));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            t.Join();
         }
     }
 }

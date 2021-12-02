@@ -14,6 +14,7 @@ using System.Net;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using System.Reflection;
 
 namespace ServerChat
 {
@@ -27,11 +28,17 @@ namespace ServerChat
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             textIP.Text = "127.0.0.1";
+            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            textName.Text = receivedPath1.Substring(0,receivedPath1.Length - 20) + @"ClientChat\Avt\";
         }
+        //D:\sql\MultiChatVersion2\ClientChat\Avt\
+        //D:\sql\MultiChatVersion2\ServerChat\bin\Debug
+        //D:\sql\MultiChatVersion2\ClientChat\Avt\
         //Lay dia chia IP Hien co
         IPEndPoint IP;
         Socket Server1;
         List<Socket> ClientList;
+        string avtNAme = "";
         //Hàm gởi data
 
         int checkPortInListClient(string ipPort) {
@@ -92,6 +99,7 @@ namespace ServerChat
             Listen.IsBackground = true;
             Listen.Start();
         }
+        //192.168.56.1
         //Hàm kiểm tra người dùng có còn kết nối hay không
         bool SocketConnected(Socket s) {
             bool part1 = s.Poll(1000, SelectMode.SelectRead);
@@ -100,8 +108,25 @@ namespace ServerChat
                 return false;
             else
                 return true;
+        }
+        //Hàm nhận data từ người dùng
+        public static string receivedPath1 = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        //@"D:\sql\MultiChatVersion2\ClientChat\Avt\";
+        //D:\sql\MultiChatVersion2\ServerChat\bin\Debug
+        private void saveImage(byte[] clientData,int receivedBytesLen) { 
+            try{
+                int fileNameLen = BitConverter.ToInt32(clientData, 0);
+                string fileName = Encoding.UTF8.GetString(clientData, 4, fileNameLen);
+                avtNAme = fileName;
+                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath1.Substring(0,receivedPath1.Length-20)+ @"ClientChat\Avt\\" + fileName, FileMode.Append));
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+                bWrite.Close();
             }
-            //Hàm nhận data từ người dùng
+            catch
+            {
+                MessageBox.Show("Cannot dowload this Image", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
         private void Receive(object obj)
         {
             Socket clien = (Socket)obj;
@@ -110,7 +135,7 @@ namespace ServerChat
                 while (true) {
                     byte[] data = new byte[1024 * 5000];
                     int recive = clien.Receive(data);
-                    if (data[0] != 11) {
+                    if (data[0] != 11 && data[0] != 2) {
                         textName.Text = data[23].ToString();
                         byte[] data1 = new byte[1024 * 5000];
                         for (int i = 1; i < 1024 * 5000; i++){
@@ -119,7 +144,38 @@ namespace ServerChat
                         string s = (string)Deserialize(data1);
                         checkString1(s, clien, data);
                     }
-                    else {
+                    else if (data[0] == 2) {
+                        sql_manage f = new sql_manage();
+                        int lengthS = (int)data[1];
+                        string s = "";
+                        for (int j = 2; j < 2 + lengthS; j++)
+                            s += Convert.ToChar(data[j]);
+                        string username = ""; string password = ""; string name = "";
+                        int i = 0;
+                        while (true){
+                            if (s[i] != '@') username += s[i];
+                            if (s[i] == '@') { i++; break; }
+                            i++;
+                        }
+                        while (i < s.Length){
+                            password += s[i]; i++;
+                        }
+                        int check = f.returnNo(username, password, 2);
+                        if (check == 0){
+                            byte[] data1 = new byte[1024 * 5000];
+                            int k = 0;
+                            for (i=2 + lengthS;i<1024*5000;i++) {
+                                data1[k] = data[i];
+                                k++;
+                            }
+                            saveImage(data1, recive - 2 - lengthS);
+                            f.inserAccount(username, password, "", avtNAme);
+                            sendString("3success", clien);
+                        }
+                        else
+                            sendString("4unsuccess", clien);
+                    }
+                    else if (data[0]==11) {
                         int lengthname = (int)data[1];
                         byte[] data1 = new byte[recive-1-lengthname];
                         string opName = "";
@@ -185,29 +241,11 @@ namespace ServerChat
                 textName.Text = $"{userName}   {password}";
                 int check = f.returnNo(userName, password, 1);
                 if (check == -1) {
-                    sendString("1success", clien);
+                    sendString($"1success{f.getAvtName(userName)}", clien);
                 }
                 else
                     sendString("2unsuccess", clien);
-            }
-            else if (rec[0] == 2) {//Kiểm tra người dùng đăng kí thành công
-                int i = 1;
-                string username = "";string password = "";string name = "";
-                while (true){
-                    if (s[i] != '@') username += s[i];
-                    if (s[i] == '@'){i++; break;}i++;
-                }
-                while (i < s.Length) { 
-                    password += s[i]; i++;
-                }
-                int check = f.returnNo(username, password, 2);
-                if (check == 0){
-                    f.inserAccount(username, password, "");
-                    sendString("3success", clien);
-                }
-                else
-                    sendString("4unsuccess", clien);
-            }
+            }    
             else if (rec[0] == 3) { //KIểm tra người dùng bị out 
                 string userName = s.Substring(1);
                 if (!string.IsNullOrEmpty(userName)) { 

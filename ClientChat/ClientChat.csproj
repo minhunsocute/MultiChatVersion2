@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
+    <None Include="Resources\add.png" />
     <None Include="Resources\dowload.png" />
     <None Include="Resources\scared.png" />
     <None Include="Resources\folder.png" />

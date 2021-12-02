@@ -38,8 +38,6 @@ namespace ClientChat
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.tbIP = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbPort = new Guna.UI2.WinForms.Guna2TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.MessageFromServer = new Guna.UI2.WinForms.Guna2TextBox();
             this.btnConnectServer = new Guna.UI2.WinForms.Guna2GradientTileButton();
             this.btnDisConnect = new Guna.UI2.WinForms.Guna2GradientTileButton();
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
@@ -52,18 +50,9 @@ namespace ClientChat
             this.Password = new Guna.UI2.WinForms.Guna2TextBox();
             this.Username = new Guna.UI2.WinForms.Guna2TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.creat = new MetroFramework.Controls.MetroTabPage();
-            this.guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            this.RePassRegister = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2CustomGradientPanel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.guna2ToggleSwitch2 = new Guna.UI2.WinForms.Guna2ToggleSwitch();
-            this.btnRegister = new Guna.UI2.WinForms.Guna2GradientTileButton();
-            this.PasswordRegister = new Guna.UI2.WinForms.Guna2TextBox();
-            this.UsernameRegister = new Guna.UI2.WinForms.Guna2TextBox();
-            this.panel7 = new System.Windows.Forms.Panel();
             this.mess = new MetroFramework.Controls.MetroTabPage();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.allEmoji = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
@@ -73,7 +62,6 @@ namespace ClientChat
             this.guna2Separator1 = new Guna.UI2.WinForms.Guna2Separator();
             this.panel12 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel13 = new System.Windows.Forms.Panel();
             this.OpText = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
             this.tbSearch = new MetroFramework.Controls.MetroTextBox();
@@ -84,23 +72,38 @@ namespace ClientChat
             this.flpListClient = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2CustomGradientPanel5 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.creat = new MetroFramework.Controls.MetroTabPage();
+            this.guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.RePassRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2CustomGradientPanel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.guna2ToggleSwitch2 = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.btnRegister = new Guna.UI2.WinForms.Guna2GradientTileButton();
+            this.PasswordRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UsernameRegister = new Guna.UI2.WinForms.Guna2TextBox();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.nameCLient = new System.Windows.Forms.Label();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.panel14 = new System.Windows.Forms.Panel();
-            this.allEmoji = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAdd = new Guna.UI2.WinForms.Guna2Button();
+            this.Avt = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.avtClient = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.opAvt = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panel3.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.login.SuspendLayout();
             this.guna2CustomGradientPanel1.SuspendLayout();
             this.guna2CustomGradientPanel2.SuspendLayout();
-            this.creat.SuspendLayout();
-            this.guna2CustomGradientPanel3.SuspendLayout();
-            this.guna2CustomGradientPanel4.SuspendLayout();
             this.mess.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel10.SuspendLayout();
             this.guna2CustomGradientPanel5.SuspendLayout();
+            this.creat.SuspendLayout();
+            this.guna2CustomGradientPanel3.SuspendLayout();
+            this.guna2CustomGradientPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Avt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.avtClient)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opAvt)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -190,7 +193,7 @@ namespace ClientChat
             this.tbIP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.tbIP.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.tbIP.HoverState.Parent = this.tbIP;
-            this.tbIP.Location = new System.Drawing.Point(987, 105);
+            this.tbIP.Location = new System.Drawing.Point(990, 121);
             this.tbIP.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tbIP.Name = "tbIP";
             this.tbIP.PasswordChar = '\0';
@@ -222,7 +225,7 @@ namespace ClientChat
             this.tbPort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.tbPort.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.tbPort.HoverState.Parent = this.tbPort;
-            this.tbPort.Location = new System.Drawing.Point(990, 177);
+            this.tbPort.Location = new System.Drawing.Point(990, 187);
             this.tbPort.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tbPort.Name = "tbPort";
             this.tbPort.PasswordChar = '\0';
@@ -233,49 +236,6 @@ namespace ClientChat
             this.tbPort.ShadowDecoration.Parent = this.tbPort;
             this.tbPort.Size = new System.Drawing.Size(208, 47);
             this.tbPort.TabIndex = 9;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 13F);
-            this.label6.Location = new System.Drawing.Point(992, 350);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(183, 25);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "Message From Server";
-            // 
-            // MessageFromServer
-            // 
-            this.MessageFromServer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(129)))), ((int)(((byte)(222)))));
-            this.MessageFromServer.BorderRadius = 11;
-            this.MessageFromServer.BorderThickness = 0;
-            this.MessageFromServer.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.MessageFromServer.DefaultText = "";
-            this.MessageFromServer.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.MessageFromServer.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.MessageFromServer.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.MessageFromServer.DisabledState.Parent = this.MessageFromServer;
-            this.MessageFromServer.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.MessageFromServer.FillColor = System.Drawing.SystemColors.Control;
-            this.MessageFromServer.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.MessageFromServer.FocusedState.Parent = this.MessageFromServer;
-            this.MessageFromServer.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.MessageFromServer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.MessageFromServer.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.MessageFromServer.HoverState.Parent = this.MessageFromServer;
-            this.MessageFromServer.Location = new System.Drawing.Point(987, 390);
-            this.MessageFromServer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MessageFromServer.Multiline = true;
-            this.MessageFromServer.Name = "MessageFromServer";
-            this.MessageFromServer.PasswordChar = '\0';
-            this.MessageFromServer.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.MessageFromServer.PlaceholderText = "Server.....";
-            this.MessageFromServer.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.MessageFromServer.SelectedText = "";
-            this.MessageFromServer.ShadowDecoration.Parent = this.MessageFromServer;
-            this.MessageFromServer.Size = new System.Drawing.Size(211, 225);
-            this.MessageFromServer.TabIndex = 9;
             // 
             // btnConnectServer
             // 
@@ -329,14 +289,14 @@ namespace ClientChat
             // metroTabControl1
             // 
             this.metroTabControl1.Controls.Add(this.login);
-            this.metroTabControl1.Controls.Add(this.mess);
             this.metroTabControl1.Controls.Add(this.creat);
+            this.metroTabControl1.Controls.Add(this.mess);
             this.metroTabControl1.CustomBackground = true;
             this.metroTabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.metroTabControl1.HotTrack = true;
             this.metroTabControl1.Location = new System.Drawing.Point(0, 37);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 2;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(957, 607);
             this.metroTabControl1.TabIndex = 22;
             // 
@@ -516,6 +476,325 @@ namespace ClientChat
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(545, 463);
             this.panel2.TabIndex = 11;
+            // 
+            // mess
+            // 
+            this.mess.Controls.Add(this.panel11);
+            this.mess.Controls.Add(this.panel10);
+            this.mess.Controls.Add(this.guna2CustomGradientPanel5);
+            this.mess.HorizontalScrollbarBarColor = true;
+            this.mess.Location = new System.Drawing.Point(4, 35);
+            this.mess.Name = "mess";
+            this.mess.Size = new System.Drawing.Size(949, 568);
+            this.mess.TabIndex = 2;
+            this.mess.Text = "Messenger";
+            this.mess.VerticalScrollbarBarColor = true;
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.White;
+            this.panel11.Controls.Add(this.allEmoji);
+            this.panel11.Controls.Add(this.guna2Button4);
+            this.panel11.Controls.Add(this.guna2Button3);
+            this.panel11.Controls.Add(this.guna2Button2);
+            this.panel11.Controls.Add(this.guna2Button1);
+            this.panel11.Controls.Add(this.flowLayoutPanel2);
+            this.panel11.Controls.Add(this.messageText);
+            this.panel11.Controls.Add(this.guna2Separator1);
+            this.panel11.Controls.Add(this.panel12);
+            this.panel11.Location = new System.Drawing.Point(323, 9);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(623, 556);
+            this.panel11.TabIndex = 5;
+            // 
+            // allEmoji
+            // 
+            this.allEmoji.AutoScroll = true;
+            this.allEmoji.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.allEmoji.Location = new System.Drawing.Point(0, 73);
+            this.allEmoji.Name = "allEmoji";
+            this.allEmoji.Size = new System.Drawing.Size(220, 437);
+            this.allEmoji.TabIndex = 12;
+            // 
+            // guna2Button4
+            // 
+            this.guna2Button4.CheckedState.Parent = this.guna2Button4;
+            this.guna2Button4.CustomImages.Parent = this.guna2Button4;
+            this.guna2Button4.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button4.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button4.DisabledState.Parent = this.guna2Button4;
+            this.guna2Button4.FillColor = System.Drawing.Color.Transparent;
+            this.guna2Button4.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button4.ForeColor = System.Drawing.Color.White;
+            this.guna2Button4.HoverState.Parent = this.guna2Button4;
+            this.guna2Button4.Image = global::ClientChat.Properties.Resources.scared;
+            this.guna2Button4.Location = new System.Drawing.Point(8, 516);
+            this.guna2Button4.Name = "guna2Button4";
+            this.guna2Button4.ShadowDecoration.Parent = this.guna2Button4;
+            this.guna2Button4.Size = new System.Drawing.Size(39, 33);
+            this.guna2Button4.TabIndex = 22;
+            this.guna2Button4.Click += new System.EventHandler(this.guna2Button4_Click);
+            // 
+            // guna2Button3
+            // 
+            this.guna2Button3.CheckedState.Parent = this.guna2Button3;
+            this.guna2Button3.CustomImages.Parent = this.guna2Button3;
+            this.guna2Button3.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button3.DisabledState.Parent = this.guna2Button3;
+            this.guna2Button3.FillColor = System.Drawing.Color.Transparent;
+            this.guna2Button3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button3.ForeColor = System.Drawing.Color.White;
+            this.guna2Button3.HoverState.Parent = this.guna2Button3;
+            this.guna2Button3.Image = global::ClientChat.Properties.Resources.folder;
+            this.guna2Button3.Location = new System.Drawing.Point(51, 516);
+            this.guna2Button3.Name = "guna2Button3";
+            this.guna2Button3.ShadowDecoration.Parent = this.guna2Button3;
+            this.guna2Button3.Size = new System.Drawing.Size(39, 33);
+            this.guna2Button3.TabIndex = 21;
+            this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
+            // 
+            // guna2Button2
+            // 
+            this.guna2Button2.CheckedState.Parent = this.guna2Button2;
+            this.guna2Button2.CustomImages.Parent = this.guna2Button2;
+            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button2.DisabledState.Parent = this.guna2Button2;
+            this.guna2Button2.FillColor = System.Drawing.Color.Transparent;
+            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button2.ForeColor = System.Drawing.Color.White;
+            this.guna2Button2.HoverState.Parent = this.guna2Button2;
+            this.guna2Button2.Image = global::ClientChat.Properties.Resources.mail;
+            this.guna2Button2.Location = new System.Drawing.Point(96, 516);
+            this.guna2Button2.Name = "guna2Button2";
+            this.guna2Button2.ShadowDecoration.Parent = this.guna2Button2;
+            this.guna2Button2.Size = new System.Drawing.Size(39, 33);
+            this.guna2Button2.TabIndex = 20;
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
+            // 
+            // guna2Button1
+            // 
+            this.guna2Button1.CheckedState.Parent = this.guna2Button1;
+            this.guna2Button1.CustomImages.Parent = this.guna2Button1;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.DisabledState.Parent = this.guna2Button1;
+            this.guna2Button1.FillColor = System.Drawing.Color.Transparent;
+            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2Button1.ForeColor = System.Drawing.Color.White;
+            this.guna2Button1.HoverState.Parent = this.guna2Button1;
+            this.guna2Button1.Image = global::ClientChat.Properties.Resources.thumb_up;
+            this.guna2Button1.Location = new System.Drawing.Point(581, 516);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.ShadowDecoration.Parent = this.guna2Button1;
+            this.guna2Button1.Size = new System.Drawing.Size(39, 33);
+            this.guna2Button1.TabIndex = 0;
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.AutoScroll = true;
+            this.flowLayoutPanel2.BackColor = System.Drawing.Color.White;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 74);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(623, 436);
+            this.flowLayoutPanel2.TabIndex = 19;
+            // 
+            // messageText
+            // 
+            this.messageText.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.messageText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.messageText.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.messageText.Location = new System.Drawing.Point(141, 516);
+            this.messageText.Multiline = true;
+            this.messageText.Name = "messageText";
+            this.messageText.PromptText = "Aa";
+            this.messageText.Size = new System.Drawing.Size(434, 33);
+            this.messageText.Style = MetroFramework.MetroColorStyle.White;
+            this.messageText.TabIndex = 11;
+            this.messageText.UseStyleColors = true;
+            this.messageText.Enter += new System.EventHandler(this.messageText_Enter);
+            this.messageText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.messageText_KeyDown);
+            // 
+            // guna2Separator1
+            // 
+            this.guna2Separator1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2Separator1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2Separator1.FillColor = System.Drawing.Color.Black;
+            this.guna2Separator1.Location = new System.Drawing.Point(0, 64);
+            this.guna2Separator1.Name = "guna2Separator1";
+            this.guna2Separator1.Size = new System.Drawing.Size(623, 10);
+            this.guna2Separator1.TabIndex = 4;
+            // 
+            // panel12
+            // 
+            this.panel12.Controls.Add(this.opAvt);
+            this.panel12.Controls.Add(this.label3);
+            this.panel12.Controls.Add(this.OpText);
+            this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel12.Location = new System.Drawing.Point(0, 0);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(623, 64);
+            this.panel12.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.label3.Location = new System.Drawing.Point(68, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(78, 17);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Being Active";
+            // 
+            // OpText
+            // 
+            this.OpText.AutoSize = true;
+            this.OpText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OpText.Location = new System.Drawing.Point(67, 10);
+            this.OpText.Name = "OpText";
+            this.OpText.Size = new System.Drawing.Size(85, 21);
+            this.OpText.TabIndex = 1;
+            this.OpText.Text = "Hung Mai";
+            // 
+            // panel10
+            // 
+            this.panel10.Controls.Add(this.tbSearch);
+            this.panel10.Controls.Add(this.guna2CircleButton3);
+            this.panel10.Controls.Add(this.guna2CircleButton2);
+            this.panel10.Controls.Add(this.guna2CircleButton1);
+            this.panel10.Controls.Add(this.label1);
+            this.panel10.Controls.Add(this.flpListClient);
+            this.panel10.Location = new System.Drawing.Point(74, 3);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(234, 562);
+            this.panel10.TabIndex = 4;
+            // 
+            // tbSearch
+            // 
+            this.tbSearch.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.tbSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.tbSearch.Location = new System.Drawing.Point(11, 72);
+            this.tbSearch.Multiline = true;
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.PromptText = "Search here";
+            this.tbSearch.Size = new System.Drawing.Size(209, 30);
+            this.tbSearch.TabIndex = 12;
+            this.tbSearch.UseStyleColors = true;
+            // 
+            // guna2CircleButton3
+            // 
+            this.guna2CircleButton3.CheckedState.Parent = this.guna2CircleButton3;
+            this.guna2CircleButton3.CustomImages.Parent = this.guna2CircleButton3;
+            this.guna2CircleButton3.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2CircleButton3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2CircleButton3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2CircleButton3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2CircleButton3.DisabledState.Parent = this.guna2CircleButton3;
+            this.guna2CircleButton3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.guna2CircleButton3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2CircleButton3.ForeColor = System.Drawing.Color.White;
+            this.guna2CircleButton3.HoverState.Parent = this.guna2CircleButton3;
+            this.guna2CircleButton3.ImageSize = new System.Drawing.Size(27, 27);
+            this.guna2CircleButton3.Location = new System.Drawing.Point(180, 27);
+            this.guna2CircleButton3.Name = "guna2CircleButton3";
+            this.guna2CircleButton3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.guna2CircleButton3.ShadowDecoration.Parent = this.guna2CircleButton3;
+            this.guna2CircleButton3.Size = new System.Drawing.Size(35, 35);
+            this.guna2CircleButton3.TabIndex = 3;
+            // 
+            // guna2CircleButton2
+            // 
+            this.guna2CircleButton2.CheckedState.Parent = this.guna2CircleButton2;
+            this.guna2CircleButton2.CustomImages.Parent = this.guna2CircleButton2;
+            this.guna2CircleButton2.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2CircleButton2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2CircleButton2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2CircleButton2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2CircleButton2.DisabledState.Parent = this.guna2CircleButton2;
+            this.guna2CircleButton2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.guna2CircleButton2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2CircleButton2.ForeColor = System.Drawing.Color.White;
+            this.guna2CircleButton2.HoverState.Parent = this.guna2CircleButton2;
+            this.guna2CircleButton2.ImageSize = new System.Drawing.Size(27, 27);
+            this.guna2CircleButton2.Location = new System.Drawing.Point(139, 27);
+            this.guna2CircleButton2.Name = "guna2CircleButton2";
+            this.guna2CircleButton2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.guna2CircleButton2.ShadowDecoration.Parent = this.guna2CircleButton2;
+            this.guna2CircleButton2.Size = new System.Drawing.Size(35, 35);
+            this.guna2CircleButton2.TabIndex = 2;
+            // 
+            // guna2CircleButton1
+            // 
+            this.guna2CircleButton1.CheckedState.Parent = this.guna2CircleButton1;
+            this.guna2CircleButton1.CustomImages.Parent = this.guna2CircleButton1;
+            this.guna2CircleButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2CircleButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2CircleButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2CircleButton1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2CircleButton1.DisabledState.Parent = this.guna2CircleButton1;
+            this.guna2CircleButton1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.guna2CircleButton1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2CircleButton1.ForeColor = System.Drawing.Color.White;
+            this.guna2CircleButton1.HoverState.Parent = this.guna2CircleButton1;
+            this.guna2CircleButton1.ImageSize = new System.Drawing.Size(27, 27);
+            this.guna2CircleButton1.Location = new System.Drawing.Point(98, 27);
+            this.guna2CircleButton1.Name = "guna2CircleButton1";
+            this.guna2CircleButton1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.guna2CircleButton1.ShadowDecoration.Parent = this.guna2CircleButton1;
+            this.guna2CircleButton1.Size = new System.Drawing.Size(35, 35);
+            this.guna2CircleButton1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Chat";
+            // 
+            // flpListClient
+            // 
+            this.flpListClient.AutoScroll = true;
+            this.flpListClient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flpListClient.Location = new System.Drawing.Point(11, 122);
+            this.flpListClient.Name = "flpListClient";
+            this.flpListClient.Size = new System.Drawing.Size(209, 437);
+            this.flpListClient.TabIndex = 11;
+            // 
+            // guna2CustomGradientPanel5
+            // 
+            this.guna2CustomGradientPanel5.BorderRadius = 11;
+            this.guna2CustomGradientPanel5.Controls.Add(this.panel9);
+            this.guna2CustomGradientPanel5.FillColor = System.Drawing.Color.DimGray;
+            this.guna2CustomGradientPanel5.FillColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.guna2CustomGradientPanel5.Location = new System.Drawing.Point(3, 3);
+            this.guna2CustomGradientPanel5.Name = "guna2CustomGradientPanel5";
+            this.guna2CustomGradientPanel5.ShadowDecoration.Parent = this.guna2CustomGradientPanel5;
+            this.guna2CustomGradientPanel5.Size = new System.Drawing.Size(65, 562);
+            this.guna2CustomGradientPanel5.TabIndex = 2;
+            // 
+            // panel9
+            // 
+            this.panel9.BackColor = System.Drawing.Color.Transparent;
+            this.panel9.BackgroundImage = global::ClientChat.Properties.Resources.messenger__1_;
+            this.panel9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel9.Location = new System.Drawing.Point(11, 30);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(42, 40);
+            this.panel9.TabIndex = 8;
             // 
             // creat
             // 
@@ -725,330 +1004,11 @@ namespace ClientChat
             this.panel7.Size = new System.Drawing.Size(551, 502);
             this.panel7.TabIndex = 11;
             // 
-            // mess
-            // 
-            this.mess.Controls.Add(this.panel11);
-            this.mess.Controls.Add(this.panel10);
-            this.mess.Controls.Add(this.guna2CustomGradientPanel5);
-            this.mess.HorizontalScrollbarBarColor = true;
-            this.mess.Location = new System.Drawing.Point(4, 35);
-            this.mess.Name = "mess";
-            this.mess.Size = new System.Drawing.Size(949, 568);
-            this.mess.TabIndex = 2;
-            this.mess.Text = "Messenger";
-            this.mess.VerticalScrollbarBarColor = true;
-            // 
-            // panel11
-            // 
-            this.panel11.BackColor = System.Drawing.Color.White;
-            this.panel11.Controls.Add(this.allEmoji);
-            this.panel11.Controls.Add(this.guna2Button4);
-            this.panel11.Controls.Add(this.guna2Button3);
-            this.panel11.Controls.Add(this.guna2Button2);
-            this.panel11.Controls.Add(this.guna2Button1);
-            this.panel11.Controls.Add(this.flowLayoutPanel2);
-            this.panel11.Controls.Add(this.messageText);
-            this.panel11.Controls.Add(this.guna2Separator1);
-            this.panel11.Controls.Add(this.panel12);
-            this.panel11.Location = new System.Drawing.Point(323, 9);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(623, 556);
-            this.panel11.TabIndex = 5;
-            // 
-            // guna2Button4
-            // 
-            this.guna2Button4.CheckedState.Parent = this.guna2Button4;
-            this.guna2Button4.CustomImages.Parent = this.guna2Button4;
-            this.guna2Button4.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button4.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button4.DisabledState.Parent = this.guna2Button4;
-            this.guna2Button4.FillColor = System.Drawing.Color.Transparent;
-            this.guna2Button4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button4.ForeColor = System.Drawing.Color.White;
-            this.guna2Button4.HoverState.Parent = this.guna2Button4;
-            this.guna2Button4.Image = global::ClientChat.Properties.Resources.scared;
-            this.guna2Button4.Location = new System.Drawing.Point(8, 516);
-            this.guna2Button4.Name = "guna2Button4";
-            this.guna2Button4.ShadowDecoration.Parent = this.guna2Button4;
-            this.guna2Button4.Size = new System.Drawing.Size(39, 33);
-            this.guna2Button4.TabIndex = 22;
-            this.guna2Button4.Click += new System.EventHandler(this.guna2Button4_Click);
-            // 
-            // guna2Button3
-            // 
-            this.guna2Button3.CheckedState.Parent = this.guna2Button3;
-            this.guna2Button3.CustomImages.Parent = this.guna2Button3;
-            this.guna2Button3.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button3.DisabledState.Parent = this.guna2Button3;
-            this.guna2Button3.FillColor = System.Drawing.Color.Transparent;
-            this.guna2Button3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button3.ForeColor = System.Drawing.Color.White;
-            this.guna2Button3.HoverState.Parent = this.guna2Button3;
-            this.guna2Button3.Image = global::ClientChat.Properties.Resources.folder;
-            this.guna2Button3.Location = new System.Drawing.Point(51, 516);
-            this.guna2Button3.Name = "guna2Button3";
-            this.guna2Button3.ShadowDecoration.Parent = this.guna2Button3;
-            this.guna2Button3.Size = new System.Drawing.Size(39, 33);
-            this.guna2Button3.TabIndex = 21;
-            this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
-            // 
-            // guna2Button2
-            // 
-            this.guna2Button2.CheckedState.Parent = this.guna2Button2;
-            this.guna2Button2.CustomImages.Parent = this.guna2Button2;
-            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button2.DisabledState.Parent = this.guna2Button2;
-            this.guna2Button2.FillColor = System.Drawing.Color.Transparent;
-            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button2.ForeColor = System.Drawing.Color.White;
-            this.guna2Button2.HoverState.Parent = this.guna2Button2;
-            this.guna2Button2.Image = global::ClientChat.Properties.Resources.mail;
-            this.guna2Button2.Location = new System.Drawing.Point(96, 516);
-            this.guna2Button2.Name = "guna2Button2";
-            this.guna2Button2.ShadowDecoration.Parent = this.guna2Button2;
-            this.guna2Button2.Size = new System.Drawing.Size(39, 33);
-            this.guna2Button2.TabIndex = 20;
-            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
-            // 
-            // guna2Button1
-            // 
-            this.guna2Button1.CheckedState.Parent = this.guna2Button1;
-            this.guna2Button1.CustomImages.Parent = this.guna2Button1;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.DisabledState.Parent = this.guna2Button1;
-            this.guna2Button1.FillColor = System.Drawing.Color.Transparent;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.HoverState.Parent = this.guna2Button1;
-            this.guna2Button1.Image = global::ClientChat.Properties.Resources.thumb_up;
-            this.guna2Button1.Location = new System.Drawing.Point(581, 516);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.ShadowDecoration.Parent = this.guna2Button1;
-            this.guna2Button1.Size = new System.Drawing.Size(39, 33);
-            this.guna2Button1.TabIndex = 0;
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.AutoScroll = true;
-            this.flowLayoutPanel2.BackColor = System.Drawing.Color.White;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 74);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(623, 436);
-            this.flowLayoutPanel2.TabIndex = 19;
-            // 
-            // messageText
-            // 
-            this.messageText.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.messageText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
-            this.messageText.FontSize = MetroFramework.MetroTextBoxSize.Tall;
-            this.messageText.Location = new System.Drawing.Point(141, 516);
-            this.messageText.Multiline = true;
-            this.messageText.Name = "messageText";
-            this.messageText.PromptText = "Aa";
-            this.messageText.Size = new System.Drawing.Size(434, 33);
-            this.messageText.Style = MetroFramework.MetroColorStyle.White;
-            this.messageText.TabIndex = 11;
-            this.messageText.UseStyleColors = true;
-            this.messageText.Enter += new System.EventHandler(this.messageText_Enter);
-            this.messageText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.messageText_KeyDown);
-            // 
-            // guna2Separator1
-            // 
-            this.guna2Separator1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2Separator1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2Separator1.FillColor = System.Drawing.Color.Black;
-            this.guna2Separator1.Location = new System.Drawing.Point(0, 64);
-            this.guna2Separator1.Name = "guna2Separator1";
-            this.guna2Separator1.Size = new System.Drawing.Size(623, 10);
-            this.guna2Separator1.TabIndex = 4;
-            // 
-            // panel12
-            // 
-            this.panel12.Controls.Add(this.label3);
-            this.panel12.Controls.Add(this.panel13);
-            this.panel12.Controls.Add(this.OpText);
-            this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel12.Location = new System.Drawing.Point(0, 0);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(623, 64);
-            this.panel12.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.label3.Location = new System.Drawing.Point(68, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 17);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Being Active";
-            // 
-            // panel13
-            // 
-            this.panel13.BackgroundImage = global::ClientChat.Properties.Resources.customer;
-            this.panel13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel13.Location = new System.Drawing.Point(14, 11);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(40, 41);
-            this.panel13.TabIndex = 1;
-            // 
-            // OpText
-            // 
-            this.OpText.AutoSize = true;
-            this.OpText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OpText.Location = new System.Drawing.Point(67, 10);
-            this.OpText.Name = "OpText";
-            this.OpText.Size = new System.Drawing.Size(85, 21);
-            this.OpText.TabIndex = 1;
-            this.OpText.Text = "Hung Mai";
-            // 
-            // panel10
-            // 
-            this.panel10.Controls.Add(this.tbSearch);
-            this.panel10.Controls.Add(this.guna2CircleButton3);
-            this.panel10.Controls.Add(this.guna2CircleButton2);
-            this.panel10.Controls.Add(this.guna2CircleButton1);
-            this.panel10.Controls.Add(this.label1);
-            this.panel10.Controls.Add(this.flpListClient);
-            this.panel10.Location = new System.Drawing.Point(74, 3);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(234, 562);
-            this.panel10.TabIndex = 4;
-            // 
-            // tbSearch
-            // 
-            this.tbSearch.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.tbSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
-            this.tbSearch.Location = new System.Drawing.Point(11, 72);
-            this.tbSearch.Multiline = true;
-            this.tbSearch.Name = "tbSearch";
-            this.tbSearch.PromptText = "Search here";
-            this.tbSearch.Size = new System.Drawing.Size(209, 30);
-            this.tbSearch.TabIndex = 12;
-            this.tbSearch.UseStyleColors = true;
-            // 
-            // guna2CircleButton3
-            // 
-            this.guna2CircleButton3.CheckedState.Parent = this.guna2CircleButton3;
-            this.guna2CircleButton3.CustomImages.Parent = this.guna2CircleButton3;
-            this.guna2CircleButton3.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2CircleButton3.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2CircleButton3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2CircleButton3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2CircleButton3.DisabledState.Parent = this.guna2CircleButton3;
-            this.guna2CircleButton3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
-            this.guna2CircleButton3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2CircleButton3.ForeColor = System.Drawing.Color.White;
-            this.guna2CircleButton3.HoverState.Parent = this.guna2CircleButton3;
-            this.guna2CircleButton3.ImageSize = new System.Drawing.Size(27, 27);
-            this.guna2CircleButton3.Location = new System.Drawing.Point(180, 27);
-            this.guna2CircleButton3.Name = "guna2CircleButton3";
-            this.guna2CircleButton3.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CircleButton3.ShadowDecoration.Parent = this.guna2CircleButton3;
-            this.guna2CircleButton3.Size = new System.Drawing.Size(35, 35);
-            this.guna2CircleButton3.TabIndex = 3;
-            // 
-            // guna2CircleButton2
-            // 
-            this.guna2CircleButton2.CheckedState.Parent = this.guna2CircleButton2;
-            this.guna2CircleButton2.CustomImages.Parent = this.guna2CircleButton2;
-            this.guna2CircleButton2.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2CircleButton2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2CircleButton2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2CircleButton2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2CircleButton2.DisabledState.Parent = this.guna2CircleButton2;
-            this.guna2CircleButton2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
-            this.guna2CircleButton2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2CircleButton2.ForeColor = System.Drawing.Color.White;
-            this.guna2CircleButton2.HoverState.Parent = this.guna2CircleButton2;
-            this.guna2CircleButton2.ImageSize = new System.Drawing.Size(27, 27);
-            this.guna2CircleButton2.Location = new System.Drawing.Point(139, 27);
-            this.guna2CircleButton2.Name = "guna2CircleButton2";
-            this.guna2CircleButton2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CircleButton2.ShadowDecoration.Parent = this.guna2CircleButton2;
-            this.guna2CircleButton2.Size = new System.Drawing.Size(35, 35);
-            this.guna2CircleButton2.TabIndex = 2;
-            // 
-            // guna2CircleButton1
-            // 
-            this.guna2CircleButton1.CheckedState.Parent = this.guna2CircleButton1;
-            this.guna2CircleButton1.CustomImages.Parent = this.guna2CircleButton1;
-            this.guna2CircleButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2CircleButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2CircleButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2CircleButton1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2CircleButton1.DisabledState.Parent = this.guna2CircleButton1;
-            this.guna2CircleButton1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
-            this.guna2CircleButton1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2CircleButton1.ForeColor = System.Drawing.Color.White;
-            this.guna2CircleButton1.HoverState.Parent = this.guna2CircleButton1;
-            this.guna2CircleButton1.ImageSize = new System.Drawing.Size(27, 27);
-            this.guna2CircleButton1.Location = new System.Drawing.Point(98, 27);
-            this.guna2CircleButton1.Name = "guna2CircleButton1";
-            this.guna2CircleButton1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CircleButton1.ShadowDecoration.Parent = this.guna2CircleButton1;
-            this.guna2CircleButton1.Size = new System.Drawing.Size(35, 35);
-            this.guna2CircleButton1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Chat";
-            // 
-            // flpListClient
-            // 
-            this.flpListClient.AutoScroll = true;
-            this.flpListClient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flpListClient.Location = new System.Drawing.Point(11, 122);
-            this.flpListClient.Name = "flpListClient";
-            this.flpListClient.Size = new System.Drawing.Size(209, 437);
-            this.flpListClient.TabIndex = 11;
-            // 
-            // guna2CustomGradientPanel5
-            // 
-            this.guna2CustomGradientPanel5.BorderRadius = 11;
-            this.guna2CustomGradientPanel5.Controls.Add(this.panel9);
-            this.guna2CustomGradientPanel5.FillColor = System.Drawing.Color.DimGray;
-            this.guna2CustomGradientPanel5.FillColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2CustomGradientPanel5.Location = new System.Drawing.Point(3, 3);
-            this.guna2CustomGradientPanel5.Name = "guna2CustomGradientPanel5";
-            this.guna2CustomGradientPanel5.ShadowDecoration.Parent = this.guna2CustomGradientPanel5;
-            this.guna2CustomGradientPanel5.Size = new System.Drawing.Size(65, 562);
-            this.guna2CustomGradientPanel5.TabIndex = 2;
-            // 
-            // panel9
-            // 
-            this.panel9.BackColor = System.Drawing.Color.Transparent;
-            this.panel9.BackgroundImage = global::ClientChat.Properties.Resources.messenger__1_;
-            this.panel9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel9.Location = new System.Drawing.Point(11, 30);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(42, 40);
-            this.panel9.TabIndex = 8;
-            // 
             // nameCLient
             // 
             this.nameCLient.AutoSize = true;
             this.nameCLient.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameCLient.Location = new System.Drawing.Point(1049, 72);
+            this.nameCLient.Location = new System.Drawing.Point(1068, 75);
             this.nameCLient.Name = "nameCLient";
             this.nameCLient.Size = new System.Drawing.Size(85, 21);
             this.nameCLient.TabIndex = 24;
@@ -1059,23 +1019,62 @@ namespace ClientChat
             this.guna2Elipse1.BorderRadius = 25;
             this.guna2Elipse1.TargetControl = this.messageText;
             // 
-            // panel14
+            // btnAdd
             // 
-            this.panel14.BackgroundImage = global::ClientChat.Properties.Resources.customer;
-            this.panel14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel14.Location = new System.Drawing.Point(1003, 54);
-            this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(40, 41);
-            this.panel14.TabIndex = 23;
+            this.btnAdd.CheckedState.Parent = this.btnAdd;
+            this.btnAdd.CustomImages.Parent = this.btnAdd;
+            this.btnAdd.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnAdd.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnAdd.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnAdd.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnAdd.DisabledState.Parent = this.btnAdd;
+            this.btnAdd.FillColor = System.Drawing.Color.Transparent;
+            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnAdd.ForeColor = System.Drawing.Color.White;
+            this.btnAdd.HoverState.Parent = this.btnAdd;
+            this.btnAdd.Image = global::ClientChat.Properties.Resources.add;
+            this.btnAdd.ImageSize = new System.Drawing.Size(34, 33);
+            this.btnAdd.Location = new System.Drawing.Point(1151, 569);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.ShadowDecoration.Parent = this.btnAdd;
+            this.btnAdd.Size = new System.Drawing.Size(34, 33);
+            this.btnAdd.TabIndex = 26;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // allEmoji
+            // Avt
             // 
-            this.allEmoji.AutoScroll = true;
-            this.allEmoji.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.allEmoji.Location = new System.Drawing.Point(0, 73);
-            this.allEmoji.Name = "allEmoji";
-            this.allEmoji.Size = new System.Drawing.Size(220, 437);
-            this.allEmoji.TabIndex = 12;
+            this.Avt.BorderRadius = 15;
+            this.Avt.ImageRotate = 0F;
+            this.Avt.Location = new System.Drawing.Point(999, 367);
+            this.Avt.Name = "Avt";
+            this.Avt.ShadowDecoration.Parent = this.Avt;
+            this.Avt.Size = new System.Drawing.Size(186, 196);
+            this.Avt.TabIndex = 25;
+            this.Avt.TabStop = false;
+            // 
+            // avtClient
+            // 
+            this.avtClient.BorderRadius = 11;
+            this.avtClient.ImageRotate = 0F;
+            this.avtClient.Location = new System.Drawing.Point(999, 47);
+            this.avtClient.Name = "avtClient";
+            this.avtClient.ShadowDecoration.Parent = this.avtClient;
+            this.avtClient.Size = new System.Drawing.Size(62, 55);
+            this.avtClient.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.avtClient.TabIndex = 27;
+            this.avtClient.TabStop = false;
+            // 
+            // opAvt
+            // 
+            this.opAvt.BorderRadius = 11;
+            this.opAvt.ImageRotate = 0F;
+            this.opAvt.Location = new System.Drawing.Point(6, 6);
+            this.opAvt.Name = "opAvt";
+            this.opAvt.ShadowDecoration.Parent = this.opAvt;
+            this.opAvt.Size = new System.Drawing.Size(59, 52);
+            this.opAvt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.opAvt.TabIndex = 28;
+            this.opAvt.TabStop = false;
             // 
             // Client
             // 
@@ -1083,13 +1082,13 @@ namespace ClientChat
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(220)))), ((int)(((byte)(190)))));
             this.ClientSize = new System.Drawing.Size(1231, 644);
-            this.Controls.Add(this.panel14);
+            this.Controls.Add(this.avtClient);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.Avt);
             this.Controls.Add(this.nameCLient);
             this.Controls.Add(this.metroTabControl1);
             this.Controls.Add(this.btnDisConnect);
             this.Controls.Add(this.btnConnectServer);
-            this.Controls.Add(this.MessageFromServer);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.tbPort);
             this.Controls.Add(this.tbIP);
             this.Controls.Add(this.panel3);
@@ -1103,9 +1102,6 @@ namespace ClientChat
             this.login.ResumeLayout(false);
             this.guna2CustomGradientPanel1.ResumeLayout(false);
             this.guna2CustomGradientPanel2.ResumeLayout(false);
-            this.creat.ResumeLayout(false);
-            this.guna2CustomGradientPanel3.ResumeLayout(false);
-            this.guna2CustomGradientPanel4.ResumeLayout(false);
             this.mess.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
@@ -1113,6 +1109,12 @@ namespace ClientChat
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
             this.guna2CustomGradientPanel5.ResumeLayout(false);
+            this.creat.ResumeLayout(false);
+            this.guna2CustomGradientPanel3.ResumeLayout(false);
+            this.guna2CustomGradientPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Avt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.avtClient)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.opAvt)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1127,8 +1129,6 @@ namespace ClientChat
         private System.Windows.Forms.Label label5;
         private Guna.UI2.WinForms.Guna2TextBox tbIP;
         private Guna.UI2.WinForms.Guna2TextBox tbPort;
-        private System.Windows.Forms.Label label6;
-        private Guna.UI2.WinForms.Guna2TextBox MessageFromServer;
         private Guna.UI2.WinForms.Guna2GradientTileButton btnConnectServer;
         private Guna.UI2.WinForms.Guna2GradientTileButton btnDisConnect;
         private MetroFramework.Controls.MetroTabControl metroTabControl1;
@@ -1168,8 +1168,6 @@ namespace ClientChat
         private Guna.UI2.WinForms.Guna2CircleButton guna2CircleButton2;
         private Guna.UI2.WinForms.Guna2CircleButton guna2CircleButton1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Panel panel14;
         public System.Windows.Forms.Label nameCLient;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
@@ -1177,6 +1175,10 @@ namespace ClientChat
         private Guna.UI2.WinForms.Guna2Button guna2Button3;
         private Guna.UI2.WinForms.Guna2Button guna2Button4;
         private System.Windows.Forms.FlowLayoutPanel allEmoji;
+        private Guna.UI2.WinForms.Guna2PictureBox Avt;
+        private Guna.UI2.WinForms.Guna2Button btnAdd;
+        private Guna.UI2.WinForms.Guna2PictureBox avtClient;
+        private Guna.UI2.WinForms.Guna2PictureBox opAvt;
     }
 }
 

@@ -52,14 +52,14 @@ namespace ServerChat
                 return -1;
             return check;
         }
-        public void inserAccount(string username, string pass, string name)
+        public void inserAccount(string username, string pass, string name,string avtName)
         {
             conn = new SqlConnection(conStr);
             conn.Open();
             try
             {
-                string sqlString = $"INSERT INTO CLIENT (USERNAME,PASSWORD,NAME_INMESSAGE,TYPE_ACTI) VALUES('{username}'," +
-                                $"'{pass}',N'{name}',0)";
+                string sqlString = $"INSERT INTO CLIENT (USERNAME,PASSWORD,NAME_INMESSAGE,TYPE_ACTI,AVT) VALUES('{username}'," +
+                                $"'{pass}',N'{name}',0,N'{avtName}')";
                 comm = new SqlCommand(sqlString, conn);
                 comm.ExecuteNonQuery();
             }
@@ -102,14 +102,15 @@ namespace ServerChat
             string sendString = "6";
             conn = new SqlConnection(conStr);
             conn.Open();
-            string sqlString = $"SELECT USERNAME FROM CLIENT WHERE TYPE_ACTI = 1";
+            string sqlString = $"SELECT USERNAME,AVT FROM CLIENT WHERE TYPE_ACTI = 1";
             myAdapter = new SqlDataAdapter(sqlString, conn);
             ds = new DataSet();
             dt = new DataTable();
             myAdapter.Fill(dt);
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                sendString += $"{dt.Rows[i][0].ToString()}@";
+                sendString += $"{dt.Rows[i][0].ToString()}:{dt.Rows[i][1].ToString()}";
+                if (i != dt.Rows.Count-1) sendString += ":";
             }
             conn.Close();
             return sendString;
@@ -161,6 +162,20 @@ namespace ServerChat
             comm = new SqlCommand(sqlString, conn);
             comm.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public string getAvtName(string userName)
+        {
+            string avtName = "";
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = "SELECT AVT FROM CLIENT WHERE USERNAME = N'" + userName + "'";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "AVT");
+            dt = ds.Tables["AVT"];
+            avtName = dt.Rows[0]["AVT"].ToString();
+            return avtName;
         }
     }
 }
