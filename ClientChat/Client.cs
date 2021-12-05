@@ -1,7 +1,9 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,6 +14,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace ClientChat
@@ -23,6 +26,8 @@ namespace ClientChat
         IPEndPoint ipe;
         Thread threadConnectServer;
         string name;
+        WaveIn wave;
+        WaveFileWriter writer;
         /// <summary>
         /// BIến này là biến để kiểm tra xem là thằng server nó còn online hay k 
         /// Kiểu đkm tk server nó mà tắt rối ấy t thấy cái ràng buộc client.send nó bắt buộc gửi 
@@ -32,15 +37,62 @@ namespace ClientChat
         int checkServerOn = 0;
         string fileNamePath = "";
         int choseAvt = 0;
+        int checkRecord = 0;
+        int deviceName =0;
         List<ClientOnline> listClientOnline;
+        System.Timers.Timer t;
+        int s = 30;
         public Client()
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             metroTabControl1.SelectedTab = metroTabControl1.TabPages["login"];
             LoadListView();
-            allEmoji.Hide();
+            recordVoice.Hide();
+            deviceName = LoadDevices();
+            //tbSearch.Text = deviceName;
+            t = new System.Timers.Timer();
+            t.Interval = 1000;
+            t.Elapsed += OntimeEvent;
         }
+
+        private int LoadDevices()
+        {
+            int s =0;
+            //for (int deviceId = 0; deviceId < WaveIn.DeviceCount; deviceId++){
+            //    var deviceInfo = WaveIn.GetCapabilities(deviceId);
+            //}
+            if(WaveIn.DeviceCount > 0) { 
+                if(WaveIn.DeviceCount > 1) {
+                    for (int deviceId = 0; deviceId < WaveIn.DeviceCount; deviceId++){
+                        var deviceInfo = WaveIn.GetCapabilities(deviceId);
+                        if (deviceInfo.ProductName.Contains("DroidCam"))
+                            continue;
+                        else
+                        {
+                            s = deviceId;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    s = 0;
+                }
+            }
+            return s;
+        }
+        private void OntimeEvent(object sender, ElapsedEventArgs e){
+            this.Invoke(new Action(() =>
+            {
+                s -= 1;
+                if (s == 0) {
+                    t.Stop();
+                    stopRecording();
+                }
+                timeOut.Text = string.Format($"00:{s.ToString()}");
+            }));
+        }
+
         // CHỉnh size cho Send mess
         private void buitSizeSend(string s,Send uc) { 
             if(s.Length < 30){
@@ -101,8 +153,7 @@ namespace ClientChat
 
         private void ConnectServer()
         {
-            try
-            {
+            try{
                 ipe = new IPEndPoint(IPAddress.Parse(tbIP.Text), int.Parse(tbPort.Text));
                 client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 client.Connect(ipe);
@@ -116,8 +167,7 @@ namespace ClientChat
                 listerServer.IsBackground = true;
                 listerServer.Start();
             }
-            catch
-            {
+            catch{
                 MessageBox.Show("Can't connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -126,7 +176,7 @@ namespace ClientChat
             MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             checkServerOn = 0;
             this.Invoke(new Action(() =>{
-                flowLayoutPanel2.Controls.Clear();
+                allMessage.Controls.Clear();
                 flpListClient.Controls.Clear();
                 ((Control)mess).Enabled = false;
                 ((Control)login).Enabled = true;
@@ -162,10 +212,10 @@ namespace ClientChat
                         //pic.guna2Button4.Click += functionSave;
                         pic.clientData = clientData;
                         pic.receivedBytesLen = receivedBytesLen;
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                     }));
                 }
                 else {
@@ -175,10 +225,10 @@ namespace ClientChat
                         pic.guna2TextBox1.Text = fileName;
                         pic.receivedBytesLen = receivedBytesLen;
                         pic.clientData = clientData;
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                     }));
                 }
             }
@@ -300,7 +350,7 @@ namespace ClientChat
             else if (message[0] == '7') { //Nhận và load danh sách các tin nhắn
                 this.Invoke(new Action(() => {
                     string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    flowLayoutPanel2.Controls.Clear();
+                    allMessage.Controls.Clear();
                     List<mess> lism = messInstance.Instance.LoadMess(nameCLient.Text, OpText.Text, message);
                     foreach (mess item in lism)
                     {
@@ -309,7 +359,7 @@ namespace ClientChat
                             {
                                 Send f = new Send();
                                 buitSizeSend(item.Content.Substring(1), f);
-                                flowLayoutPanel2.Controls.Add(f);
+                                allMessage.Controls.Add(f);
                             }
                             else if (item.Type == -1)
                             {
@@ -317,10 +367,10 @@ namespace ClientChat
                                 f.guna2CirclePictureBox1.Image = opAvt.Image;
                                 f.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                                 buitSizeRec(item.Content.Substring(1), f);
-                                flowLayoutPanel2.Controls.Add(f);
+                                allMessage.Controls.Add(f);
                             }
                         }
-                        else { 
+                        else if(item.Content[0] == '1') { 
                             if(item.Type == 1) {
                                 Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
                                 var ms = new MemoryStream();
@@ -331,7 +381,7 @@ namespace ClientChat
                                 pic.Height -= 100;
                                 pic.guna2PictureBox1.Height -= 100;
                                 pic.guna2PictureBox1.Width -= 140;
-                                flowLayoutPanel2.Controls.Add(pic);
+                                allMessage.Controls.Add(pic);
 
                             }
                             else if(item.Type == -1) {
@@ -346,7 +396,26 @@ namespace ClientChat
                                 pic.Height -= 100;
                                 pic.guna2PictureBox1.Height -= 100;
                                 pic.guna2PictureBox1.Width -= 140;
-                                flowLayoutPanel2.Controls.Add(pic);
+                                allMessage.Controls.Add(pic);
+                            }
+                        }
+                        else if (item.Content[0] == '2') { 
+                            if(item.Type == -1) {
+                                //Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(Index + 1));
+                                var pic = new voiceMessRec();
+                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
+                                pic.Load();
+                                pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                                allMessage.Controls.Add(pic);
+                                allMessage.ScrollControlIntoView(pic);
+                            }
+                            else {
+                                var pic = new voieMessSend();
+                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
+                                pic.Load();
+                                allMessage.Controls.Add(pic);
+                                allMessage.ScrollControlIntoView(pic);
                             }
                         }
                     }
@@ -356,20 +425,20 @@ namespace ClientChat
                         if (lism[lism.Count - 1].Type == 1)
                         {
                             var pic = new Send();
-                            flowLayoutPanel2.Controls.Add(pic);
-                            flowLayoutPanel2.ScrollControlIntoView(pic);
-                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
-                            flowLayoutPanel2.Controls.Remove(pic);
+                            allMessage.Controls.Add(pic);
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
+                            allMessage.Controls.Remove(pic);
                         }
                         else
                         {
                             var pic = new Recieve();
-                            flowLayoutPanel2.Controls.Add(pic);
-                            flowLayoutPanel2.ScrollControlIntoView(pic);
-                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
-                            flowLayoutPanel2.Controls.Remove(pic);
+                            allMessage.Controls.Add(pic);
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
+                            allMessage.Controls.Remove(pic);
                         }
                     }
                 }));                          
@@ -384,10 +453,10 @@ namespace ClientChat
                         buitSizeRec(message.Substring(Index + 1), pic);
                         pic.guna2CirclePictureBox1.Image = opAvt.Image;
                         pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage; 
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                     }
                     else { 
                         foreach(ClientOnline item in listClientOnline) { 
@@ -417,15 +486,45 @@ namespace ClientChat
                         pic.Height -= 100;
                         pic.guna2PictureBox1.Height -= 100;
                         pic.guna2PictureBox1.Width -= 140;
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                     }
                     else { 
                         foreach(ClientOnline item in listClientOnline) { 
                             if(item.lbName.Text == message.Substring(1, Index - 1)) {
                                 item.NoRecDontSee++;item.lbCount.Text = item.NoRecDontSee.ToString();item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+            else if (message[0] == '0' ) { //Nhận voice chat
+                this.Invoke(new Action(() =>{
+                    int Index = message.IndexOf('@');
+                    if (OpText.Text == message.Substring(1, Index - 1))
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        //Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(Index + 1));
+                        var pic = new voiceMessRec();
+                        pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + message.Substring(Index + 1);
+                        pic.Load();
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
+
+                    }
+                    else
+                    {
+                        foreach (ClientOnline item in listClientOnline){
+                            if (item.lbName.Text == message.Substring(1, Index - 1))
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
                                 break;
                             }
                         }
@@ -469,18 +568,18 @@ namespace ClientChat
             {
                 this.BeginInvoke((MethodInvoker)delegate ()
                 {
-                    flowLayoutPanel2.Controls.Add(pic);
-                    flowLayoutPanel2.ScrollControlIntoView(pic);
-                    flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                    pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    allMessage.Controls.Add(pic);
+                    allMessage.ScrollControlIntoView(pic);
+                    allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                    pic.Left - allMessage.AutoScrollPosition.Y);
                 });
             }
             else
             {
-                flowLayoutPanel2.Controls.Add(pic);
-                flowLayoutPanel2.ScrollControlIntoView(pic);
-                flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                allMessage.Controls.Add(pic);
+                allMessage.ScrollControlIntoView(pic);
+                allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                pic.Left - allMessage.AutoScrollPosition.Y);
             }
             allEmoji.Hide();
             sendData(7, $"{OpText.Text}@{name}.png");
@@ -577,6 +676,7 @@ namespace ClientChat
                     sendData(3, $"3{name}");
                     //client.Send(Serialize($"3{name}"));
                     client.Close();
+                    t.Stop();
                     Application.Exit();
                 }
                 else
@@ -584,6 +684,7 @@ namespace ClientChat
                     sendData(3, $"3{name}");
                     //client.Send(Serialize($"3{name}"));
                     client.Close();
+                    t.Stop();
                     Application.Exit();
                 }
             }
@@ -601,10 +702,10 @@ namespace ClientChat
                         //client.Send(Serialize($"5{OpText.Text}@{messageText.Text}"));
                         var pic = new Send();
                         buitSizeSend(messageText.Text, pic);
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                         messageText.Text = "";
                     }));
                 }
@@ -668,17 +769,17 @@ namespace ClientChat
                     pic.guna2TextBox1.Text = fileName;
                     if (this.InvokeRequired){
                         this.BeginInvoke((MethodInvoker)delegate (){
-                            flowLayoutPanel2.Controls.Add(pic);
-                            flowLayoutPanel2.ScrollControlIntoView(pic);
-                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                            allMessage.Controls.Add(pic);
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
                         });
                     }
                     else{
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                     }
                     sendFile(fd.FileName,OpText.Text,11);
                 }
@@ -703,18 +804,18 @@ namespace ClientChat
                     {
                         this.BeginInvoke((MethodInvoker)delegate ()
                         {
-                            flowLayoutPanel2.Controls.Add(pic);
-                            flowLayoutPanel2.ScrollControlIntoView(pic);
-                            flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                            pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                            allMessage.Controls.Add(pic);
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
                         });
                     }
                     else
                     {
-                        flowLayoutPanel2.Controls.Add(pic);
-                        flowLayoutPanel2.ScrollControlIntoView(pic);
-                        flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                        pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                        allMessage.Controls.Add(pic);
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
                     }
                     sendFile(OD.FileName,OpText.Text,11);
                 }
@@ -742,23 +843,22 @@ namespace ClientChat
             {
                 this.BeginInvoke((MethodInvoker)delegate ()
                 {
-                    flowLayoutPanel2.Controls.Add(pic);
-                    flowLayoutPanel2.ScrollControlIntoView(pic);
-                    flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                    pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                    allMessage.Controls.Add(pic);
+                    allMessage.ScrollControlIntoView(pic);
+                    allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                    pic.Left - allMessage.AutoScrollPosition.Y);
                 });
             }
             else{
-                flowLayoutPanel2.Controls.Add(pic);
-                flowLayoutPanel2.ScrollControlIntoView(pic);
-                flowLayoutPanel2.AutoScrollPosition = new Point(pic.Right - flowLayoutPanel2.AutoScrollPosition.X,
-                                                                pic.Left - flowLayoutPanel2.AutoScrollPosition.Y);
+                allMessage.Controls.Add(pic);
+                allMessage.ScrollControlIntoView(pic);
+                allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                pic.Left - allMessage.AutoScrollPosition.Y);
             }
             sendData(7,$"{OpText.Text}@thumb-up.png");
         }
 
-        private void guna2Button4_Click(object sender, EventArgs e)
-        {
+        private void guna2Button4_Click(object sender, EventArgs e){
             allEmoji.Show();
         }
         //Thêm Avt khi đăng kí
@@ -778,6 +878,72 @@ namespace ClientChat
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();
+        }
+        string outFileVoceRecord = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        string outputFileName;
+        string nameVoice;
+        //voiceRecord
+        private void guna2Button5_Click(object sender, EventArgs e){
+            this.Invoke(new Action(() =>{
+                recordVoice.Show();
+                s = 30;
+                t.Start();
+                getVoice();
+            }));      
+        }
+        //D:\sql\MultiChatVersion2\\voiceRecord\1.mp3
+        private void getVoice() {
+            DirectoryInfo d = new DirectoryInfo(outFileVoceRecord.Substring(0, outFileVoceRecord.Length - 20) + @"\voiceRecord"); //Assuming Test is your Folder
+            FileInfo[] Files = d.GetFiles("*.mp3"); //Getting Text files
+            outputFileName = outFileVoceRecord.Substring(0, outFileVoceRecord.Length - 20) + @"\voiceRecord\" + $"{(Files.Length + 1).ToString()}.mp3";
+            nameVoice = (Files.Length + 1).ToString()+".mp3";
+            wave = new WaveIn();
+            wave.WaveFormat = new WaveFormat(44100, 1);
+            wave.DeviceNumber = 1;
+            wave.DataAvailable += Wave_DataAvailable;
+            wave.RecordingStopped += Wave_RecordingStopped;
+            writer = new WaveFileWriter(outputFileName, wave.WaveFormat);
+            wave.StartRecording();
+        }
+
+        private void Wave_RecordingStopped(object sender, StoppedEventArgs e){
+            writer.Dispose();
+        }
+
+        private void Wave_DataAvailable(object sender, WaveInEventArgs e){
+            writer.Write(e.Buffer, 0, e.BytesRecorded);
+        }
+
+        private void guna2Button6_Click(object sender, EventArgs e){
+            stopRecording();
+        }
+        private void stopRecording() { 
+            this.Invoke(new Action(() =>{
+                wave.StopRecording();
+                if (outputFileName == null)
+                    return;
+                var processStartInfo = new ProcessStartInfo
+                {
+                    FileName = Path.GetDirectoryName(outputFileName),
+                    UseShellExecute = true
+                };
+                Process.Start(processStartInfo);
+                sendVoice();
+                recordVoice.Hide();
+                var pic = new voieMessSend();
+                pic.outFileVoceRecord = outputFileName;
+                pic.Load();
+                allMessage.Controls.Add(pic);
+                allMessage.ScrollControlIntoView(pic);
+                allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                pic.Left - allMessage.AutoScrollPosition.Y);
+            }));
+        }
+        private void sendVoice() {
+            sendData(8, $"{OpText.Text}:{nameVoice}");
+        }
+        private void Client_FormClosing(object sender, FormClosingEventArgs e){
+
         }
     }
 }

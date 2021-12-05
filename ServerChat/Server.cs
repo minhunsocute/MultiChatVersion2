@@ -323,6 +323,29 @@ namespace ServerChat
                         continue;
                 }
             }
+            else if (rec[0] == 8) {//Nhận voice chat
+                int Index = s.IndexOf(':');
+                string userName = s.Substring(0, Index);
+                string nameSend = "";
+                string ipPortRec = "";
+                foreach(Client item in listCList) {
+                    if ($"{textIP.Text}:{item.IpPort}" == clien.RemoteEndPoint.ToString()) {
+                        f.InsertMess(item.Name, userName, s.Substring(Index + 1),2);
+                        nameSend = item.Name;
+                        //break;
+                    }
+                    if (userName == item.Name)
+                        ipPortRec = item.IpPort;
+                }
+                foreach(Socket item in ClientList) {
+                    if (SocketConnected(item)&&(item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':')+1))==ipPortRec) {
+                        item.Send(Serialize($"0{nameSend}@{s.Substring(Index + 1)}"));
+                        break;
+                    }
+                    else
+                        continue;
+                }
+            }
         }
         byte[] Serialize(object obj)
         {
