@@ -92,7 +92,7 @@ namespace ClientChat
                 timeOut.Text = string.Format($"00:{s.ToString()}");
             }));
         }
-
+        
         // CHỉnh size cho Send mess
         private void buitSizeSend(string s,Send uc) { 
             if(s.Length < 30){
@@ -150,7 +150,7 @@ namespace ClientChat
             threadConnectServer.IsBackground = true;
             threadConnectServer.Start();
         }
-
+        //Kết nối đến server 
         private void ConnectServer()
         {
             try{
@@ -191,6 +191,7 @@ namespace ClientChat
         //Nhận File
         public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
         public static string receivedPath1 = "D:/sql/MultiChatVersion2/imageTrash/";
+        //Nhận file 
         public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
             try {         
                 int fileNameLen = BitConverter.ToInt32(clientData, 0);
@@ -271,6 +272,7 @@ namespace ClientChat
                 this.Invoke(new Action(() =>{
                     metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
                     allEmoji.Hide();
+                    panel1.Hide();
                     ((Control)mess).Enabled = true;
                     ((Control)login).Enabled = false;
                     ((Control)creat).Enabled = false;
@@ -692,6 +694,7 @@ namespace ClientChat
         private void messageText_Enter(object sender, EventArgs e){
             
         }
+        //Gửi message
         private void messageText_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter) { 
@@ -943,6 +946,32 @@ namespace ClientChat
             sendData(8, $"{OpText.Text}:{nameVoice}");
         }
         private void Client_FormClosing(object sender, FormClosingEventArgs e){
+
+        }
+
+        private void guna2Button8_Click(object sender, EventArgs e){
+            this.Invoke(new Action(() => {
+                flpListClient.Controls.Clear();
+                foreach(ClientOnline item in listClientOnline) { 
+                    flpListClient.Controls.Add(item);
+                }
+                guna2Button8.Enabled = false;
+                guna2Button7.Enabled = true;
+            }));
+        }
+        private void guna2Button7_Click(object sender, EventArgs e){
+            this.Invoke(new Action(() => {
+                flpListClient.Controls.Clear();
+                guna2Button7.Enabled = false;
+                guna2Button8.Enabled = true;
+            }));
+        }
+
+        private void metroTabControl1_Click(object sender, EventArgs e){
+
+        }
+        
+        private void addMemGroup_Click(object sender, EventArgs e){
 
         }
     }

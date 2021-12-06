@@ -81,7 +81,7 @@ namespace ClientChat
             this.guna2Button4.ForeColor = System.Drawing.Color.White;
             this.guna2Button4.HoverState.Parent = this.guna2Button4;
             this.guna2Button4.Image = global::ClientChat.Properties.Resources.play;
-            this.guna2Button4.Location = new System.Drawing.Point(538, -1);
+            this.guna2Button4.Location = new System.Drawing.Point(370, 0);
             this.guna2Button4.Name = "guna2Button4";
             this.guna2Button4.ShadowDecoration.Parent = this.guna2Button4;
             this.guna2Button4.Size = new System.Drawing.Size(39, 33);
@@ -106,7 +106,7 @@ namespace ClientChat
             this.timeOut.ForeColor = System.Drawing.Color.White;
             this.timeOut.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.timeOut.HoverState.Parent = this.timeOut;
-            this.timeOut.Location = new System.Drawing.Point(472, 3);
+            this.timeOut.Location = new System.Drawing.Point(418, 4);
             this.timeOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.timeOut.Name = "timeOut";
             this.timeOut.PasswordChar = '\0';
@@ -122,7 +122,7 @@ namespace ClientChat
             // 
             this.guna2Separator2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.guna2Separator2.FillColor = System.Drawing.Color.White;
-            this.guna2Separator2.Location = new System.Drawing.Point(377, 11);
+            this.guna2Separator2.Location = new System.Drawing.Point(489, 10);
             this.guna2Separator2.Name = "guna2Separator2";
             this.guna2Separator2.Size = new System.Drawing.Size(85, 10);
             this.guna2Separator2.TabIndex = 32;
