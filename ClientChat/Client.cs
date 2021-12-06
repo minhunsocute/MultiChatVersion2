@@ -25,7 +25,7 @@ namespace ClientChat
         Socket client;
         IPEndPoint ipe;
         Thread threadConnectServer;
-        string name;
+        public static string name;
         WaveIn wave;
         WaveFileWriter writer;
         /// <summary>
@@ -40,6 +40,8 @@ namespace ClientChat
         int checkRecord = 0;
         int deviceName =0;
         List<ClientOnline> listClientOnline;
+        List<ClientOnline> allClient;
+        public static string allclie = "";
         System.Timers.Timer t;
         int s = 30;
         public Client()
@@ -245,11 +247,15 @@ namespace ClientChat
                 while (true){
                     byte[] buffer = new byte[1024 * 5000];
                     int rec = client.Receive(buffer);
-                    if (buffer[0] != 11) { 
+                    if (buffer[0] != 11 && buffer[0] != 12) {
                         string mess = (String)Deserialize(buffer);
                         CheckMessage(mess);
                     }
-                    else {
+                    else if(buffer[0] == 12) {
+                        string mess = (String)Deserialize(buffer);
+                        checkMessage1(mess);
+                    }
+                    else if (buffer[0] == 11){
                         byte[] data = new byte[1024 * 5000];
                         for(int i = 1; i < 1024 * 5000; i++) {
                             data[i - 1] = buffer[i];
@@ -263,7 +269,11 @@ namespace ClientChat
                 showErrorWhenServerDis();
             }
         }
-
+        private void checkMessage1(string message) {
+            if (message[0] == 1) {
+                //tbSearch.Text = message;
+            }
+        }
         //hàm check message từ server
         private void CheckMessage(string message){
             //login thành công
@@ -533,7 +543,17 @@ namespace ClientChat
                     }
                 }));
             }
+            else if (message[0] == 'a') {
+                allclie = message.Substring(1);
+                FormGroup f = new FormGroup();
+                f.ShowDialog();
+                if(f.listCLientinGroup != "") {
+                    string s = f.listCLientinGroup;
+                    sendData(12, s);
+                }
+            }
         }
+        
         //Load ListView 
         private void LoadListView(){
             allEmoji.Controls.Clear();
@@ -972,7 +992,9 @@ namespace ClientChat
         }
         
         private void addMemGroup_Click(object sender, EventArgs e){
-
+            this.Invoke(new Action(() =>{
+                sendData(12, "1group");
+            }));
         }
     }
 }

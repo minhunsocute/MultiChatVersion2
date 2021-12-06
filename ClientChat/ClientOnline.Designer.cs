@@ -77,7 +77,7 @@ namespace ClientChat
             this.avtClient.Name = "avtClient";
             this.avtClient.ShadowDecoration.Parent = this.avtClient;
             this.avtClient.Size = new System.Drawing.Size(44, 41);
-            this.avtClient.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.avtClient.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.avtClient.TabIndex = 28;
             this.avtClient.TabStop = false;
             // 

@@ -135,8 +135,7 @@ namespace ServerChat
                 while (true) {
                     byte[] data = new byte[1024 * 5000];
                     int recive = clien.Receive(data);
-                    if (data[0] != 11 && data[0] != 2) {
-                        textName.Text = data[23].ToString();
+                    if (data[0] != 11 && data[0] != 2 && data[0] !=12) {// xử lý gửi nhận người dùng
                         byte[] data1 = new byte[1024 * 5000];
                         for (int i = 1; i < 1024 * 5000; i++){
                             data1[i - 1] = data[i];
@@ -144,7 +143,15 @@ namespace ServerChat
                         string s = (string)Deserialize(data1);
                         checkString1(s, clien, data);
                     }
-                    else if (data[0] == 2) {
+                    else if(data[0] == 12) {// xử lý gửi nhận group
+                        byte[] data1 = new byte[1024 * 5000];
+                        for (int i = 1; i < 1024 * 5000; i++){
+                            data1[i - 1] = data[i];
+                        }
+                        string s = (string)Deserialize(data1);
+                        checkString2(s, clien);
+                    }
+                    else if (data[0] == 2) { // xử lý đăng ký 
                         sql_manage f = new sql_manage();
                         int lengthS = (int)data[1];
                         string s = "";
@@ -175,7 +182,7 @@ namespace ServerChat
                         else
                             sendString("4unsuccess", clien);
                     }
-                    else if (data[0]==11) {
+                    else if (data[0]==11) {//xử lý gửi file hình ảnh
                         int lengthname = (int)data[1];
                         byte[] data1 = new byte[recive-1-lengthname];
                         string opName = "";
@@ -224,6 +231,19 @@ namespace ServerChat
             f.updateActi(username, 1);
             int index = clien.RemoteEndPoint.ToString().IndexOf(':');
             f.Loaddata(listClient, clien.RemoteEndPoint.ToString().Substring(index + 1), username, 0);
+        }
+        private void checkString2(string s,Socket clien) {
+            sql_manage f = new sql_manage();
+            if (s[0] == '1') { //gửi danh sách các client on và off cho client để tạo group
+                clien.Send(Serialize(f.getListClient("")));
+            }
+            else if (s[0] == '2') {
+                textName.Text = s;
+                string nameGroup = s.Substring(1, s.IndexOf('@')-1);
+                string allMem = s.Substring(s.IndexOf('@') + 1);
+                f.InsertGroup(nameGroup);
+                f.insertMemGroup(nameGroup, allMem);
+            }
         }
         private void checkString1(string s,Socket clien,byte[] rec) {
             sql_manage f = new sql_manage();

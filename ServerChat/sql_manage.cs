@@ -115,6 +115,24 @@ namespace ServerChat
             conn.Close();
             return sendString;
         }
+        public string getListClient(string userName)
+        {
+            string sendString = "a";
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"SELECT USERNAME,AVT FROM CLIENT";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            dt = new DataTable();
+            myAdapter.Fill(dt);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                sendString += $"{dt.Rows[i][0].ToString()}:{dt.Rows[i][1].ToString()}";
+                if (i != dt.Rows.Count-1) sendString += ":";
+            }
+            conn.Close();
+            return sendString;
+        }
         public void refreshAllData()
         {
             conn = new SqlConnection(conStr);
@@ -176,6 +194,35 @@ namespace ServerChat
             dt = ds.Tables["AVT"];
             avtName = dt.Rows[0]["AVT"].ToString();
             return avtName;
+        }
+
+        public void InsertGroup(string nameGroup) {
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"INSERT INTO ROOM (NAME_ROOM) VALUES (N'{nameGroup}')";
+            comm = new SqlCommand(sqlString, conn);
+            comm.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void insertMemGroup(string nameGroup,string allMem) {
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"SELECT ID FROM ROOM WHERE NAME_ROOM = N'{nameGroup}'";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "ID");
+            dt = ds.Tables["ID"];
+            string iDroom = dt.Rows[0][0].ToString();
+            string[] listClient = allMem.Split(':');
+            foreach(string item in listClient) {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    sqlString = $"INSERT INTO MEM_ROOM (IDROOM,IDCLIENT) VALUES({iDroom},N'{item}')";
+                    comm = new SqlCommand(sqlString, conn);
+                    comm.ExecuteNonQuery();
+                }
+            }
+            conn.Close();
         }
     }
 }

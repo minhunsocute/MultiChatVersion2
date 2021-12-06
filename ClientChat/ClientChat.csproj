@@ -220,6 +220,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
+    <None Include="Resources\create-group-button2.png" />
+    <None Include="Resources\create-group-button1.png" />
     <None Include="Resources\create-group-button.png" />
     <None Include="Resources\user.png" />
     <None Include="Resources\customer2.png" />
