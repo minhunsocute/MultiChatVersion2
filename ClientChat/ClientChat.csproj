@@ -121,6 +121,12 @@
     <Compile Include="FormGroup.Designer.cs">
       <DependentUpon>FormGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="GroupOnline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GroupOnline.Designer.cs">
+      <DependentUpon>GroupOnline.cs</DependentUpon>
+    </Compile>
     <Compile Include="imageMessRec.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,6 +182,9 @@
     <EmbeddedResource Include="FormGroup.resx">
       <DependentUpon>FormGroup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GroupOnline.resx">
+      <DependentUpon>GroupOnline.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="imageMessRec.resx">
       <DependentUpon>imageMessRec.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,6 +228,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Avt\3b428fed44a72f7fa3e0a221c5c2ed1a.jpg" />
+    <None Include="Avt\174586777_206122801056993_1083275454970293522_n.jpg" />
     <Content Include="MetroFramework.txt" />
     <None Include="Resources\create-group-button2.png" />
     <None Include="Resources\create-group-button1.png" />

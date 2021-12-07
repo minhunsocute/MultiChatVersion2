@@ -224,5 +224,49 @@ namespace ServerChat
             }
             conn.Close();
         }
+        public string loadGroup(string userName) {
+            string group = "b";
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"EXEC LOADGROUP '{userName}'";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "ID");
+            dt = ds.Tables["ID"];
+            SqlDataAdapter myAdapter1;
+            DataSet ds1;
+            DataTable dt1;
+            for(int i = 0; i < dt.Rows.Count; i++) {
+                group += $"{dt.Rows[i]["ID"].ToString()}:{dt.Rows[i]["NAME_ROOM"].ToString()}:";
+                string sqlString1 = $"EXEC LOADMEMGROUP {dt.Rows[i]["ID"].ToString()}";
+                myAdapter1 = new SqlDataAdapter(sqlString1, conn);
+                ds1 = new DataSet();
+                myAdapter1.Fill(ds1, "IDCLIENT");
+                dt1 = ds1.Tables["IDCLIENT"];
+                group += $"{dt1.Rows.Count.ToString()}:";
+                for(int j = 0; j < dt1.Rows.Count; j++) {
+                    group += $"{dt1.Rows[j][0].ToString()}:{dt1.Rows[j][1].ToString()}:";
+                }
+            }
+            return group;
+        }
+        public string loadMessageGroup(string idGroup) {
+            string str = "c";
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"exec LOADMESSGROUP {idGroup}";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "ID");
+            dt = ds.Tables["ID"];
+            for(int i=0;i<dt.Rows.Count;i++) {
+                string name_send = dt.Rows[i]["NAMESEND"].ToString();
+                string name_rec = dt.Rows[i]["NAMERECEVIE"].ToString();
+                string content = dt.Rows[i]["CONTENT"].ToString();
+                string typeMess = dt.Rows[i]["TYPE_MESS"].ToString();
+                str += $"*{name_send.Length.ToString()}*{name_send}*{name_rec.Length.ToString()}*{name_rec}*{(content.Length + 1).ToString()}*{typeMess}{content}";
+            }
+            return str;
+        }
     }
 }

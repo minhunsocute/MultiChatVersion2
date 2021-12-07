@@ -10,26 +10,33 @@ using System.Windows.Forms;
 
 namespace ClientChat
 {
-    public partial class ClientOnline : UserControl
+    public partial class GroupOnline : UserControl
     {
-        public ClientOnline()
+        public GroupOnline()
         {
             InitializeComponent();
             lbCount.Hide();
-            
         }
-        public ClientOnline(string name)
-        {
+
+        public GroupOnline(string name) {
             this.Name1 = name;
         }
+        
+        
+        
+        
         private string name;
-        public string Name1 { get => name; set => name = value; }
+        public string Name1 { get => name;   set => name = value; }
         public int CheckClick { get => checkClick; set => checkClick = value; }
         public int NoRecDontSee { get => noRecDontSee; set => noRecDontSee = value; }
         private int checkClick;
         private int noRecDontSee;
-        private void ClientOnline_MouseEnter(object sender, EventArgs e)
-        {
+        public List<ClientOnline> memGroup;
+        public int idGroup;
+        
+        
+        
+        private void GroupOnline_MouseEnter(object sender, EventArgs e){
             if (CheckClick == 0)
             {
                 this.BackColor = Color.Silver;
@@ -37,7 +44,7 @@ namespace ClientChat
             }
         }
 
-        private void ClientOnline_MouseLeave(object sender, EventArgs e)
+        private void GroupOnline_MouseLeave(object sender, EventArgs e)
         {
             if (checkClick == 0)
             {

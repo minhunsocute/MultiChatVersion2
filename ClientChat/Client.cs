@@ -40,7 +40,7 @@ namespace ClientChat
         int checkRecord = 0;
         int deviceName =0;
         List<ClientOnline> listClientOnline;
-        List<ClientOnline> allClient;
+        List<GroupOnline> listGroup;
         public static string allclie = "";
         System.Timers.Timer t;
         int s = 30;
@@ -543,17 +543,146 @@ namespace ClientChat
                     }
                 }));
             }
-            else if (message[0] == 'a') {
+            else if (message[0] == 'a') {//gửi tên group và danh sách các client trong group cho server
                 allclie = message.Substring(1);
                 FormGroup f = new FormGroup();
                 f.ShowDialog();
                 if(f.listCLientinGroup != "") {
                     string s = f.listCLientinGroup;
                     sendData(12, s);
+                    this.Invoke(new Action(() =>
+                    {
+                        btnallUser.Enabled = true;
+                        btnallGroup.Enabled = false;
+
+                    }));
+                }
+            }
+            else if(message[0]== 'b') { 
+                this.Invoke(new Action(()=>{
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    listGroup = new List<GroupOnline>();
+                    string[] listStr = message.Substring(1, message.Length - 2).Split(':');
+                    for(int i = 0; i < listStr.Length;) {
+                        GroupOnline item = new GroupOnline();
+                        item.idGroup = Int32.Parse(listStr[i]);i++;
+                        item.lbName.Text = listStr[i];i++;
+                        int noMem = Int32.Parse(listStr[i]);i++;
+                        item.memGroup = new List<ClientOnline>(); 
+                        for(int j = 0; j < noMem; j++) {
+                            ClientOnline ite = new ClientOnline();
+                            ite.lbName.Text = listStr[i];i++;
+                            Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + listStr[i]);i++;
+                            var ms = new MemoryStream();
+                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            var bytes = ms.ToArray();
+                            ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                            item.memGroup.Add(ite);
+                        }
+                        item.CheckClick = 0;
+                        item.NoRecDontSee = 0;
+                        item.Tag = item;
+                        item.Click += Click_Group;
+                        item.pictureBox1.Image = item.memGroup[0].avtClient.Image;
+                        item.pictureBox2.Image = item.memGroup[1].avtClient.Image;
+                        listGroup.Add(item);
+                        flpListClient.Controls.Add(item);
+                    }
+                }));
+                //b1:AnhEm:3:hungmai:244644651_1188387245325270_2437869500730178936_n.jpgbababa:1200px-Premier_League_Logo.svg.pnganhem:174586777_206122801056993_1083275454970293522_n.jpg2:Djitme:5:hung:3b428fed44a72f7fa3e0a221c5c2ed1a.jpghung22:464074.jpghungmai:244644651_1188387245325270_2437869500730178936_n.jpgbababa:1200px-Premier_League_Logo.svg.pnganhem:174586777_206122801056993_1083275454970293522_n.jpg
+            }
+            else if (message[0] == 'c') {
+                this.Invoke(new Action(() =>
+                {
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    allMessage.Controls.Clear();
+                    List<mess> lism = messInstance.Instance.LoadMessGroup(message);
+                    foreach(mess item in lism) {
+                        if (item.Content[0] == '0')
+                        {
+                            if (item.MemChat == nameCLient.Text)
+                            {
+                                Send f = new Send();
+                                buitSizeSend(item.Content.Substring(1), f);
+                                allMessage.Controls.Add(f);
+                            }
+                            else
+                            {
+                                Recieve f = new Recieve();
+                                buitSizeRec(item.Content.Substring(1), f);
+                                addImageForClientMess(item, f);
+                                allMessage.Controls.Add(f);
+                            }
+                        }
+                    }
+                }));
+
+            }
+        }
+        public void addImageForClientMess(mess item,Recieve f) {
+            foreach (GroupOnline ite in listGroup)
+            {
+                if (ite.lbName.Text == OpText.Text)
+                {
+                    foreach (ClientOnline it in ite.memGroup)
+                    {
+                        if (it.lbName.Text == item.MemChat)
+                        {
+                            f.guna2CirclePictureBox1.Image = it.avtClient.Image;
+                            f.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                            break;
+                        }
+                    }
+                    break;
                 }
             }
         }
-        
+        private void ClientOnline_Click(object sender, EventArgs e)
+        {
+            ClientOnline ite = (sender as ClientOnline).Tag as ClientOnline;
+            //string s = (sender as ClientOnline).Tag as string;
+            OpText.Text = ite.lbName.Text;
+            opAvt.Image = ite.avtClient.Image;
+            foreach(ClientOnline item in listClientOnline) { 
+                if(item.lbName.Text == ite.lbName.Text) {
+                    item.BackColor = Color.FromArgb(232,243,254);
+                    item.CheckClick = 1;
+                    item.lbName.BackColor = Color.FromArgb(232, 243, 254);
+                }
+                else
+                {
+                    item.CheckClick = 0;
+                    item.BackColor = DefaultBackColor;
+                    item.lbName.BackColor = DefaultBackColor;
+                }
+                if (item.lbCount.Text != "0") {
+                    item.NoRecDontSee = 0;item.lbCount.Hide();
+                }
+            }
+            //client.Send(Serialize($"6{nameCLient.Text}@{s}"));
+            sendData(6, $"6{nameCLient.Text}@{ite.lbName.Text}");
+        }
+        private void Click_Group(object sender, EventArgs e){
+            GroupOnline ite = (sender as GroupOnline).Tag as GroupOnline;
+            OpText.Text = ite.lbName.Text;
+            foreach(GroupOnline item in listGroup) { 
+                if(item.lbName.Text == ite.lbName.Text) {
+                    item.BackColor = Color.FromArgb(232,243,254);
+                    item.CheckClick = 1;
+                    item.lbName.BackColor = Color.FromArgb(232, 243, 254);
+                }
+                else
+                {
+                    item.CheckClick = 0;
+                    item.BackColor = DefaultBackColor;
+                    item.lbName.BackColor = DefaultBackColor;
+                }
+                if (item.lbCount.Text != "0") {
+                    item.NoRecDontSee = 0;item.lbCount.Hide();
+                }
+            }
+            sendData(12,$"4{nameCLient.Text}@{ite.idGroup}");
+        }
         //Load ListView 
         private void LoadListView(){
             allEmoji.Controls.Clear();
@@ -607,31 +736,7 @@ namespace ClientChat
             sendData(7, $"{OpText.Text}@{name}.png");
         }
 
-        private void ClientOnline_Click(object sender, EventArgs e)
-        {
-            ClientOnline ite = (sender as ClientOnline).Tag as ClientOnline;
-            //string s = (sender as ClientOnline).Tag as string;
-            OpText.Text = ite.lbName.Text;
-            opAvt.Image = ite.avtClient.Image;
-            foreach(ClientOnline item in listClientOnline) { 
-                if(item.lbName.Text == ite.lbName.Text) {
-                    item.BackColor = Color.FromArgb(232,243,254);
-                    item.CheckClick = 1;
-                    item.lbName.BackColor = Color.FromArgb(232, 243, 254);
-                }
-                else
-                {
-                    item.CheckClick = 0;
-                    item.BackColor = DefaultBackColor;
-                    item.lbName.BackColor = DefaultBackColor;
-                }
-                if (item.lbCount.Text != "0") {
-                    item.NoRecDontSee = 0;item.lbCount.Hide();
-                }
-            }
-            //client.Send(Serialize($"6{nameCLient.Text}@{s}"));
-            sendData(6, $"6{nameCLient.Text}@{ite.lbName.Text}");
-        }
+        
 
         byte[] Serialize(object obj)
         {
@@ -975,15 +1080,16 @@ namespace ClientChat
                 foreach(ClientOnline item in listClientOnline) { 
                     flpListClient.Controls.Add(item);
                 }
-                guna2Button8.Enabled = false;
-                guna2Button7.Enabled = true;
+                btnallUser.Enabled = false;
+                btnallGroup.Enabled = true;
             }));
         }
         private void guna2Button7_Click(object sender, EventArgs e){
             this.Invoke(new Action(() => {
                 flpListClient.Controls.Clear();
-                guna2Button7.Enabled = false;
-                guna2Button8.Enabled = true;
+                btnallGroup.Enabled = false;
+                btnallUser.Enabled = true;
+                sendData(12, $"3{Username.Text}");
             }));
         }
 

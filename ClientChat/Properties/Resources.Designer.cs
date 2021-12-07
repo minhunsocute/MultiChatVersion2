@@ -83,9 +83,29 @@ namespace ClientChat.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _174586777_206122801056993_1083275454970293522_n {
+            get {
+                object obj = ResourceManager.GetObject("174586777_206122801056993_1083275454970293522_n", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _192652194_1659856561070116_8406195883736750965_n {
             get {
                 object obj = ResourceManager.GetObject("192652194_1659856561070116_8406195883736750965_n", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _3b428fed44a72f7fa3e0a221c5c2ed1a {
+            get {
+                object obj = ResourceManager.GetObject("3b428fed44a72f7fa3e0a221c5c2ed1a", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
