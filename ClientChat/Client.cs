@@ -37,8 +37,8 @@ namespace ClientChat
         int checkServerOn = 0;
         string fileNamePath = "";
         int choseAvt = 0;
-        int checkRecord = 0;
         int deviceName =0;
+        int checkmessGroup_person = 0;
         List<ClientOnline> listClientOnline;
         List<GroupOnline> listGroup;
         public static string allclie = "";
@@ -596,6 +596,8 @@ namespace ClientChat
                                 btnallGroup.Enabled = true;
                             }
                         }
+                        else
+                            btnallGroup.Enabled = true;
                     }));
                     trd.IsBackground = true;
                     trd.Start();
@@ -631,40 +633,52 @@ namespace ClientChat
             }
            
             else if (message[0] == 'd') {
-                string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                string[] lism = message.Substring(1).Split(':');
-                GroupOnline addItem = new GroupOnline();
-                addItem.idGroup = Int32.Parse(lism[1]);
-                addItem.lbName.Text = lism[0];
-                addItem.memGroup = new List<ClientOnline>();
-                for(int i = 2; i < lism.Length; i+=2) {
-                    ClientOnline ite = new ClientOnline();
-                    ite.lbName.Text = lism[i];
-                    Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + lism[i+1]);
-                    var ms = new MemoryStream();
-                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    var bytes = ms.ToArray();
-                    ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
-                    addItem.memGroup.Add(ite);
-                }
-                addItem.CheckClick = 0;
-                addItem.NoRecDontSee = 0;
-                addItem.Tag = addItem;
-                addItem.Click += Click_Group;
-                addItem.pictureBox1.Image = addItem.memGroup[0].avtClient.Image;
-                addItem.pictureBox2.Image = addItem.memGroup[1].avtClient.Image;
-                listGroup.Add(addItem);
-                //this.Invoke(new Action(() =>
-                //{
-                //    btnallUser.Enabled = true;
-                //    btnallGroup.Enabled = false;
-                //    flpListClient.Controls.Clear();
-                //    foreach (GroupOnline item in listGroup)
-                //    {
-                //        flpListClient.Controls.Add(item);
+                this.Invoke(new Action(() =>
+                {
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    string[] lism = message.Substring(1).Split(':');
+                    GroupOnline addItem = new GroupOnline();
+                    addItem.idGroup = Int32.Parse(lism[1]);
+                    addItem.lbName.Text = lism[0];
+                    addItem.memGroup = new List<ClientOnline>();
+                    for (int i = 2; i < lism.Length; i += 2)
+                    {
+                        ClientOnline ite = new ClientOnline();
+                        ite.lbName.Text = lism[i];
+                        Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + lism[i+1]);
+                        var ms = new MemoryStream();
+                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        var bytes = ms.ToArray();
+                        ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                        addItem.memGroup.Add(ite);
+                    }
+                    addItem.CheckClick = 0;
+                    addItem.NoRecDontSee = 0;
+                    addItem.Tag = addItem;
+                    addItem.Click += Click_Group;
+                    addItem.pictureBox1.Image = addItem.memGroup[0].avtClient.Image;
+                    addItem.pictureBox2.Image = addItem.memGroup[1].avtClient.Image;
+                    listGroup.Add(addItem);
+                    btnallUser.Enabled = true;
+                    btnallGroup.Enabled = false;
+                    flpListClient.Controls.Clear();
+                    foreach (GroupOnline item in listGroup)
+                    {
+                        flpListClient.Controls.Add(item);
 
-                //    }
-                //}));
+                    }
+                }));       
+                    //this.Invoke(new Action(() =>
+                    //{
+                    //    btnallUser.Enabled = true;
+                    //    btnallGroup.Enabled = false;
+                    //    flpListClient.Controls.Clear();
+                    //    foreach (GroupOnline item in listGroup)
+                    //    {
+                    //        flpListClient.Controls.Add(item);
+
+                    //    }
+                    //}));
             }
         }
         public void addImageForClientMess(mess item,Recieve f) {
@@ -690,6 +704,7 @@ namespace ClientChat
             ClientOnline ite = (sender as ClientOnline).Tag as ClientOnline;
             //string s = (sender as ClientOnline).Tag as string;
             OpText.Text = ite.lbName.Text;
+            EnableImagePerson();
             opAvt.Image = ite.avtClient.Image;
             foreach(ClientOnline item in listClientOnline) { 
                 if(item.lbName.Text == ite.lbName.Text) {
@@ -710,6 +725,13 @@ namespace ClientChat
             //client.Send(Serialize($"6{nameCLient.Text}@{s}"));
             sendData(6, $"6{nameCLient.Text}@{ite.lbName.Text}");
         }
+         //set image for optext
+        private void EnableImagePerson() {
+            imageGroup.Hide();
+            halfPic1.Hide();
+            halfpic2.Hide();
+        }
+        
         private void Click_Group(object sender, EventArgs e){
             GroupOnline ite = (sender as GroupOnline).Tag as GroupOnline;
             OpText.Text = ite.lbName.Text;
@@ -729,6 +751,12 @@ namespace ClientChat
                     item.NoRecDontSee = 0;item.lbCount.Hide();
                 }
             }
+            opAvt.Show();
+            imageGroup.Show();
+            halfPic1.Show();
+            halfpic2.Show();
+            halfPic1.Image = ite.memGroup[0].avtClient.Image;
+            halfpic2.Image = ite.memGroup[1].avtClient.Image;
             sendData(12,$"4{nameCLient.Text}@{ite.idGroup}");
         }
         //Load ListView 
@@ -874,7 +902,16 @@ namespace ClientChat
                 if (!string.IsNullOrEmpty(messageText.Text)) {
                     this.Invoke(new Action(() =>
                     {
-                        sendData(5, $"5{OpText.Text}@{messageText.Text}");
+                        if(checkmessGroup_person == 0) 
+                            sendData(5, $"5{OpText.Text}@{messageText.Text}");
+                        else if(checkmessGroup_person == 1) { 
+                            foreach(GroupOnline item in listGroup) { 
+                                if(item.lbName.Text == OpText.Text) {
+                                    sendData(12, $"5{nameCLient.Text}@{item.idGroup.ToString()}@{messageText.Text}");
+                                    break;
+                                }
+                            }
+                        }
                         //client.Send(Serialize($"5{OpText.Text}@{messageText.Text}"));
                         var pic = new Send();
                         buitSizeSend(messageText.Text, pic);
@@ -1000,6 +1037,8 @@ namespace ClientChat
             t.Start();
             t.Join();
         }
+
+       
         //Gửi like
         private void guna2Button1_Click(object sender, EventArgs e)
         {
@@ -1124,6 +1163,7 @@ namespace ClientChat
 
         private void guna2Button8_Click(object sender, EventArgs e){
             this.Invoke(new Action(() => {
+                checkmessGroup_person = 0;
                 flpListClient.Controls.Clear();
                 foreach(ClientOnline item in listClientOnline) { 
                     flpListClient.Controls.Add(item);
@@ -1134,11 +1174,11 @@ namespace ClientChat
         }
         private void guna2Button7_Click(object sender, EventArgs e){
             this.Invoke(new Action(() => {
+                checkmessGroup_person = 1;
                 flpListClient.Controls.Clear();
                 btnallGroup.Enabled = false;
                 btnallUser.Enabled = true;
-                foreach (GroupOnline item in listGroup.ToList())
-                {
+                foreach (GroupOnline item in listGroup.ToList()){
                     flpListClient.Controls.Add(item);
                 }
             }));
@@ -1157,6 +1197,30 @@ namespace ClientChat
             this.Invoke(new Action(() => {
                 sendData(12, "1group");
             }));
+        }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+            flpListClient.Controls.Clear();
+            if(checkmessGroup_person == 0) { 
+                foreach (ClientOnline item in listClientOnline)
+                {
+                    if (item.lbName.Text.Contains(tbSearch.Text))
+                    {
+                        flpListClient.Controls.Add(item);
+                    }
+                }
+            }
+            else if(checkmessGroup_person == 1)
+            {
+                foreach(GroupOnline item in listGroup)
+                {
+                    if(item.lbName.Text.Contains((tbSearch.Text)))
+                    {
+                        flpListClient.Controls.Add(item);
+                    }
+                }
+            }
         }
     }
 }

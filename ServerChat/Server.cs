@@ -243,8 +243,21 @@ namespace ServerChat
                 string allMem = s.Substring(s.IndexOf('@') + 1);
                 f.InsertGroup(nameGroup);
                 f.insertMemGroup(nameGroup, allMem);
-                clien.Send(Serialize(f.LoadMemNewGroup(nameGroup)));
-                textName.Text = f.LoadMemNewGroup(nameGroup);
+                string sendString = f.LoadMemNewGroup(nameGroup);
+                string listIP = "";
+                foreach (Client item in listCList)
+                {
+                    if (allMem.Contains(item.Name))
+                        listIP += $"{item.IpPort}:";
+                }
+                foreach (Socket item in ClientList)
+                {
+                    if (SocketConnected(item) && listIP.Contains((item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':') + 1))))
+                    {
+                        item.Send(Serialize(sendString));
+                    }
+                    else continue;
+                }
             }
             else if(s[0] == '3') { // gửi danh sách group và danh sách mem 
                 string userName = s.Substring(1);
@@ -257,6 +270,14 @@ namespace ServerChat
                 string userName = s.Substring(1, Index - 1);
                 string idGroup = s.Substring(Index + 1);
                 clien.Send(Serialize(f.loadMessageGroup(idGroup)));
+            }
+            else if(s[0] == '5') {//Chat tin nhắn với group
+                string[] lism = s.Substring(1).Split('@');
+                string nameSend = lism[0];
+                string idGroup = lism[1];
+                string content = lism[2];
+                f.insertMessGroup(nameSend, idGroup,content, 0);
+
             }
         }
         //c*7*hungmai*1*1*12*0Alo alo alo*6*bababa*1*1*17*0Alo alo alsdfsdo*7*hungmai*1*1*16*0Alo alo fsdfalo*5*anhem*1*1*15*0Alo alo fsfalo*6*bababa*1*1*16*0Alo alofsfd alo*7*hungmai*1*1*15*0Alo dfsalo alo*5*anhem*1*1*12*0Alo alo alo*6*bababa*1*1*12*0Alo alo alo*7*hungmai*1*1*9*0Alo  alo

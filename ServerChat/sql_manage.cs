@@ -248,6 +248,7 @@ namespace ServerChat
                     group += $"{dt1.Rows[j][0].ToString()}:{dt1.Rows[j][1].ToString()}:";
                 }
             }
+            conn.Close();
             return group;
         }
         public string loadMessageGroup(string idGroup) {
@@ -266,6 +267,7 @@ namespace ServerChat
                 string typeMess = dt.Rows[i]["TYPE_MESS"].ToString();
                 str += $"*{name_send.Length.ToString()}*{name_send}*{name_rec.Length.ToString()}*{name_rec}*{(content.Length + 1).ToString()}*{typeMess}{content}";
             }
+            conn.Close();
             return str;
         }
         public string LoadMemNewGroup(string nameGroup) {
@@ -284,7 +286,16 @@ namespace ServerChat
             for(int i = 0; i < dt.Rows.Count; i++) {
                 str += $":{dt.Rows[i][0].ToString()}:{dt.Rows[i][1].ToString()}";
             }
+            conn.Close();
             return str;
+        }
+        public void insertMessGroup(string nameSend,string idGroup,string content,int typeMess) {
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"INSERT INTO _MESSAGEROOM (NAMESEND,NAMERECEVIE,CONTENT,TYPE_MESS) VALUES ('{nameSend}',{idGroup},N'{content}',0)";
+            comm = new SqlCommand(sqlString, conn);
+            comm.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }
