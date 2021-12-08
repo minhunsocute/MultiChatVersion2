@@ -268,5 +268,23 @@ namespace ServerChat
             }
             return str;
         }
+        public string LoadMemNewGroup(string nameGroup) {
+            string str = "d";
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = "SELECT COUNT(*) FROM ROOM";
+            comm = new SqlCommand(sqlString, conn);
+            int count = (Int32)comm.ExecuteScalar();
+            string sql_selectMem = $"EXEC LOADMEMGROUP {count.ToString()}";
+            myAdapter = new SqlDataAdapter(sql_selectMem, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "IDCLIENT");
+            dt = ds.Tables["IDCLIENT"];
+            str += $"{nameGroup}:{count.ToString()}"; 
+            for(int i = 0; i < dt.Rows.Count; i++) {
+                str += $":{dt.Rows[i][0].ToString()}:{dt.Rows[i][1].ToString()}";
+            }
+            return str;
+        }
     }
 }

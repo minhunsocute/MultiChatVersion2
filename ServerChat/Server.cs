@@ -243,6 +243,8 @@ namespace ServerChat
                 string allMem = s.Substring(s.IndexOf('@') + 1);
                 f.InsertGroup(nameGroup);
                 f.insertMemGroup(nameGroup, allMem);
+                clien.Send(Serialize(f.LoadMemNewGroup(nameGroup)));
+                textName.Text = f.LoadMemNewGroup(nameGroup);
             }
             else if(s[0] == '3') { // gửi danh sách group và danh sách mem 
                 string userName = s.Substring(1);
