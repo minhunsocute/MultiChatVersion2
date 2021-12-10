@@ -66,6 +66,7 @@ namespace ServerChat
             catch { }
             conn.Close();
         }
+        
         public void updateActi(string userName, int type)
         {
             conn = new SqlConnection(conStr);
@@ -292,10 +293,52 @@ namespace ServerChat
         public void insertMessGroup(string nameSend,string idGroup,string content,int typeMess) {
             conn = new SqlConnection(conStr);
             conn.Open();
-            string sqlString = $"INSERT INTO _MESSAGEROOM (NAMESEND,NAMERECEVIE,CONTENT,TYPE_MESS) VALUES ('{nameSend}',{idGroup},N'{content}',0)";
+            string sqlString = $"INSERT INTO _MESSAGEROOM (NAMESEND,NAMERECEVIE,CONTENT,TYPE_MESS) VALUES ('{nameSend}',{idGroup},N'{content}',{typeMess.ToString()})";
             comm = new SqlCommand(sqlString, conn);
             comm.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public List<string> LoadMemGroup(string idGroup) {
+            List<string> lism = new List<string>();
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string sqlString = $"exec LOADMEMGROUP {idGroup}";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "IDCLIENT");
+            dt = ds.Tables["IDCLIENT"];
+            for(int i = 0; i < dt.Rows.Count; i++)
+            {
+                lism.Add(dt.Rows[i][0].ToString());
+            }
+            return lism;
+        }
+        public List<string> LoadMemGroup2(string nameGroup){
+            List<string> lism = new List<string>();
+            conn = new SqlConnection(conStr);
+            conn.Open();
+            string idGroup = "";
+            SqlDataAdapter myAdapter1;
+            DataSet ds1;
+            DataTable dt1;
+            string sqlString1 = $"SELECT ID FROM ROOM WHERE NAME_ROOM = N'{nameGroup}'";
+            myAdapter1 = new SqlDataAdapter(sqlString1, conn);
+            ds1 = new DataSet();
+            myAdapter1.Fill(ds1, "ID");
+            dt1 = ds1.Tables["ID"];
+            idGroup = dt1.Rows[0][0].ToString();
+            //-------------------------------------------------------------------
+            string sqlString = $"exec LOADMEMGROUP {idGroup}";
+            myAdapter = new SqlDataAdapter(sqlString, conn);
+            ds = new DataSet();
+            myAdapter.Fill(ds, "IDCLIENT");
+            dt = ds.Tables["IDCLIENT"];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                lism.Add(dt.Rows[i][0].ToString());
+            }
+            return lism;
         }
     }
 }

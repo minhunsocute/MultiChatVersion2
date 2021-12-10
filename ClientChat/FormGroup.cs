@@ -28,7 +28,7 @@ namespace ClientChat
                 string[] listTmp = mess.Split(':');
                 string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 allClient = new List<ClientOnline>();
-                flpListClient.Controls.Clear();
+                    flpListClient.Controls.Clear();
                 for (int j = 0; j < listTmp.Length; j += 2)
                 {
                     if (listTmp[j] != "" && listTmp[j] != Client.name)

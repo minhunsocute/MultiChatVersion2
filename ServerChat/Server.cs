@@ -135,7 +135,7 @@ namespace ServerChat
                 while (true) {
                     byte[] data = new byte[1024 * 5000];
                     int recive = clien.Receive(data);
-                    if (data[0] != 11 && data[0] != 2 && data[0] !=12) {// xử lý gửi nhận người dùng
+                    if (data[0] != 11 && data[0] != 2 && data[0] !=12 && data[0] != 13) {// xử lý gửi nhận người dùng
                         byte[] data1 = new byte[1024 * 5000];
                         for (int i = 1; i < 1024 * 5000; i++){
                             data1[i - 1] = data[i];
@@ -143,14 +143,7 @@ namespace ServerChat
                         string s = (string)Deserialize(data1);
                         checkString1(s, clien, data);
                     }
-                    else if(data[0] == 12) {// xử lý gửi nhận group
-                        byte[] data1 = new byte[1024 * 5000];
-                        for (int i = 1; i < 1024 * 5000; i++){
-                            data1[i - 1] = data[i];
-                        }
-                        string s = (string)Deserialize(data1);
-                        checkString2(s, clien);
-                    }
+                    
                     else if (data[0] == 2) { // xử lý đăng ký 
                         sql_manage f = new sql_manage();
                         int lengthS = (int)data[1];
@@ -204,6 +197,48 @@ namespace ServerChat
                             if (SocketConnected(item)&&(item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':')+1))==ipPortRec) {
                                 item.Send(data1);
                                 break;
+                            }
+                            else continue;
+                        }
+                    }
+                    else if (data[0] == 12)
+                    {// xử lý gửi nhận group
+                        byte[] data1 = new byte[1024 * 5000];
+                        for (int i = 1; i < 1024 * 5000; i++)
+                        {
+                            data1[i - 1] = data[i];
+                        }
+                        string s = (string)Deserialize(data1);
+                        checkString2(s, clien);
+                    }
+                    else if(data[0] == 13)
+                    {//xử lý gửi file và gửi hình ảnh cho group
+                        sql_manage f = new sql_manage();
+                        int lengthname = (int)data[1];
+                        byte[] data1 = new byte[recive - 1 - lengthname];
+                        string opName = "";
+                        data1[0] = 13;
+                        for (int i = 2; i < 2 + lengthname; i++)
+                            opName += Convert.ToChar(data[i]);
+                        textName.Text = $"{opName}+{recive}";
+                        int k = 1;
+                        for (int i = 2 + lengthname; i < recive; i++)
+                        {
+                            data1[k] = data[i]; k++;
+                        }
+                        List<string> listName = f.LoadMemGroup2(opName);
+                        string listIP = "";
+                        foreach (Client item in listCList)
+                        {
+                            if (checkNameClietinList(listName, item.Name) == -1)
+                                listIP += $"{item.IpPort}:";
+                        }
+                        foreach (Socket item in ClientList)
+                        {
+                            if (SocketConnected(item) && listIP.Contains((item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':') + 1))))
+                            {
+                                //item.Send(Serialize(sendString));
+                                item.Send(data1);
                             }
                             else continue;
                         }
@@ -271,14 +306,91 @@ namespace ServerChat
                 string idGroup = s.Substring(Index + 1);
                 clien.Send(Serialize(f.loadMessageGroup(idGroup)));
             }
-            else if(s[0] == '5') {//Chat tin nhắn với group
+            else if(s[0] == '5') 
+            {//Chat tin nhắn với group
                 string[] lism = s.Substring(1).Split('@');
                 string nameSend = lism[0];
                 string idGroup = lism[1];
                 string content = lism[2];
                 f.insertMessGroup(nameSend, idGroup,content, 0);
-
+                List<string> listName = f.LoadMemGroup(idGroup);
+                string listIP = "";
+                foreach(Client item in listCList)
+                {
+                    if (checkNameClietinList(listName, item.Name) == -1)
+                        listIP += $"{item.IpPort}:";
+                }
+                foreach (Socket item in ClientList)
+                {
+                    if (SocketConnected(item) && listIP.Contains((item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':') + 1))))
+                    {
+                        //item.Send(Serialize(sendString));
+                        item.Send(Serialize($"e{idGroup}@{nameSend}@{content}"));
+                    }
+                    else continue;
+                }
             }
+            else if (s[0] == '6')//chat emoji với group
+            {
+                int index1 = s.IndexOf('@');
+                int index2 = s.IndexOf('@', index1 + 1);
+                string nameSend = s.Substring(1, index1 - 1);
+                string idGroup = "";
+                for (int i = index1 + 1; i < index2; i++)
+                    idGroup += s[i];
+                List<string> listName = f.LoadMemGroup(idGroup);
+                string listIP = "";
+                f.insertMessGroup(nameSend, idGroup,s.Substring(index2+1) , 1);
+                foreach (Client item in listCList)
+                {
+                    if (checkNameClietinList(listName, item.Name) == -1)
+                        listIP += $"{item.IpPort}:";
+                }
+                foreach (Socket item in ClientList)
+                {
+                    if (SocketConnected(item) && listIP.Contains((item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':') + 1))))
+                    {
+                        //item.Send(Serialize(sendString));
+                        item.Send(Serialize($"f{idGroup}@{nameSend}@{s.Substring(index2+1)}"));
+                    }
+                    else continue;
+                }
+            }
+            else if(s[0]== '7') //Gửi voice chat
+            {
+                int index1 = s.IndexOf(':');
+                int index2 = s.IndexOf(':', index1 + 1);
+                string nameSend = s.Substring(1, index1 - 1);
+                string idGroup = "";
+                for (int i = index1 + 1; i < index2; i++)
+                    idGroup += s[i];
+                List<string> listName = f.LoadMemGroup(idGroup);
+                string listIP = "";
+                f.insertMessGroup(nameSend, idGroup, s.Substring(index2 + 1), 2);
+                foreach (Client item in listCList)
+                {
+                    if (checkNameClietinList(listName, item.Name) == -1)
+                        listIP += $"{item.IpPort}:";
+                }
+                foreach (Socket item in ClientList)
+                {
+                    if (SocketConnected(item) && listIP.Contains((item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':') + 1))))
+                    {
+                        //item.Send(Serialize(sendString));
+                        item.Send(Serialize($"g{idGroup}:{nameSend}:{s.Substring(index2 + 1)}"));
+                    }
+                    else continue;
+                }
+            }
+        }
+        //Kiểm tra name client tồn tại trong list client 
+        private int checkNameClietinList(List<string> lism,string nameUser) { 
+            foreach(string item in lism)
+            {
+                if (nameUser == item)
+                    return -1;
+            }
+            return 0;
         }
         //c*7*hungmai*1*1*12*0Alo alo alo*6*bababa*1*1*17*0Alo alo alsdfsdo*7*hungmai*1*1*16*0Alo alo fsdfalo*5*anhem*1*1*15*0Alo alo fsfalo*6*bababa*1*1*16*0Alo alofsfd alo*7*hungmai*1*1*15*0Alo dfsalo alo*5*anhem*1*1*12*0Alo alo alo*6*bababa*1*1*12*0Alo alo alo*7*hungmai*1*1*9*0Alo  alo
         //b2:Djitme:5:hung:hung22:hungmai:bababa:anhem:
@@ -332,12 +444,31 @@ namespace ServerChat
             }
             else if (rec[0] == 5) {//Gửi và nhận tin nhắn
                 int Index = s.IndexOf('@');
-                string userName = s.Substring(1, Index - 1);
+                string userName = "";
+                string content = "";
                 string nameSend = "";
                 string ipPortRec = "";
+                int i = 1;
+                while (true)
+                {
+                    if (s[i] == '@')
+                    {
+                        i++;break;
+                    }
+                    else
+                    {
+                        userName += s[i];
+                        i++;
+                    }
+                }
+                while (i < s.Length)
+                {
+                    content += s[i];i++;
+                }
+                textName.Text = userName + "/" + content;
                 foreach(Client item in listCList) {
                     if ($"{textIP.Text}:{item.IpPort}" == clien.RemoteEndPoint.ToString()) {
-                        f.InsertMess(item.Name, userName, s.Substring(Index + 1),0);
+                        f.InsertMess(item.Name, userName, content,0);
                         nameSend = item.Name;
                         //break;
                     }
@@ -346,7 +477,7 @@ namespace ServerChat
                 }
                 foreach(Socket item in ClientList) {
                     if (SocketConnected(item)&&(item.RemoteEndPoint.ToString().Substring(item.RemoteEndPoint.ToString().IndexOf(':')+1))==ipPortRec) {
-                        item.Send(Serialize($"8{nameSend}@{s.Substring(Index + 1)}"));
+                        item.Send(Serialize($"8{nameSend}@{content}"));
                         break;
                     }
                     else

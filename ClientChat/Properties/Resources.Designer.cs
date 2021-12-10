@@ -203,6 +203,26 @@ namespace ClientChat.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap customer3 {
+            get {
+                object obj = ResourceManager.GetObject("customer3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap customer4 {
+            get {
+                object obj = ResourceManager.GetObject("customer4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap dai_hoc_khoa_hoc_tu_nhien_dhqg_hcm {
             get {
                 object obj = ResourceManager.GetObject("dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm", resourceCulture);
