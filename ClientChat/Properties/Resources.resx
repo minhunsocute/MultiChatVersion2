@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Untitled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Untitled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="mail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -129,6 +126,9 @@
   </data>
   <data name="customer1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\customer1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="record" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Logo_UIT_Web_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Logo_UIT_Web_Transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,6 +157,12 @@
   <data name="create-group-button3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\create-group-button3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow-up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -169,6 +175,9 @@
   <data name="customer3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\customer3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="265973468_901856057132377_9370279015843560_n" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\265973468_901856057132377_9370279015843560_n.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="search1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -177,6 +186,12 @@
   </data>
   <data name="stop-button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stop-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="customer4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\customer4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="174586777_206122801056993_1083275454970293522_n" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Avt\174586777_206122801056993_1083275454970293522_n.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -187,11 +202,11 @@
   <data name="facebook-chat_screenshot-2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\facebook-chat_screenshot-2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="263832281_955468902035557_6360953243589519753_n" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\263832281_955468902035557_6360953243589519753_n.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="3b428fed44a72f7fa3e0a221c5c2ed1a" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Avt\3b428fed44a72f7fa3e0a221c5c2ed1a.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dai_hoc_khoa_hoc_tu_nhien_dhqg-hcm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -199,8 +214,8 @@
   <data name="create-group-button1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\create-group-button1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Untitled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="messenger (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\messenger (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -220,13 +235,16 @@
   <data name="thumb-up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\thumb-up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="record" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="263832281_955468902035557_6360953243589519753_n1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\263832281_955468902035557_6360953243589519753_n1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="263832281_955468902035557_6360953243589519753_n2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\263832281_955468902035557_6360953243589519753_n2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stop-button (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stop-button (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="customer4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\customer4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="down-arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\down-arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -29,5 +29,10 @@ namespace ClientChat
         private string content;
         private string memChat;
         public string MemChat { get => memChat; set => memChat = value; }
+       
+        private int scrollx;
+        public int Scrollx { get => scrollx; set => scrollx = value; }
+        private int scrolly;
+        public int Scrolly { get => scrolly; set => scrolly = value; }
     }
 }

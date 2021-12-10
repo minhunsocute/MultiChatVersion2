@@ -237,6 +237,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\down-arrow.png" />
+    <None Include="Resources\arrow-up.png" />
+    <None Include="Resources\265973468_901856057132377_9370279015843560_n.png" />
+    <None Include="Resources\263832281_955468902035557_6360953243589519753_n2.png" />
+    <None Include="Resources\263832281_955468902035557_6360953243589519753_n1.png" />
+    <None Include="Resources\263832281_955468902035557_6360953243589519753_n.png" />
     <None Include="Resources\customer4.png" />
     <None Include="Resources\customer3.png" />
     <None Include="Resources\create-group-button3.png" />

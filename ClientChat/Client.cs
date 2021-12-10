@@ -21,6 +21,7 @@ namespace ClientChat
 {
     public partial class Client : Form
     {
+        #region Values
         string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         Socket client;
         IPEndPoint ipe;
@@ -44,6 +45,17 @@ namespace ClientChat
         public static string allclie = "";
         System.Timers.Timer t;
         int s = 30;
+        public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
+        public static string receivedPath1 = "D:/sql/MultiChatVersion2/imageTrash/";
+
+        string outFileVoceRecord = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        string outputFileName;
+        string nameVoice;
+
+
+        #endregion
+
+        #region Load Form
         public Client()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -57,7 +69,6 @@ namespace ClientChat
             t.Interval = 1000;
             t.Elapsed += OntimeEvent;
         }
-
         private int LoadDevices()
         {
             int s =0;
@@ -94,7 +105,31 @@ namespace ClientChat
                 timeOut.Text = string.Format($"00:{s.ToString()}");
             }));
         }
+        private void ConnectServer()
+        {
+            try
+            {
+                ipe = new IPEndPoint(IPAddress.Parse(tbIP.Text), int.Parse(tbPort.Text));
+                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                client.Connect(ipe);
+                checkServerOn = 1;
+                btnSignIn.Enabled = true;
+                btnRegister.Enabled = true;
+                btnDisConnect.Enabled = true;
+                btnConnectServer.Enabled = false;
+
+                Thread listerServer = new Thread(ReceiveMessage);
+                listerServer.IsBackground = true;
+                listerServer.Start();
+            }
+            catch
+            {
+                MessageBox.Show("Can't connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
         
+        #region Built Size for User control mess
         // CHỉnh size cho Send mess
         private void buitSizeSend(string s,Send uc) { 
             if(s.Length < 30){
@@ -116,6 +151,7 @@ namespace ClientChat
                 }
             }
         }
+
         //Chỉnh size cho Rec mess
         private void buitSizeRec(string s,Recieve uc) { 
             if(s.Length < 30){
@@ -137,6 +173,7 @@ namespace ClientChat
                 }
             }
         }
+        #endregion
 
         private void sendData(byte header,string s) {
             byte[] stringBye = Serialize(s);
@@ -153,26 +190,708 @@ namespace ClientChat
             threadConnectServer.Start();
         }
         //Kết nối đến server 
-        private void ConnectServer()
+        
+        #region checkString
+        private void checkMessage1(string message)
         {
-            try{
-                ipe = new IPEndPoint(IPAddress.Parse(tbIP.Text), int.Parse(tbPort.Text));
-                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                client.Connect(ipe);
-                checkServerOn = 1;
-                btnSignIn.Enabled = true;
-                btnRegister.Enabled = true;
-                btnDisConnect.Enabled = true;
-                btnConnectServer.Enabled = false;
-
-                Thread listerServer = new Thread(ReceiveMessage);
-                listerServer.IsBackground = true;
-                listerServer.Start();
-            }
-            catch{
-                MessageBox.Show("Can't connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (message[0] == 1)
+            {
+                //tbSearch.Text = message;
             }
         }
+        //hàm check message từ server
+        List<mess> listMess = new List<mess>();
+        private void CheckMessage(string message)
+        {
+            //login thành công
+            if (message[0] == '1')
+            {
+                name = Username.Text;
+                this.Invoke(new Action(() => {
+                    metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
+                    allEmoji.Hide();
+                    panel1.Hide();
+                    ((Control)mess).Enabled = true;
+                    ((Control)login).Enabled = false;
+                    ((Control)creat).Enabled = false;
+                    nameCLient.Text = Username.Text;
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + message.Substring(8));
+                    var ms = new MemoryStream();
+                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    var bytes = ms.ToArray();
+                    avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                }));
+                //load người dùng
+                sendData(4, $"4{Username.Text}");
+            }
+            //login không thành công
+            else if (message[0] == '2')
+            {
+                MessageBox.Show("Invalid password or username", "Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //register thành công
+            else if (message[0] == '3')
+            {
+                MessageBox.Show("Register successfully");
+                this.Invoke(new Action(() => {
+                    UsernameRegister.Clear();
+                    PasswordRegister.Clear();
+                    RePassRegister.Clear();
+                }));
+            }
+            //register không thành công
+            else if (message[0] == '4')
+            {
+                MessageBox.Show("Your username has been already exist");
+                //add client online into flow layout panel
+            }
+            //Kiểm tra server bị nhấn vào nút disconnect
+            else if (message[0] == '5')
+            {
+                showErrorWhenServerDis();
+            }
+            else if (message[0] == '6')
+            {
+                this.Invoke(new Action(() => {
+                    string mess = message.Substring(1);
+                    string[] listTmp = mess.Split(':');
+                    if (listTmp.Length != 0)
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        listClientOnline = new List<ClientOnline>();
+                        flpListClient.Controls.Clear();
+                        for (int j = 0; j < listTmp.Length; j += 2)
+                        {
+                            if (listTmp[j] != "" && listTmp[j] != name)
+                            {
+                                ClientOnline clientOnline = new ClientOnline();
+                                clientOnline.lbName.Text = listTmp[j];
+                                clientOnline.CheckClick = 0;
+                                clientOnline.NoRecDontSee = 0;
+                                listClientOnline.Add(clientOnline);
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + listTmp[j + 1]);
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                clientOnline.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                                clientOnline.Tag = clientOnline;
+                                clientOnline.Click += ClientOnline_Click;
+                            }
+                        }
+                        int i = 0;
+                        foreach (ClientOnline item in listClientOnline)
+                        {
+                            if (i == 0)
+                            {
+                                OpText.Text = item.lbName.Text;
+                                opAvt.Image = item.avtClient.Image;
+                            }
+                            flpListClient.Controls.Add(item);
+                            i++;
+                        }
+                        allMessage.Controls.Clear();
+                        OpText.Text = string.Empty;
+                        EnableImagePerson();
+                        opAvt.Hide();
+                        btnallUser.Enabled = false;
+                        btnallGroup.Enabled = true;
+                    }
+                    sendData(12, $"3{Username.Text}");
+                }));
+            }
+            else if (message[0] == '7')
+            { //Nhận và load danh sách các tin nhắn
+                this.Invoke(new Action(() => {
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    allMessage.Controls.Clear();
+                    //List<mess> lism = messInstance.Instance.LoadMess(nameCLient.Text, OpText.Text, message);
+                    listMess = messInstance.Instance.LoadMess(nameCLient.Text, OpText.Text, message);
+                    foreach (mess item in listMess)
+                    {
+                        if (item.Content[0] == '0')
+                        {
+                            if (item.Type == 1)
+                            {
+                                Send f = new Send();
+                                buitSizeSend(item.Content.Substring(1), f);
+                                allMessage.Controls.Add(f);
+                                int height = f.Location.Y + f.Size.Height;
+                                f.Tag = height.ToString();
+                                allMessage.ScrollControlIntoView(f);
+                                item.Scrollx = f.Right - allMessage.AutoScrollPosition.X;
+                                item.Scrolly = f.Left - allMessage.AutoScrollPosition.Y;
+                            }
+                            else if (item.Type == -1)
+                            {
+                                Recieve f = new Recieve();
+                                f.guna2CirclePictureBox1.Image = opAvt.Image;
+                                f.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                                buitSizeRec(item.Content.Substring(1), f);
+                                allMessage.Controls.Add(f);
+                                int height = f.Location.Y + f.Size.Height;
+                                f.Tag = height.ToString();
+                                allMessage.ScrollControlIntoView(f);
+                                item.Scrollx = f.Right - allMessage.AutoScrollPosition.X;
+                                item.Scrolly = f.Left - allMessage.AutoScrollPosition.Y;
+                            }
+                        }
+                        else if (item.Content[0] == '1')
+                        {
+                            if (item.Type == 1)
+                            {
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                var pic = new ImageMessSend();
+                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                pic.Height -= 100;
+                                pic.guna2PictureBox1.Height -= 100;
+                                pic.guna2PictureBox1.Width -= 140;
+                                pic.guna2PictureBox1.BorderRadius = 0;
+                                allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                            }
+                            else if (item.Type == -1)
+                            {
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                var pic = new imageMessRec();
+                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                                pic.Height -= 100;
+                                pic.guna2PictureBox1.Height -= 100;
+                                pic.guna2PictureBox1.Width -= 140;
+                                pic.guna2PictureBox1.BorderRadius = 0;
+                                allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                            }
+                        }
+                        else if (item.Content[0] == '2')
+                        {
+                            if (item.Type == -1)
+                            {
+                                var pic = new voiceMessRec();
+                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
+                                pic.Load();
+                                pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                                allMessage.Controls.Add(pic);
+                                allMessage.ScrollControlIntoView(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                            }
+                            else
+                            {
+                                var pic = new voieMessSend();
+                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
+                                pic.Load();
+                                allMessage.Controls.Add(pic);
+                                allMessage.ScrollControlIntoView(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                            }
+                        }
+                    }
+                    //...
+                    if (listMess.Count != 0)
+                    {
+                        var pic = new Send();
+                        allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
+                        allMessage.Controls.Remove(pic);
+
+                    }
+                }));
+            }
+            else if (message[0] == '8')
+            {//mesage 
+                this.Invoke(new Action(() =>
+                {
+                    int Index = message.IndexOf('@');
+                    if (OpText.Text == message.Substring(1, Index - 1) && checkmessGroup_person == 0)
+                    {
+                        var pic = new Recieve();
+                        buitSizeRec(message.Substring(Index + 1), pic);
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                        allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
+
+                    }
+                    else
+                    {
+                        foreach (ClientOnline item in listClientOnline)
+                        {
+                            if (item.lbName.Text == message.Substring(1, Index - 1))
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+            else if (message[0] == '9')
+            {//Nhận Emoji              
+                this.Invoke(new Action(() =>
+                {
+                    int Index = message.IndexOf('@');
+                    if (OpText.Text == message.Substring(1, Index - 1))
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(Index + 1));
+                        var ms = new MemoryStream();
+                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        var bytes = ms.ToArray();
+                        var pic = new imageMessRec();
+                        pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pic.Height -= 100;
+                        pic.guna2PictureBox1.Height -= 100;
+                        pic.guna2PictureBox1.Width -= 140;
+                        pic.guna2PictureBox1.BorderRadius = 0;
+                        allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
+                    }
+                    else
+                    {
+                        foreach (ClientOnline item in listClientOnline)
+                        {
+                            if (item.lbName.Text == message.Substring(1, Index - 1))
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+            else if (message[0] == '0')
+            { //Nhận voice chat
+                this.Invoke(new Action(() => {
+                    int Index = message.IndexOf('@');
+                    if (OpText.Text == message.Substring(1, Index - 1))
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        //Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(Index + 1));
+                        var pic = new voiceMessRec();
+                        pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + message.Substring(Index + 1);
+                        pic.Load();
+                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
+                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                        allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
+                        allMessage.ScrollControlIntoView(pic);
+                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
+
+                    }
+                    else
+                    {
+                        foreach (ClientOnline item in listClientOnline)
+                        {
+                            if (item.lbName.Text == message.Substring(1, Index - 1))
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+            else if (message[0] == 'a')
+            {//gửi tên group và danh sách các client trong group cho server
+                allclie = message.Substring(1);
+                FormGroup f = new FormGroup();
+                f.ShowDialog();
+                if (f.listCLientinGroup != "")
+                {
+                    string s = f.listCLientinGroup;
+                    sendData(12, s);
+
+                }
+            }
+            else if (message[0] == 'b')
+            {
+                this.Invoke(new Action(() => {
+                    Thread trd = new Thread(new ThreadStart(() =>
+                    {
+                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                        string pat = path.Substring(0, path.Length - 9) + @"Avt\";
+                        listGroup = new List<GroupOnline>();
+                        if (message.Length > 2)
+                        {
+                            string m = message.Substring(1, message.Length - 2);
+                            string[] listStr = m.Split(':');
+                            for (int i = 0; i < listStr.Length;)
+                            {
+                                GroupOnline item = new GroupOnline();
+                                item.idGroup = Int32.Parse(listStr[i++]);
+                                item.lbName.Text = listStr[i++];
+                                int noMem = Int32.Parse(listStr[i++]);
+                                item.memGroup = new List<ClientOnline>();
+
+                                for (int j = 0; j < noMem; j++)
+                                {
+                                    ClientOnline ite = new ClientOnline();
+                                    ite.lbName.Text = listStr[i++];
+                                    Image image = Image.FromFile(pat + listStr[i++]);
+                                    var ms = new MemoryStream();
+                                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                    var bytes = ms.ToArray();
+                                    ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                                    item.memGroup.Add(ite);
+                                }
+                                item.CheckClick = 0;
+                                item.NoRecDontSee = 0;
+                                item.Tag = item;
+                                item.Click += Click_Group;
+                                item.pictureBox1.Image = item.memGroup[0].avtClient.Image;
+                                item.pictureBox2.Image = item.memGroup[1].avtClient.Image;
+                                listGroup.Add(item);
+                                btnallGroup.Enabled = true;
+                            }
+                        }
+                        else
+                        {
+                            btnallGroup.Enabled = true;
+                            btnallUser.Enabled = false;
+                        }
+                    }));
+                    trd.IsBackground = true;
+                    trd.Start();
+
+                }));
+                //b1:AnhEm:3:hungmai:244644651_1188387245325270_2437869500730178936_n.jpgbababa:1200px-Premier_League_Logo.svg.pnganhem:174586777_206122801056993_1083275454970293522_n.jpg2:Djitme:5:hung:3b428fed44a72f7fa3e0a221c5c2ed1a.jpghung22:464074.jpghungmai:244644651_1188387245325270_2437869500730178936_n.jpgbababa:1200px-Premier_League_Logo.svg.pnganhem:174586777_206122801056993_1083275454970293522_n.jpg
+            }
+            else if (message[0] == 'c')
+            {
+                this.Invoke(new Action(() =>
+                {
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    allMessage.Controls.Clear();
+                    listMess = messInstance.Instance.LoadMessGroup(message);
+                    foreach (mess item in listMess)
+                    {
+                        if (item.Content[0] == '0')
+                        {
+                            if (item.MemChat == nameCLient.Text)
+                            {
+                                Send f = new Send();
+                                buitSizeSend(item.Content.Substring(1), f);
+                                allMessage.Controls.Add(f);
+                                int height = f.Location.Y + f.Size.Height;
+                                f.Tag = height.ToString();
+                                allMessage.ScrollControlIntoView(f);
+                                item.Scrollx = f.Right - allMessage.AutoScrollPosition.X;
+                                item.Scrolly = f.Left - allMessage.AutoScrollPosition.Y;
+                            }
+                            else
+                            {
+                                Recieve f = new Recieve();
+                                buitSizeRec(item.Content.Substring(1), f);
+                                addImageForClientMess(item.MemChat, f);
+                                allMessage.Controls.Add(f);
+                                int height = f.Location.Y + f.Size.Height;
+                                f.Tag = height.ToString();
+                                allMessage.ScrollControlIntoView(f);
+                                item.Scrollx = f.Right - allMessage.AutoScrollPosition.X;
+                                item.Scrolly = f.Left - allMessage.AutoScrollPosition.Y;
+                            }
+                        }
+                        else if (item.Content[0] == '1')
+                        {
+                            if (item.MemChat == nameCLient.Text)
+                            {
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                var pic = new ImageMessSend();
+                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                pic.Height -= 100;
+                                pic.guna2PictureBox1.Height -= 100;
+                                pic.guna2PictureBox1.Width -= 140;
+                                pic.guna2PictureBox1.BorderRadius = 0;
+                                allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                            }
+                            else
+                            {
+                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
+                                var ms = new MemoryStream();
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var bytes = ms.ToArray();
+                                var pic = new imageMessRec();
+                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                                addImageForMessImage(item.MemChat, pic.guna2CirclePictureBox1);
+                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                                pic.Height -= 100;
+                                pic.guna2PictureBox1.Height -= 100;
+                                pic.guna2PictureBox1.Width -= 140;
+                                pic.guna2PictureBox1.BorderRadius = 0;
+                                allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                            }
+                        }
+                        else if (item.Content[0] == '2')
+                        {
+                            if (item.MemChat != nameCLient.Text)
+                            {
+                                var pic = new voiceMessRec();
+                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
+                                pic.Load();
+                                addImageForMessImage(item.MemChat, pic.guna2CirclePictureBox1);
+                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                                allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                                allMessage.ScrollControlIntoView(pic);
+                            }
+                            else
+                            {
+                                var pic = new voieMessSend();
+                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
+                                pic.Load();
+                                allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
+                                allMessage.ScrollControlIntoView(pic);
+                            }
+                        }
+                        if (listMess.Count != 0)
+                        {
+                            var pic = new Recieve();
+                            allMessage.Controls.Add(pic);
+                            int height = pic.Location.Y + pic.Size.Height;
+                            pic.Tag = height.ToString();
+
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
+                            allMessage.Controls.Remove(pic);
+                        }
+                    }
+                }));
+            }
+
+            else if (message[0] == 'd')
+            {
+                this.Invoke(new Action(() =>
+                {
+                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                    string[] lism = message.Substring(1).Split(':');
+                    GroupOnline addItem = new GroupOnline();
+                    addItem.idGroup = Int32.Parse(lism[1]);
+                    addItem.lbName.Text = lism[0];
+                    addItem.memGroup = new List<ClientOnline>();
+                    for (int i = 2; i < lism.Length; i += 2)
+                    {
+                        ClientOnline ite = new ClientOnline();
+                        ite.lbName.Text = lism[i];
+                        Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + lism[i + 1]);
+                        var ms = new MemoryStream();
+                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        var bytes = ms.ToArray();
+                        ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
+                        addItem.memGroup.Add(ite);
+                    }
+                    addItem.CheckClick = 0;
+                    addItem.NoRecDontSee = 0;
+                    addItem.Tag = addItem;
+                    addItem.Click += Click_Group;
+                    addItem.pictureBox1.Image = addItem.memGroup[0].avtClient.Image;
+                    addItem.pictureBox2.Image = addItem.memGroup[1].avtClient.Image;
+                    listGroup.Add(addItem);
+                    btnallUser.Enabled = true;
+                    btnallGroup.Enabled = false;
+                    flpListClient.Controls.Clear();
+                    foreach (GroupOnline item in listGroup)
+                    {
+                        flpListClient.Controls.Add(item);
+                    }
+                }));
+            }
+            //Nhậm mesage
+            else if (message[0] == 'e')
+            {
+                this.Invoke(new Action(() =>
+                {
+                    int index1 = message.IndexOf('@');
+                    int index2 = message.IndexOf('@', index1 + 1);
+                    int idGroup = Int32.Parse(message.Substring(1, index1 - 1));
+                    string nameSend = "";
+                    for (int i = index1 + 1; i < index2; i++)
+                    {
+                        nameSend += message[i];
+                    }
+                    string nameGroup = selecTNameGroupFromId(idGroup);
+                    if (checkmessGroup_person == 1 && nameGroup == OpText.Text)
+                    {
+                        if (nameSend != nameCLient.Text)
+                        {
+                            Recieve f = new Recieve();
+                            buitSizeRec(message.Substring(index2 + 1), f);
+                            addImageForClientMess(nameSend, f);
+                            allMessage.Controls.Add(f);
+                            int height = f.Location.Y + f.Size.Height;
+                            f.Tag = height.ToString();
+
+                            allMessage.ScrollControlIntoView(f);
+                            allMessage.AutoScrollPosition = new Point(f.Right - allMessage.AutoScrollPosition.X,
+                                                                            f.Left - allMessage.AutoScrollPosition.Y);
+                        }
+                    }
+                    else
+                    {
+                        foreach (GroupOnline item in listGroup)
+                        {
+                            if (item.lbName.Text == nameGroup)
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+            //Nhận emoji group
+            else if (message[0] == 'f')
+            {
+                this.Invoke(new Action(() =>
+                {
+                    int index1 = message.IndexOf('@');
+                    int index2 = message.IndexOf('@', index1 + 1);
+                    int idGroup = Int32.Parse(message.Substring(1, index1 - 1));
+                    string nameSend = "";
+                    for (int i = index1 + 1; i < index2; i++)
+                    {
+                        nameSend += message[i];
+                    }
+                    string nameGroup = selecTNameGroupFromId(idGroup);
+                    if (checkmessGroup_person == 1 && nameGroup == OpText.Text)
+                    {
+                        if (nameSend != nameCLient.Text)
+                        {
+                            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                            Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(index2 + 1));
+                            var ms = new MemoryStream();
+                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            var bytes = ms.ToArray();
+                            var pic = new imageMessRec();
+                            pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
+                            addImageForMessImage(nameSend, pic.guna2CirclePictureBox1);
+                            pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                            pic.Height -= 100;
+                            pic.guna2PictureBox1.Height -= 100;
+                            pic.guna2PictureBox1.Width -= 140;
+                            pic.guna2PictureBox1.BorderRadius = 0;
+                            allMessage.Controls.Add(pic);
+                            int height = pic.Location.Y + pic.Size.Height;
+                            pic.Tag = height.ToString();
+
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
+                        }
+                    }
+                    else
+                    {
+                        foreach (GroupOnline item in listGroup)
+                        {
+                            if (item.lbName.Text == nameGroup)
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+            //Nhận âm thanh
+            else if (message[0] == 'g')
+            {
+                this.Invoke(new Action(() =>
+                {
+                    int index1 = message.IndexOf(':');
+                    int index2 = message.IndexOf(':', index1 + 1);
+                    int idGroup = Int32.Parse(message.Substring(1, index1 - 1));
+                    string nameSend = "";
+                    for (int i = index1 + 1; i < index2; i++)
+                    {
+                        nameSend += message[i];
+                    }
+                    string nameGroup = selecTNameGroupFromId(idGroup);
+                    if (checkmessGroup_person == 1 && nameGroup == OpText.Text)
+                    {
+                        if (nameSend != nameCLient.Text)
+                        {
+                            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                            var pic = new voiceMessRec();
+                            pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + message.Substring(index2 + 1);
+                            pic.Load();
+                            addImageForMessImage(nameSend, pic.guna2CirclePictureBox1);
+                            pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                            allMessage.Controls.Add(pic);
+                            int height = pic.Location.Y + pic.Size.Height;
+                            pic.Tag = height.ToString();
+
+                            allMessage.ScrollControlIntoView(pic);
+                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
+                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
+                        }
+                    }
+                    else
+                    {
+                        foreach (GroupOnline item in listGroup)
+                        {
+                            if (item.lbName.Text == nameGroup)
+                            {
+                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
+                                break;
+                            }
+                        }
+                    }
+                }));
+            }
+        }
+        #endregion
+
         //Hiện ra lỗi mỗi khi Server ngắt kết nối và trở về trang login
         private void showErrorWhenServerDis() {
             MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -191,8 +910,7 @@ namespace ClientChat
             }));
         }
         //Nhận File
-        public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
-        public static string receivedPath1 = "D:/sql/MultiChatVersion2/imageTrash/";
+        
         //Nhận file 
         public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
             try {         
@@ -216,6 +934,9 @@ namespace ClientChat
                         pic.clientData = clientData;
                         pic.receivedBytesLen = receivedBytesLen;
                         allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
                         allMessage.ScrollControlIntoView(pic);
                         allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                         pic.Left - allMessage.AutoScrollPosition.Y);
@@ -229,6 +950,9 @@ namespace ClientChat
                         pic.receivedBytesLen = receivedBytesLen;
                         pic.clientData = clientData;
                         allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
                         allMessage.ScrollControlIntoView(pic);
                         allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                         pic.Left - allMessage.AutoScrollPosition.Y);
@@ -281,612 +1005,7 @@ namespace ClientChat
                 showErrorWhenServerDis();
             }
         }
-        private void checkMessage1(string message) {
-            if (message[0] == 1) {
-                //tbSearch.Text = message;
-            }
-        }
-        //hàm check message từ server
-        private void CheckMessage(string message){
-            //login thành công
-            if (message[0] == '1'){
-                name = Username.Text;
-                this.Invoke(new Action(() =>{
-                    metroTabControl1.SelectedTab = metroTabControl1.TabPages["mess"];
-                    allEmoji.Hide();
-                    panel1.Hide();
-                    ((Control)mess).Enabled = true;
-                    ((Control)login).Enabled = false;
-                    ((Control)creat).Enabled = false;
-                    nameCLient.Text = Username.Text;
-                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\"+message.Substring(8));
-                    var ms = new MemoryStream();
-                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    var bytes = ms.ToArray();
-                    avtClient.Image = Image.FromStream(new MemoryStream(bytes));
-                }));
-                //load người dùng
-                sendData(4, $"4{Username.Text}");
-            }
-            //login không thành công
-            else if (message[0] == '2')
-            {
-                MessageBox.Show("Invalid password or username","Message",MessageBoxButtons.OK,MessageBoxIcon.Error);
-            }
-            //register thành công
-            else if (message[0] == '3')
-            {
-                MessageBox.Show("Register successfully");
-                this.Invoke(new Action(() =>{
-                    UsernameRegister.Clear();
-                    PasswordRegister.Clear();
-                    RePassRegister.Clear();
-                }));
-            }
-            //register không thành công
-            else if (message[0] == '4')
-            {
-                MessageBox.Show("Your username has been already exist");
-            //add client online into flow layout panel
-            }
-            //Kiểm tra server bị nhấn vào nút disconnect
-            else if (message[0] == '5')
-            {
-                showErrorWhenServerDis();
-            }
-            else if(message[0] == '6')
-            {
-                this.Invoke(new Action(() => {
-                    string mess = message.Substring(1);
-                    string[] listTmp = mess.Split(':');
-                    if(listTmp.Length != 0) { 
-                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                        listClientOnline = new List<ClientOnline>();
-                        flpListClient.Controls.Clear();
-                        for (int j = 0; j < listTmp.Length; j+=2) {
-                            if (listTmp[j] != "" && listTmp[j] != name) {
-                                ClientOnline clientOnline = new ClientOnline();
-                                clientOnline.lbName.Text = listTmp[j];
-                                clientOnline.CheckClick = 0;
-                                clientOnline.NoRecDontSee = 0;
-                                listClientOnline.Add(clientOnline);
-                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + listTmp[j+1]);
-                                var ms = new MemoryStream();
-                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                var bytes = ms.ToArray();
-                                clientOnline.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
-                                clientOnline.Tag = clientOnline;
-                                clientOnline.Click += ClientOnline_Click;
-                            }
-                        }
-                        int i = 0;
-                        foreach (ClientOnline item in listClientOnline)
-                        {
-                            if (i == 0) { 
-                                OpText.Text = item.lbName.Text;
-                                opAvt.Image = item.avtClient.Image;
-                            }
-                            flpListClient.Controls.Add(item);
-                            i++;
-                        }
-                        allMessage.Controls.Clear();
-                        OpText.Text = string.Empty;
-                        EnableImagePerson();
-                        opAvt.Hide();
-                        btnallUser.Enabled = false;
-                        btnallGroup.Enabled = true;
-                    }
-                    sendData(12, $"3{Username.Text}");
-                }));
-            }
-            else if (message[0] == '7') { //Nhận và load danh sách các tin nhắn
-                this.Invoke(new Action(() => {
-                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    allMessage.Controls.Clear();
-                    List<mess> lism = messInstance.Instance.LoadMess(nameCLient.Text, OpText.Text, message);
-                    foreach (mess item in lism)
-                    {
-                        if (item.Content[0] == '0') { 
-                            if (item.Type == 1)
-                            {
-                                Send f = new Send();
-                                buitSizeSend(item.Content.Substring(1), f);
-                                allMessage.Controls.Add(f);
-                            }
-                            else if (item.Type == -1)
-                            {
-                                Recieve f = new Recieve();
-                                f.guna2CirclePictureBox1.Image = opAvt.Image;
-                                f.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                                buitSizeRec(item.Content.Substring(1), f);
-                                allMessage.Controls.Add(f);
-                            }
-                        }
-                        else if(item.Content[0] == '1') { 
-                            if(item.Type == 1) {
-                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
-                                var ms = new MemoryStream();
-                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                var bytes = ms.ToArray();
-                                var pic = new ImageMessSend();
-                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
-                                pic.Height -= 100;
-                                pic.guna2PictureBox1.Height -= 100;
-                                pic.guna2PictureBox1.Width -= 140;
-                                pic.guna2PictureBox1.BorderRadius = 0;
-                                allMessage.Controls.Add(pic);
-
-                            }
-                            else if(item.Type == -1) {
-                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
-                                var ms = new MemoryStream();
-                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                var bytes = ms.ToArray();
-                                var pic = new imageMessRec();
-                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
-                                pic.guna2CirclePictureBox1.Image = opAvt.Image;
-                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                                pic.Height -= 100;
-                                pic.guna2PictureBox1.Height -= 100;
-                                pic.guna2PictureBox1.Width -= 140;
-                                pic.guna2PictureBox1.BorderRadius = 0;
-                                allMessage.Controls.Add(pic);
-                            }
-                        }
-                        else if (item.Content[0] == '2') { 
-                            if(item.Type == -1) {
-                                var pic = new voiceMessRec();
-                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
-                                pic.Load();
-                                pic.guna2CirclePictureBox1.Image = opAvt.Image;
-                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                                allMessage.Controls.Add(pic);
-                                allMessage.ScrollControlIntoView(pic);
-                            }
-                            else {
-                                var pic = new voieMessSend();
-                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
-                                pic.Load();
-                                allMessage.Controls.Add(pic);
-                                allMessage.ScrollControlIntoView(pic);
-                            }
-                        }
-                    }
-                    //...
-                    if (lism.Count != 0)
-                    {
-                        if (lism[lism.Count - 1].Type == 1)
-                        {
-                            var pic = new Send();
-                            allMessage.Controls.Add(pic);
-                            allMessage.ScrollControlIntoView(pic);
-                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
-                            allMessage.Controls.Remove(pic);
-                        }
-                        else
-                        {
-                            var pic = new Recieve();
-                            allMessage.Controls.Add(pic);
-                            allMessage.ScrollControlIntoView(pic);
-                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
-                            allMessage.Controls.Remove(pic);
-                        }
-                    }
-                }));                          
-            }
-            else if (message[0] == '8') {//mesage 
-                this.Invoke(new Action(() =>
-                {
-                    int Index = message.IndexOf('@');
-                    if (OpText.Text == message.Substring(1, Index - 1)&&checkmessGroup_person == 0)
-                    {
-                        var pic = new Recieve();
-                        buitSizeRec(message.Substring(Index + 1), pic);
-                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
-                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage; 
-                        allMessage.Controls.Add(pic);
-                        allMessage.ScrollControlIntoView(pic);
-                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
-                    }
-                    else { 
-                        foreach(ClientOnline item in listClientOnline) { 
-                            if(item.lbName.Text == message.Substring(1, Index - 1)) {
-                                item.NoRecDontSee++;item.lbCount.Text = item.NoRecDontSee.ToString();item.lbCount.Show();
-                                break;
-                            }
-                        }
-                    }
-                }));
-            }
-            else if (message[0] == '9') {//Nhận Emoji              
-                this.Invoke(new Action(() =>
-                {
-                    int Index = message.IndexOf('@');
-                    if (OpText.Text == message.Substring(1, Index - 1))
-                    {
-                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                        Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\"+message.Substring(Index+1));
-                        var ms = new MemoryStream();
-                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        var bytes = ms.ToArray();
-                        var pic = new imageMessRec();
-                        pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
-                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
-                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                        pic.Height -= 100;
-                        pic.guna2PictureBox1.Height -= 100;
-                        pic.guna2PictureBox1.Width -= 140;
-                        pic.guna2PictureBox1.BorderRadius = 0;
-                        allMessage.Controls.Add(pic);
-                        allMessage.ScrollControlIntoView(pic);
-                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
-                    }
-                    else { 
-                        foreach(ClientOnline item in listClientOnline) { 
-                            if(item.lbName.Text == message.Substring(1, Index - 1)) {
-                                item.NoRecDontSee++;item.lbCount.Text = item.NoRecDontSee.ToString();item.lbCount.Show();
-                                break;
-                            }
-                        }
-                    }
-                }));
-            }
-            else if (message[0] == '0' ) { //Nhận voice chat
-                this.Invoke(new Action(() =>{
-                    int Index = message.IndexOf('@');
-                    if (OpText.Text == message.Substring(1, Index - 1))
-                    {
-                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                        //Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(Index + 1));
-                        var pic = new voiceMessRec();
-                        pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + message.Substring(Index + 1);
-                        pic.Load();
-                        pic.guna2CirclePictureBox1.Image = opAvt.Image;
-                        pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                        allMessage.Controls.Add(pic);
-                        allMessage.ScrollControlIntoView(pic);
-                        allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                        pic.Left - allMessage.AutoScrollPosition.Y);
-
-                    }
-                    else
-                    {
-                        foreach (ClientOnline item in listClientOnline){
-                            if (item.lbName.Text == message.Substring(1, Index - 1))
-                            {
-                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
-                                break;
-                            }
-                        }
-                    }
-                }));
-            }
-            else if (message[0] == 'a') {//gửi tên group và danh sách các client trong group cho server
-                allclie = message.Substring(1);
-                FormGroup f = new FormGroup();
-                f.ShowDialog();
-                if(f.listCLientinGroup != "") {
-                    string s = f.listCLientinGroup;
-                    sendData(12, s);
-                    
-                }
-            }
-            else if(message[0]== 'b') { 
-                this.Invoke(new Action(()=>{
-                    Thread trd = new Thread(new ThreadStart(() =>
-                    {
-                        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                        string pat = path.Substring(0, path.Length - 9) + @"Avt\";
-                        listGroup = new List<GroupOnline>();
-                        if (message.Length > 2)
-                        {
-                            string m = message.Substring(1, message.Length - 2);
-                            string[] listStr = m.Split(':');
-                            for (int i = 0; i < listStr.Length;)
-                            {
-                                GroupOnline item = new GroupOnline();
-                                item.idGroup = Int32.Parse(listStr[i++]);
-                                item.lbName.Text = listStr[i++];
-                                int noMem = Int32.Parse(listStr[i++]);
-                                item.memGroup = new List<ClientOnline>();
-
-                                for (int j = 0; j < noMem; j++)
-                                {
-                                    ClientOnline ite = new ClientOnline();
-                                    ite.lbName.Text = listStr[i++];
-                                    Image image = Image.FromFile(pat + listStr[i++]);
-                                    var ms = new MemoryStream();
-                                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                    var bytes = ms.ToArray();
-                                    ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
-                                    item.memGroup.Add(ite);
-                                }
-                                item.CheckClick = 0;
-                                item.NoRecDontSee = 0;
-                                item.Tag = item;
-                                item.Click += Click_Group;
-                                item.pictureBox1.Image = item.memGroup[0].avtClient.Image;
-                                item.pictureBox2.Image = item.memGroup[1].avtClient.Image;
-                                listGroup.Add(item);
-                                btnallGroup.Enabled = true;
-                            }
-                        }
-                        else
-                        {
-                            btnallGroup.Enabled = true;
-                            btnallUser.Enabled = false;
-                        }
-                    }));
-                    trd.IsBackground = true;
-                    trd.Start();
-                        
-                }));
-                //b1:AnhEm:3:hungmai:244644651_1188387245325270_2437869500730178936_n.jpgbababa:1200px-Premier_League_Logo.svg.pnganhem:174586777_206122801056993_1083275454970293522_n.jpg2:Djitme:5:hung:3b428fed44a72f7fa3e0a221c5c2ed1a.jpghung22:464074.jpghungmai:244644651_1188387245325270_2437869500730178936_n.jpgbababa:1200px-Premier_League_Logo.svg.pnganhem:174586777_206122801056993_1083275454970293522_n.jpg
-            }
-            else if (message[0] == 'c') {
-                this.Invoke(new Action(() =>
-                {
-                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    allMessage.Controls.Clear();
-                    List<mess> lism = messInstance.Instance.LoadMessGroup(message);
-                    foreach (mess item in lism)
-                    {
-                        if (item.Content[0] == '0')
-                        {
-                            if (item.MemChat == nameCLient.Text)
-                            {
-                                Send f = new Send();
-                                buitSizeSend(item.Content.Substring(1), f);
-                                allMessage.Controls.Add(f);
-                            }
-                            else
-                            {
-                                Recieve f = new Recieve();
-                                buitSizeRec(item.Content.Substring(1), f);
-                                addImageForClientMess(item.MemChat, f);
-                                allMessage.Controls.Add(f);
-                            }
-                        }
-                        else if (item.Content[0] == '1')
-                        {
-                            if (item.MemChat == nameCLient.Text)
-                            {
-                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
-                                var ms = new MemoryStream();
-                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                var bytes = ms.ToArray();
-                                var pic = new ImageMessSend();
-                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
-                                pic.Height -= 100;
-                                pic.guna2PictureBox1.Height -= 100;
-                                pic.guna2PictureBox1.Width -= 140;
-                                pic.guna2PictureBox1.BorderRadius = 0;
-                                allMessage.Controls.Add(pic);
-                            }
-                            else
-                            {
-                                Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + item.Content.Substring(1));
-                                var ms = new MemoryStream();
-                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                var bytes = ms.ToArray();
-                                var pic = new imageMessRec();
-                                pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
-                                addImageForMessImage(item.MemChat, pic.guna2CirclePictureBox1);
-                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                                pic.Height -= 100;
-                                pic.guna2PictureBox1.Height -= 100;
-                                pic.guna2PictureBox1.Width -= 140;
-                                pic.guna2PictureBox1.BorderRadius = 0;
-                                allMessage.Controls.Add(pic);
-                            }
-                        }
-                        else if (item.Content[0] == '2')
-                        {
-                            if (item.MemChat != nameCLient.Text)
-                            {
-                                var pic = new voiceMessRec();
-                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
-                                pic.Load();
-                                addImageForMessImage(item.MemChat, pic.guna2CirclePictureBox1);
-                                pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                                allMessage.Controls.Add(pic);
-                                allMessage.ScrollControlIntoView(pic);
-                            }
-                            else
-                            {
-                                var pic = new voieMessSend();
-                                pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + item.Content.Substring(1);
-                                pic.Load();
-                                allMessage.Controls.Add(pic);
-                                allMessage.ScrollControlIntoView(pic);
-                            }
-                        }
-                        if (lism.Count != 0)
-                        {
-                            var pic = new Recieve();
-                            allMessage.Controls.Add(pic);
-                            allMessage.ScrollControlIntoView(pic);
-                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
-                            allMessage.Controls.Remove(pic);
-                        }
-                    }
-                }));
-            }
-           
-            else if (message[0] == 'd') {
-                this.Invoke(new Action(() =>
-                {
-                    string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                    string[] lism = message.Substring(1).Split(':');
-                    GroupOnline addItem = new GroupOnline();
-                    addItem.idGroup = Int32.Parse(lism[1]);
-                    addItem.lbName.Text = lism[0];
-                    addItem.memGroup = new List<ClientOnline>();
-                    for (int i = 2; i < lism.Length; i += 2)
-                    {
-                        ClientOnline ite = new ClientOnline();
-                        ite.lbName.Text = lism[i];
-                        Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"Avt\" + lism[i+1]);
-                        var ms = new MemoryStream();
-                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        var bytes = ms.ToArray();
-                        ite.avtClient.Image = Image.FromStream(new MemoryStream(bytes));
-                        addItem.memGroup.Add(ite);
-                    }
-                    addItem.CheckClick = 0;
-                    addItem.NoRecDontSee = 0;
-                    addItem.Tag = addItem;
-                    addItem.Click += Click_Group;
-                    addItem.pictureBox1.Image = addItem.memGroup[0].avtClient.Image;
-                    addItem.pictureBox2.Image = addItem.memGroup[1].avtClient.Image;
-                    listGroup.Add(addItem);
-                    btnallUser.Enabled = true;
-                    btnallGroup.Enabled = false;
-                    flpListClient.Controls.Clear();
-                    foreach (GroupOnline item in listGroup)
-                    {
-                        flpListClient.Controls.Add(item);
-                    }
-                }));
-            }
-            //Nhậm mesage
-            else if (message[0] == 'e') {
-                this.Invoke(new Action(() =>
-                {
-                    int index1 = message.IndexOf('@');
-                    int index2 = message.IndexOf('@', index1 + 1);
-                    int idGroup = Int32.Parse(message.Substring(1, index1 - 1));
-                    string nameSend = "";
-                    for (int i = index1 + 1; i < index2; i++)
-                    {
-                        nameSend += message[i]; 
-                    }
-                    string nameGroup = selecTNameGroupFromId(idGroup);
-                    if (checkmessGroup_person == 1 && nameGroup == OpText.Text) 
-                    {
-                        if(nameSend != nameCLient.Text)
-                        {
-                            Recieve f = new Recieve();
-                            buitSizeRec(message.Substring(index2 + 1), f);
-                            addImageForClientMess(nameSend, f);
-                            allMessage.Controls.Add(f);
-                            allMessage.ScrollControlIntoView(f);
-                            allMessage.AutoScrollPosition = new Point(f.Right - allMessage.AutoScrollPosition.X,
-                                                                            f.Left - allMessage.AutoScrollPosition.Y);
-                        }
-                    }
-                    else {
-                        foreach (GroupOnline item in listGroup)
-                        {
-                            if (item.lbName.Text == nameGroup)
-                            {
-                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
-                                break;
-                            }
-                        }
-                    }
-                }));
-            }
-            //Nhận emoji group
-            else if(message[0] == 'f')
-            {
-                this.Invoke(new Action(() =>
-                {
-                    int index1 = message.IndexOf('@');
-                    int index2 = message.IndexOf('@', index1 + 1);
-                    int idGroup = Int32.Parse(message.Substring(1, index1 - 1));
-                    string nameSend = "";
-                    for (int i = index1 + 1; i < index2; i++)
-                    {
-                        nameSend += message[i];
-                    }
-                    string nameGroup = selecTNameGroupFromId(idGroup);
-                    if(checkmessGroup_person == 1 && nameGroup == OpText.Text)
-                    {
-                        if(nameSend != nameCLient.Text)
-                        {
-                            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                            Image image = Image.FromFile(path.Substring(0, path.Length - 9) + @"emoji\" + message.Substring(index2+1));
-                            var ms = new MemoryStream();
-                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                            var bytes = ms.ToArray();
-                            var pic = new imageMessRec();
-                            pic.guna2PictureBox1.Image = Image.FromStream(new MemoryStream(bytes));
-                            addImageForMessImage(nameSend,pic.guna2CirclePictureBox1);
-                            pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                            pic.Height -= 100;
-                            pic.guna2PictureBox1.Height -= 100;
-                            pic.guna2PictureBox1.Width -= 140;
-                            pic.guna2PictureBox1.BorderRadius = 0;
-                            allMessage.Controls.Add(pic);
-                            allMessage.ScrollControlIntoView(pic);
-                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
-                        }
-                    }
-                    else
-                    {
-                        foreach (GroupOnline item in listGroup)
-                        {
-                            if (item.lbName.Text == nameGroup)
-                            {
-                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
-                                break;
-                            }
-                        }
-                    }
-                }));
-            }
-            //Nhận âm thanh
-            else if (message[0] == 'g')
-            {
-                this.Invoke(new Action(() =>
-                {
-                    int index1 = message.IndexOf(':');
-                    int index2 = message.IndexOf(':', index1 + 1);
-                    int idGroup = Int32.Parse(message.Substring(1, index1 - 1));
-                    string nameSend = "";
-                    for (int i = index1 + 1; i < index2; i++)
-                    {
-                        nameSend += message[i];
-                    }
-                    string nameGroup = selecTNameGroupFromId(idGroup);
-                    if (checkmessGroup_person == 1 && nameGroup == OpText.Text)
-                    {
-                        if (nameSend != nameCLient.Text)
-                        {
-                            string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                            var pic = new voiceMessRec();
-                            pic.outFileVoceRecord = path.Substring(0, path.Length - 20) + @"\voiceRecord\" + message.Substring(index2 + 1);
-                            pic.Load();
-                            addImageForMessImage(nameSend, pic.guna2CirclePictureBox1);
-                            pic.guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                            allMessage.Controls.Add(pic);
-                            allMessage.ScrollControlIntoView(pic);
-                            allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
-                                                                            pic.Left - allMessage.AutoScrollPosition.Y);
-                        }
-                    }
-                    else
-                    {
-                        foreach (GroupOnline item in listGroup)
-                        {
-                            if (item.lbName.Text == nameGroup)
-                            {
-                                item.NoRecDontSee++; item.lbCount.Text = item.NoRecDontSee.ToString(); item.lbCount.Show();
-                                break;
-                            }
-                        }
-                    }
-                }));
-            }
-        }
+        
         private string selecTNameGroupFromId(int id)
         {
             string name = "";
@@ -1033,6 +1152,9 @@ namespace ClientChat
                 this.BeginInvoke((MethodInvoker)delegate ()
                 {
                     allMessage.Controls.Add(pic);
+                    int height = pic.Location.Y + pic.Size.Height;
+                    pic.Tag = height.ToString();
+
                     allMessage.ScrollControlIntoView(pic);
                     allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                     pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1041,6 +1163,9 @@ namespace ClientChat
             else
             {
                 allMessage.Controls.Add(pic);
+                int height = pic.Location.Y + pic.Size.Height;
+                pic.Tag = height.ToString();
+
                 allMessage.ScrollControlIntoView(pic);
                 allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                 pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1063,6 +1188,7 @@ namespace ClientChat
             }
         }
 
+        #region changeData
         byte[] Serialize(object obj)
         {
             MemoryStream stream = new MemoryStream();
@@ -1078,6 +1204,9 @@ namespace ClientChat
             BinaryFormatter formatter = new BinaryFormatter();  
             return formatter.Deserialize(stream);
         }
+        #endregion
+
+        #region Sgin In Sign Un
         private void btnSignIn_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrEmpty(Username.Text) && !string.IsNullOrEmpty(Password.Text)){
@@ -1123,8 +1252,10 @@ namespace ClientChat
         }
         private void guna2ControlBox1_Click(object sender, EventArgs e)
         {
-            if (checkServerOn == 1) { 
-                if(name != "") {
+            if (checkServerOn == 1)
+            {
+                if (name != "")
+                {
                     sendData(3, $"3{name}");
                     //client.Send(Serialize($"3{name}"));
                     client.Close();
@@ -1141,6 +1272,8 @@ namespace ClientChat
                 }
             }
         }
+        #endregion
+
         private void messageText_Enter(object sender, EventArgs e){
             
         }
@@ -1165,6 +1298,9 @@ namespace ClientChat
                         var pic = new Send();
                         buitSizeSend(messageText.Text, pic);
                         allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
                         allMessage.ScrollControlIntoView(pic);
                         allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                         pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1173,6 +1309,7 @@ namespace ClientChat
                 }
             }
         }
+
         //Gửi file
         public void sendFile(string fileName,string s,byte header) {
             try
@@ -1237,6 +1374,9 @@ namespace ClientChat
                             this.BeginInvoke((MethodInvoker)delegate ()
                             {
                                 allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
                                 allMessage.ScrollControlIntoView(pic);
                                 allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                                 pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1245,6 +1385,9 @@ namespace ClientChat
                         else
                         {
                             allMessage.Controls.Add(pic);
+                            int height = pic.Location.Y + pic.Size.Height;
+                            pic.Tag = height.ToString();
+
                             allMessage.ScrollControlIntoView(pic);
                             allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                             pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1284,6 +1427,9 @@ namespace ClientChat
                             this.BeginInvoke((MethodInvoker)delegate ()
                             {
                                 allMessage.Controls.Add(pic);
+                                int height = pic.Location.Y + pic.Size.Height;
+                                pic.Tag = height.ToString();
+
                                 allMessage.ScrollControlIntoView(pic);
                                 allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                                 pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1292,6 +1438,9 @@ namespace ClientChat
                         else
                         {
                             allMessage.Controls.Add(pic);
+                            int height = pic.Location.Y + pic.Size.Height;
+                            pic.Tag = height.ToString();
+
                             allMessage.ScrollControlIntoView(pic);
                             allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                             pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1335,6 +1484,9 @@ namespace ClientChat
                     this.BeginInvoke((MethodInvoker)delegate ()
                     {
                         allMessage.Controls.Add(pic);
+                        int height = pic.Location.Y + pic.Size.Height;
+                        pic.Tag = height.ToString();
+
                         allMessage.ScrollControlIntoView(pic);
                         allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                         pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1343,6 +1495,9 @@ namespace ClientChat
                 else
                 {
                     allMessage.Controls.Add(pic);
+                    int height = pic.Location.Y + pic.Size.Height;
+                    pic.Tag = height.ToString();
+
                     allMessage.ScrollControlIntoView(pic);
                     allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                     pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1372,6 +1527,7 @@ namespace ClientChat
                 allEmoji.Show();
             }
         }
+        #region add Avt for Account
         //Thêm Avt khi đăng kí
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -1390,9 +1546,7 @@ namespace ClientChat
             t.Start();
             t.Join();
         }
-        string outFileVoceRecord = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        string outputFileName;
-        string nameVoice;
+        
         //voiceRecord
         private void guna2Button5_Click(object sender, EventArgs e) {
             if (OpText.Text != string.Empty)
@@ -1406,6 +1560,8 @@ namespace ClientChat
                 }));
             }
         }
+        #endregion
+
         //D:\sql\MultiChatVersion2\\voiceRecord\1.mp3
         private void getVoice() {
             DirectoryInfo d = new DirectoryInfo(outFileVoceRecord.Substring(0, outFileVoceRecord.Length - 20) + @"\voiceRecord"); //Assuming Test is your Folder
@@ -1449,6 +1605,9 @@ namespace ClientChat
                 pic.outFileVoceRecord = outputFileName;
                 pic.Load();
                 allMessage.Controls.Add(pic);
+                int height = pic.Location.Y + pic.Size.Height;
+                pic.Tag = height.ToString();
+
                 allMessage.ScrollControlIntoView(pic);
                 allMessage.AutoScrollPosition = new Point(pic.Right - allMessage.AutoScrollPosition.X,
                                                                 pic.Left - allMessage.AutoScrollPosition.Y);
@@ -1482,6 +1641,7 @@ namespace ClientChat
                 foreach(ClientOnline item in listClientOnline) { 
                     flpListClient.Controls.Add(item);
                 }
+               
                 btnallUser.Enabled = false;
                 btnallGroup.Enabled = true;
                 allMessage.Controls.Clear();
@@ -1562,5 +1722,135 @@ namespace ClientChat
                 }
             }
         }
+
+        #region findeMessage in chat
+        int index = 0;
+        List<KeyValuePair<int,int>> messageSearch = new List<KeyValuePair<int,int>>();
+        private void tbSearchMessage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!string.IsNullOrEmpty(tbSearchMessage.Text))
+                {
+                    FindMessage();
+                    messageSearch = new List<KeyValuePair<int, int>>();index = 0;
+                    foreach(mess item in listMess)
+                    {
+                        if (item.Content.Contains(tbSearchMessage.Text) && item.Content[0] == '0')
+                        {
+                            messageSearch.Add(new KeyValuePair<int, int>(item.Scrollx, item.Scrolly));
+                        }
+                    }
+                    if (messageSearch.Count > 0)
+                    {
+                        allMessage.AutoScrollPosition = new Point(messageSearch[0].Key, messageSearch[0].Value);
+                        MessageBox.Show($"{messageSearch[0].Key}:{messageSearch[0].Value}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        highLightText();
+                    }
+                }
+            }
+        }
+        
+        private void highLightText()
+        {
+            for(int i = 0; i < listMess.Count; i++)
+            {
+                if(listMess[i].Scrollx == messageSearch[index].Key && listMess[i].Scrolly == messageSearch[index].Value)
+                {
+                    Control c = allMessage.Controls[i];
+
+                    if (c.GetType() == typeof(Recieve))
+                    {
+                        Recieve rec = (Recieve)c;
+                        rec.label1.BackColor = Color.Yellow;
+                    }
+
+                    if (c.GetType() == typeof(Send))
+                    {
+                        Send send = (Send)c;
+                        send.label1.BackColor = Color.Yellow;    
+                    }
+                }
+                else
+                {
+                    Control c = allMessage.Controls[i];
+
+                    if (c.GetType() == typeof(Recieve))
+                    {
+                        Recieve rec = (Recieve)c;
+                        rec.label1.BackColor = Color.Transparent;
+                    }
+
+                    if (c.GetType() == typeof(Send))
+                    {
+                        Send send = (Send)c;
+                        send.label1.ForeColor = Color.Transparent;
+                    }
+                }
+            }
+        }
+        private void FindMessage()
+        {
+            int dem = 0;
+            foreach(mess item in listMess)
+            {
+                if (item.Content[0] == '0')
+                {
+                    if (item.Content.Contains(tbSearchMessage.Text))
+                    {
+                        dem++;
+                    }
+                }
+            }
+            
+            lbCount.Text = dem.ToString() + " results";
+            lbCount.Visible = true;
+            if (dem > 1)
+            {
+                btnUp.Visible = true;
+                btnDown.Visible = true;
+                btnUp.Enabled = true;
+            }
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            btnDown.Enabled = true;
+            if(index > 0)
+            {
+                index--;
+                allMessage.AutoScrollPosition = new Point(messageSearch[index].Key, messageSearch[index].Value);
+                highLightText();
+
+            }
+        }
+
+        private void guna2CircleButton3_Click_1(object sender, EventArgs e)
+        {
+            pnlFIndMessage.Visible = true;
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            if(index < messageSearch.Count - 1)
+            {
+                index++;
+                allMessage.AutoScrollPosition = new Point(messageSearch[index].Key, messageSearch[index].Value);
+                highLightText();
+            }
+        }
+
+        private void guna2Button7_Click_1(object sender, EventArgs e)
+        {
+            tbSearchMessage.Clear();
+            btnDown.Visible = false;
+            btnUp.Visible = false;
+            lbCount.Text = "";
+            lbCount.Visible = false;
+            pnlFIndMessage.Visible = false;
+            index = 0;
+            messageSearch.Clear();
+        }
+        #endregion
     }
 }
