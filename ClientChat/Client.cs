@@ -1277,6 +1277,7 @@ namespace ClientChat
         private void messageText_Enter(object sender, EventArgs e){
             
         }
+        #region send Mess
         //Gửi message
         private void messageText_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1519,7 +1520,7 @@ namespace ClientChat
                 }
             }
         }
-
+        #endregion
 
         private void guna2Button4_Click(object sender, EventArgs e){
             if(OpText.Text != string.Empty)
@@ -1563,6 +1564,7 @@ namespace ClientChat
         #endregion
 
         //D:\sql\MultiChatVersion2\\voiceRecord\1.mp3
+        #region voice
         private void getVoice() {
             DirectoryInfo d = new DirectoryInfo(outFileVoceRecord.Substring(0, outFileVoceRecord.Length - 20) + @"\voiceRecord"); //Assuming Test is your Folder
             FileInfo[] Files = d.GetFiles("*.mp3"); //Getting Text files
@@ -1630,6 +1632,7 @@ namespace ClientChat
                 }
             }
         }
+        #endregion
         private void Client_FormClosing(object sender, FormClosingEventArgs e){
 
         }
