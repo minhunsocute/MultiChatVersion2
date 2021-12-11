@@ -39,7 +39,8 @@ namespace ClientChat
 
         //String values
         public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
-        public static string receivedPath1 = "D:/sql/MultiChatVersion2/imageTrash/";
+        public static string receivedPath2 = "D:/sql/MultiChatVersion2/imageTrash/";
+        public static string receivedPath1 = "D:/project/MultiChatVersion2/imageTrash/";
         public static string allclie = "";
         public static string name;
 
@@ -68,6 +69,7 @@ namespace ClientChat
             recordVoice.Hide();
             deviceName = LoadDevices();
             //tbSearch.Text = deviceName;
+            tbPort.Text = path;
             t = new System.Timers.Timer();
             t.Interval = 1000;
             t.Elapsed += OntimeEvent;
