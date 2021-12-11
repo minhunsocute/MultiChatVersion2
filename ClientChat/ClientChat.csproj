@@ -237,6 +237,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\mylogo2.png" />
+    <None Include="Resources\mylogo1.png" />
+    <None Include="Resources\mylogo.png" />
+    <None Include="Resources\ca079e2d0474407ab009524ff861ff51 %282%29.png" />
+    <None Include="Resources\ca079e2d0474407ab009524ff861ff51 %281%29.png" />
+    <None Include="Resources\ca079e2d0474407ab009524ff861ff51.png" />
     <None Include="Resources\down-arrow.png" />
     <None Include="Resources\arrow-up.png" />
     <None Include="Resources\265973468_901856057132377_9370279015843560_n.png" />

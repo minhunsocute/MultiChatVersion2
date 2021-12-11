@@ -183,6 +183,36 @@ namespace ClientChat.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ca079e2d0474407ab009524ff861ff51 {
+            get {
+                object obj = ResourceManager.GetObject("ca079e2d0474407ab009524ff861ff51", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ca079e2d0474407ab009524ff861ff51__1_ {
+            get {
+                object obj = ResourceManager.GetObject("ca079e2d0474407ab009524ff861ff51 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ca079e2d0474407ab009524ff861ff51__2_ {
+            get {
+                object obj = ResourceManager.GetObject("ca079e2d0474407ab009524ff861ff51 (2)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap create_group_button {
             get {
                 object obj = ResourceManager.GetObject("create-group-button", resourceCulture);
@@ -386,6 +416,36 @@ namespace ClientChat.Properties {
         internal static System.Drawing.Bitmap microphone {
             get {
                 object obj = ResourceManager.GetObject("microphone", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mylogo {
+            get {
+                object obj = ResourceManager.GetObject("mylogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mylogo1 {
+            get {
+                object obj = ResourceManager.GetObject("mylogo1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mylogo2 {
+            get {
+                object obj = ResourceManager.GetObject("mylogo2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
