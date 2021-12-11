@@ -21,6 +21,8 @@ namespace ClientChat
             this.content = content;
             this.memChat = memChat;
         }
+
+
         private int ID;
         public int ID1 { get => ID; set => ID = value; }
         public int Type { get => type; set => type = value; }

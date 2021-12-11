@@ -595,7 +595,6 @@ namespace ClientChat
             this.messageText.Style = MetroFramework.MetroColorStyle.White;
             this.messageText.TabIndex = 11;
             this.messageText.UseStyleColors = true;
-            this.messageText.Enter += new System.EventHandler(this.messageText_Enter);
             this.messageText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.messageText_KeyDown);
             // 
             // guna2Separator1
@@ -1496,7 +1495,6 @@ namespace ClientChat
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Client";
             this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.metroTabControl1.ResumeLayout(false);

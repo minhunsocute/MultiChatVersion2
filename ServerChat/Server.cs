@@ -20,27 +20,48 @@ namespace ServerChat
 {
     public partial class Server : Form
     {
-        //Bien toan cuc
+        #region values
+        IPEndPoint IP;
+        Socket Server1;
+        List<Socket> ClientList;
         public static List<Client> listCList = new List<Client>();
+        string avtNAme = "";
+        #endregion
 
+        #region Load form
         public Server()
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             textIP.Text = "127.0.0.1";
             string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            textName.Text = receivedPath1.Substring(0,receivedPath1.Length - 20) + @"ClientChat\Avt\";
+            textName.Text = receivedPath1.Substring(0, receivedPath1.Length - 20) + @"ClientChat\Avt\";
         }
-        //D:\sql\MultiChatVersion2\ClientChat\Avt\
-        //D:\sql\MultiChatVersion2\ServerChat\bin\Debug
-        //D:\sql\MultiChatVersion2\ClientChat\Avt\
-        //Lay dia chia IP Hien co
-        IPEndPoint IP;
-        Socket Server1;
-        List<Socket> ClientList;
-        string avtNAme = "";
-        //Hàm gởi data
+        public void removeListClient(string username, sql_manage f)
+        {
+            listClient.Rows.Clear();
+            listClient.Refresh();
+            f.updateActi(username, 0); int i = 0;
+            foreach (Client item in listCList)
+            {
+                if (item.Name == username) break;
+                i++;
+            }
+            listCList.RemoveAt(i);
+            f.Loaddata(listClient, "none", username, 1);
+        }
+        //Load bảng list clien mỗi khi có client khác kết nối
+        private void LoadDatGridView(string username, sql_manage f, Socket clien)
+        {
+            listClient.Rows.Clear();
+            listClient.Refresh();
+            f.updateActi(username, 1);
+            int index = clien.RemoteEndPoint.ToString().IndexOf(':');
+            f.Loaddata(listClient, clien.RemoteEndPoint.ToString().Substring(index + 1), username, 0);
+        }
+        #endregion
 
+        #region send data
         int checkPortInListClient(string ipPort) {
             foreach(Client item in listCList) {
                 if (ipPort.Substring(ipPort.IndexOf(':') + 1) == item.IpPort)
@@ -56,20 +77,9 @@ namespace ServerChat
                 }
             }
         }
-        //Nhận File
-        public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
-        public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
-            try {         
-                int fileNameLen = BitConverter.ToInt32(clientData, 0);
-                string fileName = Encoding.UTF8.GetString(clientData, 4, fileNameLen);
+        #endregion
 
-                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + "/" + fileName, FileMode.Append));
-                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
-                bWrite.Close();            }
-            catch {
-                MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
-            }
-        }
+        #region connect
         //Hàm tạo mới IP Socket và connect với người dùng
         private void Connect() {
             ClientList = new List<Socket>();
@@ -99,7 +109,6 @@ namespace ServerChat
             Listen.IsBackground = true;
             Listen.Start();
         }
-        //192.168.56.1
         //Hàm kiểm tra người dùng có còn kết nối hay không
         bool SocketConnected(Socket s) {
             bool part1 = s.Poll(1000, SelectMode.SelectRead);
@@ -109,10 +118,11 @@ namespace ServerChat
             else
                 return true;
         }
+        #endregion
+
+        #region recieve data from client
         //Hàm nhận data từ người dùng
         public static string receivedPath1 = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        //@"D:\sql\MultiChatVersion2\ClientChat\Avt\";
-        //D:\sql\MultiChatVersion2\ServerChat\bin\Debug
         private void saveImage(byte[] clientData,int receivedBytesLen) { 
             try{
                 int fileNameLen = BitConverter.ToInt32(clientData, 0);
@@ -247,26 +257,26 @@ namespace ServerChat
             }
             catch { }
         }
-        //Xoa người dùng đã out ra khỏi listClient
-        public void removeListClient(string username,sql_manage f) {
-            listClient.Rows.Clear();
-            listClient.Refresh();
-            f.updateActi(username, 0);int i = 0;
-            foreach(Client item in listCList) {
-                if (item.Name == username) break;
-                i++;
+        public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
+        public void ReceiveFile(int receivedBytesLen, byte[] clientData)
+        {
+            try
+            {
+                int fileNameLen = BitConverter.ToInt32(clientData, 0);
+                string fileName = Encoding.UTF8.GetString(clientData, 4, fileNameLen);
+
+                BinaryWriter bWrite = new BinaryWriter(File.Open(receivedPath + "/" + fileName, FileMode.Append));
+                bWrite.Write(clientData, 4 + fileNameLen, receivedBytesLen - 4 - fileNameLen);
+                bWrite.Close();
             }
-            listCList.RemoveAt(i);
-            f.Loaddata(listClient, "none", username, 1);
+            catch
+            {
+                MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
-        //Load bảng list clien mỗi khi có client khác kết nối
-        private void LoadDatGridView(string username,sql_manage f,Socket clien) {
-            listClient.Rows.Clear();
-            listClient.Refresh();
-            f.updateActi(username, 1);
-            int index = clien.RemoteEndPoint.ToString().IndexOf(':');
-            f.Loaddata(listClient, clien.RemoteEndPoint.ToString().Substring(index + 1), username, 0);
-        }
+        #endregion
+
+        #region function check
         private void checkString2(string s,Socket clien) {
             sql_manage f = new sql_manage();
             if (s[0] == '1') { //gửi danh sách các client on và off cho client để tạo group
@@ -392,9 +402,7 @@ namespace ServerChat
             }
             return 0;
         }
-        //c*7*hungmai*1*1*12*0Alo alo alo*6*bababa*1*1*17*0Alo alo alsdfsdo*7*hungmai*1*1*16*0Alo alo fsdfalo*5*anhem*1*1*15*0Alo alo fsfalo*6*bababa*1*1*16*0Alo alofsfd alo*7*hungmai*1*1*15*0Alo dfsalo alo*5*anhem*1*1*12*0Alo alo alo*6*bababa*1*1*12*0Alo alo alo*7*hungmai*1*1*9*0Alo  alo
-        //b2:Djitme:5:hung:hung22:hungmai:bababa:anhem:
-        //b1:AnhEm:3:hungmai:bababa:anhem:2:Djitme:5:hung:hung22:hungmai:bababa:anhem:
+        
         private void checkString1(string s,Socket clien,byte[] rec) {
             sql_manage f = new sql_manage();
             if (rec[0]==1) {//Kiểm tra người dùng đăng nhập thành công 
@@ -536,6 +544,9 @@ namespace ServerChat
                 }
             }
         }
+        #endregion
+
+        #region change byta array to string and string to byte array
         byte[] Serialize(object obj)
         {
             MemoryStream stream = new MemoryStream();
@@ -552,7 +563,9 @@ namespace ServerChat
 
             return formatter.Deserialize(stream);
         }
+        #endregion
 
+        #region event clck
         private void BtnConnect_Click(object sender, EventArgs e){
             if (!string.IsNullOrEmpty(textIP.Text) && !string.IsNullOrEmpty(textPort.Text) && !string.IsNullOrEmpty(textName.Text)) {
                 Connect();
@@ -593,5 +606,6 @@ namespace ServerChat
                 f.updateActi(item.Name, 0);
             }
         }
+        #endregion
     }
 }

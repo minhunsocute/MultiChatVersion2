@@ -22,37 +22,40 @@ namespace ClientChat
     public partial class Client : Form
     {
         #region Values
-        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        Socket client;
-        IPEndPoint ipe;
-        Thread threadConnectServer;
-        public static string name;
-        WaveIn wave;
-        WaveFileWriter writer;
-        /// <summary>
-        /// BIến này là biến để kiểm tra xem là thằng server nó còn online hay k 
-        /// Kiểu đkm tk server nó mà tắt rối ấy t thấy cái ràng buộc client.send nó bắt buộc gửi 
-        /// nên bị lỗi ngầm mặc dù k hiện rõ ra nhưng nó vẫn là lỗi
-        /// nên tao thêm biến này 1 -> server còn connect 0 -> không còn
-        /// </summary>
-        int checkServerOn = 0;
-        string fileNamePath = "";
-        int choseAvt = 0;
-        int deviceName =0;
-        int checkmessGroup_person = 0;
+        System.Timers.Timer t;
+
+        //List values
         List<ClientOnline> listClientOnline;
         List<GroupOnline> listGroup;
-        public static string allclie = "";
-        System.Timers.Timer t;
-        int s = 30;
+        Socket client;
+        
+        //Socket values
+        IPEndPoint ipe;
+        Thread threadConnectServer;
+
+        // voice VAues
+        WaveIn wave;
+        WaveFileWriter writer;
+
+        //String values
         public static string receivedPath = "C:/Users/ASUS/OneDrive/caro/OneDrive/Desktop/";
         public static string receivedPath1 = "D:/sql/MultiChatVersion2/imageTrash/";
+        public static string allclie = "";
+        public static string name;
 
         string outFileVoceRecord = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        string fileNamePath = "";
         string outputFileName;
         string nameVoice;
 
-
+        // Int values
+        int checkServerOn = 0;
+        int choseAvt = 0;
+        int deviceName =0;
+        int checkmessGroup_person = 0;
+        int s = 30;
+ 
         #endregion
 
         #region Load Form
@@ -175,6 +178,7 @@ namespace ClientChat
         }
         #endregion
 
+        #region send data 
         private void sendData(byte header,string s) {
             byte[] stringBye = Serialize(s);
             byte[] send = new byte[stringBye.Length + 1];
@@ -183,13 +187,8 @@ namespace ClientChat
                 send[i] = stringBye[i - 1];
             client.Send(send);
         }
-        private void btnConnectServer_Click(object sender, EventArgs e)
-        {
-            threadConnectServer = new Thread(new ThreadStart(ConnectServer));
-            threadConnectServer.IsBackground = true;
-            threadConnectServer.Start();
-        }
-        //Kết nối đến server 
+
+        #endregion
         
         #region checkString
         private void checkMessage1(string message)
@@ -892,7 +891,7 @@ namespace ClientChat
         }
         #endregion
 
-        //Hiện ra lỗi mỗi khi Server ngắt kết nối và trở về trang login
+        #region show error
         private void showErrorWhenServerDis() {
             MessageBox.Show("Server is disconnected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             checkServerOn = 0;
@@ -909,8 +908,9 @@ namespace ClientChat
                 name = string.Empty;
             }));
         }
-        //Nhận File
-        
+        #endregion
+
+        #region receive data from server
         //Nhận file 
         public void ReceiveFile(int receivedBytesLen,byte[] clientData) {
             try {         
@@ -963,8 +963,8 @@ namespace ClientChat
                 MessageBox.Show("File receive error", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);    
             }
         }
-        //Tải ảnh xuống
-
+        //Tải ảnh ve
+        
         private void ReceiveMessage()
         {
             try{
@@ -1005,7 +1005,9 @@ namespace ClientChat
                 showErrorWhenServerDis();
             }
         }
-        
+        #endregion
+
+        #region xu ly group
         private string selecTNameGroupFromId(int id)
         {
             string name = "";
@@ -1115,7 +1117,9 @@ namespace ClientChat
             halfpic2.Image = ite.memGroup[1].avtClient.Image;
             sendData(12,$"4{nameCLient.Text}@{ite.idGroup}");
         }
-        //Load ListView 
+        #endregion
+        
+        #region xu ly emoji
         private void LoadListView(){
             allEmoji.Controls.Clear();
             string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -1187,6 +1191,14 @@ namespace ClientChat
                 }
             }
         }
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            if (OpText.Text != string.Empty)
+            {
+                allEmoji.Show();
+            }
+        }
+        #endregion
 
         #region changeData
         byte[] Serialize(object obj)
@@ -1274,9 +1286,6 @@ namespace ClientChat
         }
         #endregion
 
-        private void messageText_Enter(object sender, EventArgs e){
-            
-        }
         #region send Mess
         //Gửi message
         private void messageText_KeyDown(object sender, KeyEventArgs e)
@@ -1522,12 +1531,6 @@ namespace ClientChat
         }
         #endregion
 
-        private void guna2Button4_Click(object sender, EventArgs e){
-            if(OpText.Text != string.Empty)
-            {
-                allEmoji.Show();
-            }
-        }
         #region add Avt for Account
         //Thêm Avt khi đăng kí
         private void btnAdd_Click(object sender, EventArgs e)
@@ -1563,7 +1566,6 @@ namespace ClientChat
         }
         #endregion
 
-        //D:\sql\MultiChatVersion2\\voiceRecord\1.mp3
         #region voice
         private void getVoice() {
             DirectoryInfo d = new DirectoryInfo(outFileVoceRecord.Substring(0, outFileVoceRecord.Length - 20) + @"\voiceRecord"); //Assuming Test is your Folder
@@ -1633,10 +1635,8 @@ namespace ClientChat
             }
         }
         #endregion
-        private void Client_FormClosing(object sender, FormClosingEventArgs e){
 
-        }
-
+        #region event click 3
         private void guna2Button8_Click(object sender, EventArgs e){
             this.Invoke(new Action(() => {
                 checkmessGroup_person = 0;
@@ -1726,6 +1726,14 @@ namespace ClientChat
             }
         }
 
+        private void btnConnectServer_Click(object sender, EventArgs e)
+        {
+            threadConnectServer = new Thread(new ThreadStart(ConnectServer));
+            threadConnectServer.IsBackground = true;
+            threadConnectServer.Start();
+        }
+        #endregion
+
         #region findeMessage in chat
         int index = 0;
         List<KeyValuePair<int,int>> messageSearch = new List<KeyValuePair<int,int>>();
@@ -1747,7 +1755,7 @@ namespace ClientChat
                     if (messageSearch.Count > 0)
                     {
                         allMessage.AutoScrollPosition = new Point(messageSearch[0].Key, messageSearch[0].Value);
-                        MessageBox.Show($"{messageSearch[0].Key}:{messageSearch[0].Value}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        //MessageBox.Show($"{messageSearch[0].Key}:{messageSearch[0].Value}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         highLightText();
                     }
                 }
@@ -1758,7 +1766,7 @@ namespace ClientChat
         {
             for(int i = 0; i < listMess.Count; i++)
             {
-                if(listMess[i].Scrollx == messageSearch[index].Key && listMess[i].Scrolly == messageSearch[index].Value)
+                if(listMess[i].Scrollx == messageSearch[index].Key && listMess[i].Scrolly == messageSearch[index].Value && listMess[i].Content[0]=='0' && listMess[i].Content.Contains(tbSearchMessage.Text))
                 {
                     Control c = allMessage.Controls[i];
 
@@ -1787,14 +1795,15 @@ namespace ClientChat
                     if (c.GetType() == typeof(Send))
                     {
                         Send send = (Send)c;
-                        send.label1.ForeColor = Color.Transparent;
+                        send.label1.BackColor = Color.Transparent;
                     }
                 }
             }
         }
+        int dem = 0;
         private void FindMessage()
         {
-            int dem = 0;
+            dem = 0;   
             foreach(mess item in listMess)
             {
                 if (item.Content[0] == '0')
@@ -1806,7 +1815,7 @@ namespace ClientChat
                 }
             }
             
-            lbCount.Text = dem.ToString() + " results";
+            lbCount.Text = "1/"+dem.ToString() + " results";
             lbCount.Visible = true;
             if (dem > 1)
             {
@@ -1822,6 +1831,7 @@ namespace ClientChat
             if(index > 0)
             {
                 index--;
+                lbCount.Text = $"{(index+1).ToString()}/{dem.ToString()} results";
                 allMessage.AutoScrollPosition = new Point(messageSearch[index].Key, messageSearch[index].Value);
                 highLightText();
 
@@ -1838,6 +1848,7 @@ namespace ClientChat
             if(index < messageSearch.Count - 1)
             {
                 index++;
+                lbCount.Text = $"{(index+1).ToString()}/{dem.ToString()} results";
                 allMessage.AutoScrollPosition = new Point(messageSearch[index].Key, messageSearch[index].Value);
                 highLightText();
             }
@@ -1853,7 +1864,24 @@ namespace ClientChat
             pnlFIndMessage.Visible = false;
             index = 0;
             messageSearch.Clear();
+            for (int i = 0; i < listMess.Count; i++)
+            {
+                Control c = allMessage.Controls[i];
+
+                if (c.GetType() == typeof(Recieve))
+                {
+                    Recieve rec = (Recieve)c;
+                    rec.label1.BackColor = Color.Transparent;
+                }
+
+                if (c.GetType() == typeof(Send))
+                {
+                    Send send = (Send)c;
+                    send.label1.BackColor = Color.Transparent;
+                }
+            }
         }
         #endregion
     }
 }
+//end project
