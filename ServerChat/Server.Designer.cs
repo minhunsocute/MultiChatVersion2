@@ -29,12 +29,13 @@ namespace ServerChat
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
-            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl();
+            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -294,7 +295,7 @@ namespace ServerChat
             this.textName.ForeColor = System.Drawing.Color.Black;
             this.textName.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.textName.HoverState.Parent = this.textName;
-            this.textName.Location = new System.Drawing.Point(173, 62);
+            this.textName.Location = new System.Drawing.Point(235, 62);
             this.textName.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.textName.Name = "textName";
             this.textName.PasswordChar = '\0';
@@ -302,14 +303,14 @@ namespace ServerChat
             this.textName.SelectedText = "";
             this.textName.SelectionStart = 7;
             this.textName.ShadowDecoration.Parent = this.textName;
-            this.textName.Size = new System.Drawing.Size(193, 30);
+            this.textName.Size = new System.Drawing.Size(131, 30);
             this.textName.TabIndex = 5;
             // 
             // guna2HtmlLabel2
             // 
             this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel2.Font = new System.Drawing.Font("Segoe UI", 13F);
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(62, 67);
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(124, 67);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
             this.guna2HtmlLabel2.Size = new System.Drawing.Size(103, 25);
             this.guna2HtmlLabel2.TabIndex = 4;

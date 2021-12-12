@@ -69,7 +69,6 @@ namespace ClientChat
             recordVoice.Hide();
             deviceName = LoadDevices();
             //tbSearch.Text = deviceName;
-            tbPort.Text = path;
             t = new System.Timers.Timer();
             t.Interval = 1000;
             t.Elapsed += OntimeEvent;
